@@ -1,0 +1,10 @@
+drop table project_state_transition;
+drop table issue_comment;
+drop table project_issue_label;
+drop table project_available_label;
+drop table issue;
+drop table project_available_state;
+drop table project;
+drop table issue_label;
+drop table issue_state;
+drop table user_info;

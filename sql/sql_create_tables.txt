@@ -1,0 +1,64 @@
+create table user_info(
+	username text primary key,
+	password text not null
+);
+
+create table issue_state(
+	state_name text primary key
+);
+
+create table issue_label(
+	label_name text primary key
+);
+
+create table project(
+	project_name text primary key,
+	description text,
+	username text not null references user_info,
+	default_issue_state text references issue_state
+);
+
+create table project_available_state(
+	project_name text references project,
+	state_name text references issue_state,
+	primary key(project_name, state_name)
+);
+
+create table project_state_transition(
+	project_name text references project,
+	from_state text references issue_state,
+	to_state text references issue_state,
+	primary key(project_name, from_state, to_state)
+);
+
+create table issue(
+	issue_id serial primary key,
+	project_name text not null references project,
+	issue_name text not null,
+	description text not null,
+	issue_state text not null,
+	close_date timestamptz,
+	creation_date timestamptz default now(),
+	foreign key (project_name, issue_state) references project_available_state
+);
+
+create table issue_comment(
+	comment_id serial primary key,
+	issue_id integer not null references issue,
+	content text not null,
+	creation_date timestamptz default now()
+);
+
+create table project_available_label(
+	project_name text references project,
+	label_name text references issue_label,
+	primary key(project_name, label_name)
+);
+
+create table project_issue_label(
+	project_name text references project,
+	issue_id integer not null references issue,
+	label_name text references issue_label,
+	foreign key (project_name, label_name) references project_available_label,
+	primary key(project_name, issue_id, label_name)
+);

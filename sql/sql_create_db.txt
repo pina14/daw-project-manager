@@ -1,0 +1,5 @@
+CREATE DATABASE "dawG8"
+    WITH 
+    OWNER = "dawG8"
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;

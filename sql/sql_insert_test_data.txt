@@ -1,0 +1,51 @@
+insert into user_info values 
+	('test', 'pass');
+
+insert into issue_state values 
+	('open'), 
+	('closed'), 
+	('archived');
+
+insert into project values 
+	('test_project', 'test test test', 'test', 'open'),
+	('project_5', 'description', 'test', 'open');
+
+insert into project_available_state values
+	('test_project', 'open'), 
+	('test_project', 'closed'), 
+	('test_project', 'archived'), 
+	('project_5', 'archived'),
+	('project_5', 'open');
+
+insert into project_state_transition values
+	('test_project', 'open', 'closed'), 
+	('test_project', 'closed', 'archived'), 
+	('project_5', 'open', 'archived');
+	
+insert into issue(project_name, issue_name, description, issue_state) values
+	('test_project', 'issue 1', 'issue 1 description', 'open'),
+	('test_project', 'issue 2', 'issue 2 description', 'open'),
+	('test_project', 'issue 3', 'issue 3 description', 'closed'),
+	('project_5', 'issue 5', 'issue 1 description', 'archived');
+	
+insert into issue_label values 
+	('bug'), 
+	('error'), 
+	('improve-ui');
+	
+insert into project_available_label values
+	('test_project', 'bug'), 
+	('project_5', 'error'),
+	('project_5', 'improve-ui');
+	
+insert into project_issue_label values
+	('test_project', 1, 'bug'), 
+	('project_5', 4, 'error'),
+	('project_5', 4, 'improve-ui'),
+	('test_project', 2, 'bug');
+		
+insert into issue_comment(issue_id, content) values
+	(1, 'comment 1 for issue 1'), 
+	(1, 'comment 2 for issue 1'), 
+	(1, 'comment 3 for issue 1'), 
+	(2, 'comment 1 for issue 2');
