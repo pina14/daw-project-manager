@@ -4,7 +4,7 @@ import pt.isel.daw.g8.projectmanager.model.databaseModel.UserInfo
 import pt.isel.daw.g8.projectmanager.model.mediaModel.SirenModel
 
 class UserInfoOutput(user : UserInfo) : OutputModel {
-    lateinit var username : String
+    var username : String? = null
 
     init {
         username = user.username

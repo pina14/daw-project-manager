@@ -1,10 +1,14 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
+import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.ProjectIssueLabelOutput
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity(name = "project_issue_label")
-data class ProjectIssueLabel(@EmbeddedId val projectIssueLabelId : ProjectIssueLabelId)
+data class ProjectIssueLabel(@EmbeddedId val projectIssueLabelId : ProjectIssueLabelId) : DbModel {
+    override fun buildOutputModel(): OutputModel = ProjectIssueLabelOutput(this)
+}
 
 @Embeddable
 data class ProjectIssueLabelId(

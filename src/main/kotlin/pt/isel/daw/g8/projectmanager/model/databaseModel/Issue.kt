@@ -1,6 +1,8 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import pt.isel.daw.g8.projectmanager.model.outputModel.IssueOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import java.util.*
 import javax.persistence.*
 
@@ -12,7 +14,7 @@ data class Issue(
         @Column(name = "description") val description : String,
         @ManyToOne @JoinColumn(name="issue_state") val state : IssueState,
         @Column(name = "creation_date") val creationDate : Date,
-        @Column(name = "close_date") val closeDate : Date?) {
+        @Column(name = "close_date") val closeDate : Date?) : DbModel {
 
     @OneToMany(mappedBy = "projectIssueLabelId.issue")
     @JsonIgnore
@@ -21,4 +23,6 @@ data class Issue(
     @OneToMany(mappedBy = "issue")
     @JsonIgnore
     lateinit var comments : List<Comment>
+
+    override fun buildOutputModel(): OutputModel = IssueOutput(this)
 }
