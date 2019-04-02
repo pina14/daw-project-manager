@@ -17,29 +17,32 @@ object ProjectPaths {
      */
     /****************************** USER PATHS ******************************/
     const val USERS = "/users"
-    const val USER_ID = "/$USERNAME_VAR"
+    const val USER_ID = "/{$USERNAME_VAR}"
+    private const val FULL_USER_PATH = "$USERS$USER_ID"
 
     /****************************** PROJECT PATHS ******************************/
-    const val PROJECTS = "$USER_ID/projects"
-    const val PROJECT_ID = "/$PROJECT_NAME_VAR"
+    const val PROJECTS = "$FULL_USER_PATH/projects"
+    const val PROJECT_ID = "/{$PROJECT_NAME_VAR}"
+    private const val FULL_PROJECT_PATH = "$PROJECTS$PROJECT_ID"
 
     /****************************** LABEL PATHS ******************************/
-    const val LABELS = "$PROJECT_ID/labels"
-    const val LABEL_ID = "/$LABEL_NAME_VAR"
+    const val LABELS = "$FULL_PROJECT_PATH/labels"
+    const val LABEL_ID = "/{$LABEL_NAME_VAR}"
 
     /****************************** STATE PATHS ******************************/
-    const val STATES = "$PROJECT_ID/states"
-    const val STATE_ID = "/$STATE_NAME_VAR"
+    const val STATES = "$FULL_PROJECT_PATH/states"
+    const val STATE_ID = "/{$STATE_NAME_VAR}"
 
     /****************************** ISSUE PATHS ******************************/
-    const val ISSUES = "$PROJECT_ID/issues"
-    const val ISSUE_ID = "/$ISSUE_ID_VAR"
+    const val ISSUES = "$FULL_PROJECT_PATH/issues"
+    const val ISSUE_ID = "/{$ISSUE_ID_VAR}"
+    private const val FULL_ISSUE_PATH = "$ISSUES$ISSUE_ID"
 
     /****************************** ISSUE COMMENT PATHS ******************************/
-    const val COMMENTS = "$ISSUE_ID/comments"
-    const val COMMENT_ID = "/$COMMENT_ID_VAR"
+    const val COMMENTS = "$FULL_ISSUE_PATH/comments"
+    const val COMMENT_ID = "/{$COMMENT_ID_VAR}"
 
     /****************************** ISSUE LABEL PATHS ******************************/
-    const val ISSUE_LABELS = "$ISSUE_ID/labels"
-    const val ISSUE_LABEL_ID = "/$LABEL_NAME_VAR"
+    const val ISSUE_LABELS = "$FULL_ISSUE_PATH/labels"
+    const val ISSUE_LABEL_ID = "/{$LABEL_NAME_VAR}"
 }
