@@ -1,4 +1,4 @@
-package pt.isel.daw.g8.projectmanager.exceptions
+package pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations
 
 import org.springframework.http.HttpStatus
 import pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia.ProblemJson

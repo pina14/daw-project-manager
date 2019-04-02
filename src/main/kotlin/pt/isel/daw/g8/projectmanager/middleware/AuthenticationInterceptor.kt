@@ -3,7 +3,7 @@ package pt.isel.daw.g8.projectmanager.middleware
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
-import pt.isel.daw.g8.projectmanager.exceptions.NotAuthenticatedException
+import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotAuthenticatedException
 import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
 import java.util.*
 import javax.servlet.http.HttpServletRequest
