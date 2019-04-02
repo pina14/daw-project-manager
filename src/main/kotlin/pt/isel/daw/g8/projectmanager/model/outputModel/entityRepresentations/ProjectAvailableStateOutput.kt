@@ -1,8 +1,8 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel
+package pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations
 
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableState
 
-class ProjectAvailableStateOutput(availableState : ProjectAvailableState) : OutputModel {
+class ProjectAvailableStateOutput(availableState : ProjectAvailableState) : EntityRepresentation {
     var projectName : String? = null
     var stateName : String? = null
 

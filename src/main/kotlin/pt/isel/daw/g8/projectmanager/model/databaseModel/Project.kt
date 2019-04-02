@@ -1,8 +1,8 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.ProjectOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
 import javax.persistence.*
 
 @Entity(name = "project")
@@ -28,5 +28,5 @@ data class Project(
     @JsonIgnore
     lateinit var issues : List<Issue>
 
-    override fun buildOutputModel(): OutputModel = ProjectOutput(this)
+    override fun buildEntityRepresentation(): EntityRepresentation = ProjectOutput(this)
 }

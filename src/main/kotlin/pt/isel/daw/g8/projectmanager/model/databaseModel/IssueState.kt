@@ -1,8 +1,8 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import pt.isel.daw.g8.projectmanager.model.outputModel.IssueStateOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueStateOutput
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -19,5 +19,5 @@ data class IssueState(@Id @Column(name = "state_name") val stateName : String) :
     @JsonIgnore
     lateinit var issues : List<Issue>
 
-    override fun buildOutputModel(): OutputModel = IssueStateOutput(this)
+    override fun buildEntityRepresentation(): EntityRepresentation = IssueStateOutput(this)
 }

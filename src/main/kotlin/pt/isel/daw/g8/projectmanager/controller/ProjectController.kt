@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pt.isel.daw.g8.projectmanager.loggerFor
-import pt.isel.daw.g8.projectmanager.model.mediaModel.MediaModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EmptyOutput
 import pt.isel.daw.g8.projectmanager.repository.*
 
 private val log = loggerFor<ProjectController>()
@@ -24,11 +24,20 @@ class ProjectController {
     @Autowired lateinit var availableStatesRepo : ProjectAvailableStateRepo
 
     @GetMapping("/{name}")
-    fun getProjectByName(@PathVariable("name") name: String) : MediaModel {
+    fun getProjectByName(@PathVariable("name") name: String) : OutputModel {
         val project = projectRepo.findById(name)
         return if(project.isPresent)
-            project.get().buildOutputModel().toSirenRepr()
+            project.get().buildEntityRepresentation().toSiren()
         else
-            EmptyOutput().toSirenRepr()
+            EmptyOutput().toSiren()
+    }
+
+    @GetMapping("/{name}/issues")
+    fun getProjectIssues(@PathVariable("name") name: String) : OutputModel {
+        val project = projectRepo.findById(name)
+        return if(project.isPresent)
+            project.get().issues.firstOrNull()?.buildEntityRepresentation()?.toSiren() ?: EmptyOutput()
+        else
+            EmptyOutput()
     }
 }

@@ -1,13 +1,13 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
-import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.ProjectStateTransitionOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectStateTransitionOutput
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity(name = "project_state_transition")
 data class ProjectStateTransition(@EmbeddedId val transitionId : ProjectStateTransitionId) : DbModel {
-    override fun buildOutputModel(): OutputModel = ProjectStateTransitionOutput(this)
+    override fun buildEntityRepresentation(): EntityRepresentation = ProjectStateTransitionOutput(this)
 }
 
 @Embeddable

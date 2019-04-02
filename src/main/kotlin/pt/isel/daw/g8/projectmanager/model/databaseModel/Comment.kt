@@ -1,7 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
-import pt.isel.daw.g8.projectmanager.model.outputModel.CommentOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.CommentOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 import java.util.*
 import javax.persistence.*
 
@@ -12,5 +12,5 @@ data class Comment(
         @Column(name = "content") val content : String,
         @Column(name = "creation_date") val creationDate : Date) : DbModel {
 
-    override fun buildOutputModel(): OutputModel = CommentOutput(this)
+    override fun buildEntityRepresentation(): EntityRepresentation = CommentOutput(this)
 }
