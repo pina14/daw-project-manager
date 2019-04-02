@@ -1,5 +1,6 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
@@ -12,6 +13,9 @@ class SirenModel(
         @JsonProperty("entities") val entities : Array<SirenEntity>? = null,
         @JsonProperty("actions") val actions : Array<SirenAction>? = null,
         @JsonProperty("links") val links : Array<SirenLink>? = null) : OutputModel {
+
+    @JsonIgnore
+    override fun getHypermediaType(): String = "application/vnd.siren+json"
 
     class SirenLink(val rel : Array<String>, val href : String)
 
