@@ -3,6 +3,7 @@ package pt.isel.daw.g8.projectmanager.controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
+import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.repository.CommentRepo
 import pt.isel.daw.g8.projectmanager.repository.IssueRepo
@@ -18,6 +19,7 @@ class CommentController {
     @Autowired lateinit var commentRepo: CommentRepo
 
     @PostMapping
+    @RequiresAuthentication
     fun createIssueComment() {
         //TODO Implement and set parameters
         throw NotImplementedException()
@@ -36,12 +38,14 @@ class CommentController {
     }
 
     @PutMapping(ProjectPaths.COMMENT_ID)
+    @RequiresAuthentication
     fun updateComment() {
         //TODO Implement and set parameters
         throw NotImplementedException()
     }
 
     @DeleteMapping(ProjectPaths.COMMENT_ID)
+    @RequiresAuthentication
     fun deleteComment(@PathVariable(ProjectPaths.COMMENT_ID_VAR) commentId: Int) : OutputModel {
         //TODO Implement and set parameters
         throw NotImplementedException()

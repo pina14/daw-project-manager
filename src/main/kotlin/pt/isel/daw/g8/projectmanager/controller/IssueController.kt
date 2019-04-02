@@ -3,6 +3,7 @@ package pt.isel.daw.g8.projectmanager.controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
+import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.repository.IssueRepo
 import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
@@ -16,6 +17,7 @@ class IssueController {
     @Autowired lateinit var issueRepo: IssueRepo
 
     @PostMapping
+    @RequiresAuthentication
     fun createIssue() {
         //TODO Implement and set parameters
         throw NotImplementedException()
@@ -34,12 +36,14 @@ class IssueController {
     }
 
     @PutMapping(ProjectPaths.ISSUE_ID)
+    @RequiresAuthentication
     fun updateIssue() {
         //TODO Implement and set parameters
         throw NotImplementedException()
     }
 
     @DeleteMapping(ProjectPaths.ISSUE_ID)
+    @RequiresAuthentication
     fun deleteIssue(@PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel {
         //TODO Implement and set parameters
         throw NotImplementedException()
