@@ -12,13 +12,13 @@ data class Issue(
         @ManyToOne @JoinColumn(name = "project_name") val project : Project,
         @Column(name = "issue_name") val name : String,
         @Column(name = "description") val description : String,
-        @ManyToOne @JoinColumn(name="issue_state") val state : IssueState,
+        @ManyToOne @JoinColumn(name="issue_state") val state : State,
         @Column(name = "creation_date") val creationDate : Date,
         @Column(name = "close_date") val closeDate : Date?) : DbModel {
 
     @OneToMany(mappedBy = "projectIssueLabelId.issue")
     @JsonIgnore
-    lateinit var labels : List<ProjectIssueLabel>
+    lateinit var labels : List<IssueLabel>
 
     @OneToMany(mappedBy = "issue")
     @JsonIgnore

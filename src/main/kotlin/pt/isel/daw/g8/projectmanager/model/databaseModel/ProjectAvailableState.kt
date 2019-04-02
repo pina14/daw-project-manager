@@ -13,4 +13,4 @@ data class ProjectAvailableState(@EmbeddedId val projectStateId : ProjectAvailab
 @Embeddable
 data class ProjectAvailableStateId(
         @ManyToOne @JoinColumn(name = "project_name") val project : Project,
-        @ManyToOne @JoinColumn(name = "state_name") val state: IssueState) : Serializable
+        @ManyToOne @JoinColumn(name = "state_name") val state: State) : Serializable

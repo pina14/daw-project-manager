@@ -10,7 +10,7 @@ data class Project(
         @Id @Column(name = "project_name") val name : String,
         @Column(name = "description") val description : String,
         @ManyToOne @JoinColumn(name = "username") val user: UserInfo,
-        @ManyToOne @JoinColumn(name = "default_issue_state") val defaultIssueState : IssueState) : DbModel {
+        @ManyToOne @JoinColumn(name = "default_issue_state") val defaultIssueState : State) : DbModel {
 
     @OneToMany(mappedBy = "projectLabelId.project")
     @JsonIgnore

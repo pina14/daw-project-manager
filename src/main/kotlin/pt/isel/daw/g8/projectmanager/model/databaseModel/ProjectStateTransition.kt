@@ -13,5 +13,5 @@ data class ProjectStateTransition(@EmbeddedId val transitionId : ProjectStateTra
 @Embeddable
 data class ProjectStateTransitionId(
         @ManyToOne @JoinColumn(name = "project_name") val project : Project,
-        @ManyToOne @JoinColumn(name = "from_state") val fromState: IssueState,
-        @ManyToOne @JoinColumn(name = "to_state") val toState: IssueState) : Serializable
+        @ManyToOne @JoinColumn(name = "from_state") val fromState: State,
+        @ManyToOne @JoinColumn(name = "to_state") val toState: State) : Serializable

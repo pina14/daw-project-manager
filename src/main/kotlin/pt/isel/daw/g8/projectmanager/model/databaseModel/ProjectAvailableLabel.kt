@@ -13,4 +13,4 @@ data class ProjectAvailableLabel(@EmbeddedId val projectLabelId : ProjectAvailab
 @Embeddable
 data class ProjectAvailableLabelId(
         @ManyToOne @JoinColumn(name = "project_name") val project : Project,
-        @ManyToOne @JoinColumn(name = "label_name") val label: IssueLabel) : Serializable
+        @ManyToOne @JoinColumn(name = "label_name") val label: Label) : Serializable
