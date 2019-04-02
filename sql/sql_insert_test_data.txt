@@ -1,7 +1,7 @@
 insert into user_info values 
-	('test', 'pass');
+	('test', 'pass', 'test@email.com', 'First Last');
 
-insert into issue_state values 
+insert into state values 
 	('open'), 
 	('closed'), 
 	('archived');
@@ -28,7 +28,7 @@ insert into issue(project_name, issue_name, description, issue_state) values
 	('test_project', 'issue 3', 'issue 3 description', 'closed'),
 	('project_5', 'issue 5', 'issue 1 description', 'archived');
 	
-insert into issue_label values 
+insert into label values 
 	('bug'), 
 	('error'), 
 	('improve-ui');
@@ -38,7 +38,7 @@ insert into project_available_label values
 	('project_5', 'error'),
 	('project_5', 'improve-ui');
 	
-insert into project_issue_label values
+insert into issue_label values
 	('test_project', 1, 'bug'), 
 	('project_5', 4, 'error'),
 	('project_5', 4, 'improve-ui'),

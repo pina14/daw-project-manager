@@ -11,7 +11,9 @@ import javax.persistence.OneToMany
 @Entity(name = "user_info")
 data class UserInfo(
         @Id @Column(name = "username") val username : String,
-        @Column(name = "password") val password : String) : DbModel {
+        @Column(name = "password") val password : String,
+        @Column(name = "email") val email : String,
+        @Column(name = "full_name") val fullName : String) : DbModel {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     lateinit var projects : List<Project>

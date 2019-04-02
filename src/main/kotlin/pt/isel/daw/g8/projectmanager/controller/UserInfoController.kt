@@ -18,6 +18,13 @@ class UserInfoController {
      //TODO Implement and set parameters
     }
 
+    @GetMapping(ProjectPaths.USER_ID)
+    @RequiresAuthentication
+    fun getUserByUsername(@PathVariable(ProjectPaths.USERNAME_VAR) username: String) {
+        //TODO Implement and set parameters
+    }
+
+
     @PutMapping(ProjectPaths.USER_ID)
     @RequiresAuthentication
     fun updateUser() {
