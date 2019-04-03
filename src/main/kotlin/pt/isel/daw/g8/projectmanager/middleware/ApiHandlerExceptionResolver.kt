@@ -9,11 +9,10 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.Http
 import pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia.ErrorModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia.ProblemJson
 
-
 @RestControllerAdvice
 class ApiHandlerExceptionResolver : ResponseEntityExceptionHandler() {
 
-    @ExceptionHandler(Exception::class)
+    @ExceptionHandler(Throwable::class)
     fun handleAll(ex: Exception): ResponseEntity<ErrorModel> {
         val error = ProblemJson(
                 title = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,

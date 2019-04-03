@@ -1,14 +1,18 @@
 package pt.isel.daw.g8.projectmanager.middleware
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
+import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotAuthenticatedException
+import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.WrongCredentialsException
 import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+@Component
 class AuthenticationInterceptor : HandlerInterceptorAdapter() {
 
     @Autowired lateinit var userRepo : UserInfoRepo
@@ -20,18 +24,24 @@ class AuthenticationInterceptor : HandlerInterceptorAdapter() {
                 val authentication = request.getHeader("Authorization")
                         ?: throw NotAuthenticatedException()
 
-                val auth = String(Base64
-                                .getDecoder()
-                                .decode(authentication))
-                        .removePrefix("Basic")
-                        .trim().split(":")
+                val auth : List<String>
+                val authToDecode = authentication.removePrefix("Basic").trim()
+                try {
+                    auth = String(Base64
+                            .getDecoder()
+                            .decode(authToDecode))
+                            .trim()
+                            .split(":")
+                } catch (ex : IllegalArgumentException) {
+                    throw BadRequestException("Authentication has to encoded in Base64 format.")
+                }
 
                 val username = auth[0]
                 val password = auth[1]
 
                 val user = userRepo.findById(username)
                 if (!user.isPresent || user.get().password != password)
-                    throw NotAuthenticatedException()
+                    throw WrongCredentialsException()
 
                 request.setAttribute("username", username)
             }

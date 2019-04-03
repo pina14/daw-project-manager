@@ -3,9 +3,8 @@ package pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations
 import org.springframework.http.HttpStatus
 import pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia.ProblemJson
 
-class NotFoundException() : HttpErrorException() {
-
-    override var errorMessage = "This resource doesn't exists."
+class ConflictException() : HttpErrorException() {
+    override var errorMessage = "Repeated entity."
 
     constructor(customMessage : String) : this() {
         errorMessage = customMessage
@@ -13,9 +12,9 @@ class NotFoundException() : HttpErrorException() {
 
     override fun toProblemJson(): ProblemJson {
         return ProblemJson(
-                type = "/not-found-request",
-                title = HttpStatus.NOT_FOUND.reasonPhrase,
-                status = HttpStatus.NOT_FOUND.value(),
+                type = "/duplicate-conflict-request",
+                title = HttpStatus.CONFLICT.reasonPhrase,
+                status = HttpStatus.CONFLICT.value(),
                 detail = errorMessage)
     }
 }
