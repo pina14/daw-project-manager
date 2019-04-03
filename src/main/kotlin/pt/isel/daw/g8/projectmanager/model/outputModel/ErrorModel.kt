@@ -1,4 +1,4 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia
+package pt.isel.daw.g8.projectmanager.model.outputModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude

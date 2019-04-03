@@ -1,4 +1,4 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel.hypermedia
+package pt.isel.daw.g8.projectmanager.model.outputModel.mediaType
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
