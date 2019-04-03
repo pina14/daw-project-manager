@@ -11,7 +11,11 @@ class SirenModel(
         @JsonProperty("actions") val actions : Array<SirenAction>? = null,
         @JsonProperty("links") val links : Array<SirenLink>? = null) : OutputModel {
 
-    override fun getHypermediaType(): String = "application/vnd.siren+json"
+    companion object {
+        const val mediaType = "application/vnd.siren+json"
+    }
+
+    override fun getMediaType(): String = mediaType
 
     class SirenLink(val rel : Array<String>, val href : String)
 

@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 interface OutputModel {
     @JsonIgnore
-    fun getHypermediaType() : String
+    fun getMediaType() : String
 }

@@ -19,7 +19,7 @@ class ApiHandlerExceptionResolver : ResponseEntityExceptionHandler() {
                 status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 detail = "Sorry, internal error...")
         return ResponseEntity.status(error.status)
-                .header("Content-Type", error.getHypermediaType())
+                .header("Content-Type", error.getMediaType())
                 .body(error)
     }
 
@@ -28,7 +28,7 @@ class ApiHandlerExceptionResolver : ResponseEntityExceptionHandler() {
         val error =  ex.toProblemJson()
         return ResponseEntity
                 .status(error.status)
-                .header("Content-Type", error.getHypermediaType())
+                .header("Content-Type", error.getMediaType())
                 .body(error)
     }
 }

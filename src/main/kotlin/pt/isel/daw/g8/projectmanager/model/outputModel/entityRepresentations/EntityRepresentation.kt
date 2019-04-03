@@ -8,5 +8,5 @@ interface EntityRepresentation : OutputModel {
     fun toSiren() : SirenModel = SirenModel(properties = this)
 
     @JsonIgnore
-    override fun getHypermediaType(): String = "application/json"
+    override fun getMediaType(): String = "application/json"
 }

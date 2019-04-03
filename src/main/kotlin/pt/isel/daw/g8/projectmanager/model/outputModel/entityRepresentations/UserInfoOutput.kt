@@ -18,6 +18,6 @@ class UserInfoOutput(user : UserInfo) : EntityRepresentation {
     override fun toSiren(): SirenModel = SirenModel(
             properties = this,
             _class = arrayOf("User Info"),
-            links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "http://localhost:8080/users/$username"))
+            links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "/users/$username"))
     )
 }

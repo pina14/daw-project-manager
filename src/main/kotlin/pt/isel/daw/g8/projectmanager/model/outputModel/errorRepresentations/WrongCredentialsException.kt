@@ -13,7 +13,7 @@ class WrongCredentialsException() : HttpErrorException() {
 
     override fun toProblemJson(): ProblemJson {
         return ProblemJson(
-                type = "/not-found-request",
+                type = "/wrong-credentials",
                 title = HttpStatus.UNAUTHORIZED.reasonPhrase,
                 status = HttpStatus.UNAUTHORIZED.value(),
                 detail = errorMessage)

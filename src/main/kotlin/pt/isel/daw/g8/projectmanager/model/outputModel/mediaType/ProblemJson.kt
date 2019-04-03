@@ -9,5 +9,9 @@ class ProblemJson(
         val detail : String? = null,
         val instance : String? = null) : ErrorModel {
 
-    override fun getHypermediaType(): String = "application/problem+json"
+    companion object {
+        const val mediaType = "application/problem+json"
+    }
+
+    override fun getMediaType(): String = mediaType
 }

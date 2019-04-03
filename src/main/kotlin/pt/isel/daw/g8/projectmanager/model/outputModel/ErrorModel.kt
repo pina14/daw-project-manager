@@ -7,5 +7,5 @@ import com.fasterxml.jackson.annotation.JsonInclude
 interface ErrorModel {
 
     @JsonIgnore
-    fun getHypermediaType() : String
+    fun getMediaType() : String
 }
