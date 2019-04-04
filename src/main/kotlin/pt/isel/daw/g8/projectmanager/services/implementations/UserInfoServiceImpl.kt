@@ -2,8 +2,10 @@ package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import pt.isel.daw.g8.projectmanager.model.databaseModel.UserInfo
 import pt.isel.daw.g8.projectmanager.model.inputModel.UserInfoInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserInfoOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ConflictException
 import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
@@ -14,7 +16,7 @@ class UserInfoServiceImpl(val userRepo : UserInfoRepo) : UserInfoService {
         if(userRepo.existsById(user.username))
             throw ConflictException("There's already one user with this username!")
 
-        val dbUser = user.toDbModel()
+        val dbUser = UserInfo(user.username, user.password, user.email, user.fullName)
 
         userRepo.save(dbUser)
         return ResponseEntity(HttpStatus.CREATED)
@@ -25,11 +27,11 @@ class UserInfoServiceImpl(val userRepo : UserInfoRepo) : UserInfoService {
         if(!user.isPresent)
             throw NotFoundException()
 
-        return user.get().buildEntityRepresentation().toSiren()
+        return UserInfoOutput(user.get()).toSiren()
     }
 
     override fun updateUser(user: UserInfoInput): ResponseEntity<Unit> {
-        val dbUser = user.toDbModel()
+        val dbUser = UserInfo(user.username, user.password, user.email, user.fullName)
         userRepo.save(dbUser)
         return ResponseEntity(HttpStatus.OK)
     }

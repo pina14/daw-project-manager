@@ -5,7 +5,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
 
 interface EntityRepresentation : OutputModel {
-    fun toSiren() : SirenModel = SirenModel(properties = this)
+    fun toSiren() : SirenModel
 
     @JsonIgnore
     override fun getMediaType(): String = "application/json"

@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EmptyOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectsOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotFoundException
+import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
 import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
@@ -22,20 +25,20 @@ class ProjectController {
         throw NotImplementedException()
     }
 
-    @GetMapping
-    fun getUserProjects() : OutputModel {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    @GetMapping(produces = [SirenModel.mediaType])
+    fun getUserProjects(@PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel {
+        val projects = projectRepo.findAll().toList()
+
+        return ProjectsOutput(username, projects).toSiren()
     }
 
-    //TODO check if complete
-    @GetMapping(ProjectPaths.PROJECT_ID)
+    @GetMapping(ProjectPaths.PROJECT_ID, produces = [SirenModel.mediaType])
     fun getProjectByName(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel {
         val project = projectRepo.findById(projectName)
-        return if(project.isPresent)
-            project.get().buildEntityRepresentation().toSiren()
-        else
-            EmptyOutput().toSiren()
+        if(!project.isPresent)
+            throw NotFoundException("Doesn't exist a project with this name for current user.")
+
+        return ProjectOutput(project.get()).toSiren()
     }
 
     @PutMapping(ProjectPaths.PROJECT_ID)

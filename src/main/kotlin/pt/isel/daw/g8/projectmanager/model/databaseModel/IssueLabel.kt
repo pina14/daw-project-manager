@@ -1,14 +1,10 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueLabelOutput
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity(name = "issue_label")
-data class IssueLabel(@EmbeddedId val projectIssueLabelId : IssueLabelId) : DbModel {
-    override fun buildEntityRepresentation(): EntityRepresentation = IssueLabelOutput(this)
-}
+data class IssueLabel(@EmbeddedId val projectIssueLabelId : IssueLabelId) : DbModel
 
 @Embeddable
 data class IssueLabelId(

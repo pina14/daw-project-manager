@@ -1,8 +1,6 @@
 package pt.isel.daw.g8.projectmanager.model.databaseModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueOutput
 import java.util.*
 import javax.persistence.*
 
@@ -23,6 +21,4 @@ data class Issue(
     @OneToMany(mappedBy = "issue")
     @JsonIgnore
     lateinit var comments : List<Comment>
-
-    override fun buildEntityRepresentation(): EntityRepresentation = IssueOutput(this)
 }
