@@ -4,7 +4,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
-import pt.isel.daw.g8.projectmanager.model.inputModel.UserInfoInput
+import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInfoInput
+import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest
 class UserInfoController(val userService : UserInfoService) {
 
     @PostMapping(consumes = ["application/json"])
-    fun createUser(@RequestBody user : UserInfoInput)
+    fun createUser(@RequestBody user : CreateUserInfoInput)
             : ResponseEntity<Unit> = userService.createUser(user)
 
     @GetMapping(ProjectPaths.USER_ID, produces = [SirenModel.mediaType])
@@ -26,13 +27,13 @@ class UserInfoController(val userService : UserInfoService) {
     @PutMapping(ProjectPaths.USER_ID, consumes = ["application/json"])
     @RequiresAuthentication
     fun updateUser(request: HttpServletRequest,
-                   @RequestBody user : UserInfoInput,
+                   @RequestBody user : UpdateUserInfoInput,
                    @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != user.username || authUsername != username)
+        if(authUsername != username)
             throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
 
-        return userService.updateUser(user)
+        return userService.updateUser(username, user)
     }
 
     @DeleteMapping(ProjectPaths.USER_ID)
