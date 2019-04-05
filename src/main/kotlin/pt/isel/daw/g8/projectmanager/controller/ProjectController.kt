@@ -1,57 +1,61 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
+import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
+import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectsOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotFoundException
+import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
-import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
+import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.PROJECTS)
-class ProjectController {
+class ProjectController(val projectService: ProjectService) {
 
-    @Autowired lateinit var projectRepo : ProjectRepo
-
-    @PostMapping
+    @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun createProject() {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    fun createProject(request: HttpServletRequest,
+                      @RequestBody project : CreateProjectInput) : ResponseEntity<Unit> {
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
+        if(authUsername != project.username)
+            throw ForbiddenException("Authentication credentials are not valid to create this resource.")
+        return projectService.createProject(project)
     }
 
     @GetMapping(produces = [SirenModel.mediaType])
-    fun getUserProjects(@PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel {
-        val projects = projectRepo.findAll().toList()
-
-        return ProjectsOutput(username, projects).toSiren()
-    }
+    fun getUserProjects(@PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel
+            = projectService.getUserProjects(username)
 
     @GetMapping(ProjectPaths.PROJECT_ID, produces = [SirenModel.mediaType])
-    fun getProjectByName(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel {
-        val project = projectRepo.findById(projectName)
-        if(!project.isPresent)
-            throw NotFoundException("Doesn't exist a project with this name for current user.")
+    fun getProjectByName(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel
+            = projectService.getProjectByName(projectName)
 
-        return ProjectOutput(project.get()).toSiren()
-    }
-
-    @PutMapping(ProjectPaths.PROJECT_ID)
+    @PutMapping(ProjectPaths.PROJECT_ID, consumes = ["application/json"])
     @RequiresAuthentication
-    fun updateProject() : OutputModel {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    fun updateProject(request : HttpServletRequest,
+                      @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
+                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
+                      @RequestBody project : UpdateProjectInput) : ResponseEntity<Unit> {
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
+        if(authUsername != username)
+            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+
+        return projectService.updateProject(projectName, project)
     }
 
     @DeleteMapping(ProjectPaths.PROJECT_ID)
     @RequiresAuthentication
-    fun deleteProject(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    fun deleteProject(request : HttpServletRequest,
+                      @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
+                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
+        if(authUsername != username)
+            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+
+        return projectService.deleteProject(authUsername as String, projectName)
     }
 }

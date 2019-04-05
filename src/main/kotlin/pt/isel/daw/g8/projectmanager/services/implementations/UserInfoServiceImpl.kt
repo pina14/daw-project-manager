@@ -11,7 +11,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotF
 import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
 import pt.isel.daw.g8.projectmanager.services.interfaces.UserInfoService
 
-class UserInfoServiceImpl(val userRepo : UserInfoRepo) : UserInfoService {
+class UserInfoServiceImpl(private val userRepo : UserInfoRepo) : UserInfoService {
     override fun createUser(user: UserInfoInput): ResponseEntity<Unit> {
         if(userRepo.existsById(user.username))
             throw ConflictException("There's already one user with this username!")
