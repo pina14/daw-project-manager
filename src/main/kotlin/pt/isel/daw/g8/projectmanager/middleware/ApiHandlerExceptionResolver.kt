@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import pt.isel.daw.g8.projectmanager.model.outputModel.ErrorModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.HttpErrorException
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.ProblemJson
+import pt.isel.daw.g8.projectmanager.model.errorModel.ErrorModel
+import pt.isel.daw.g8.projectmanager.model.errorModel.ProblemJson
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.HttpErrorException
 
 @RestControllerAdvice
 class ApiHandlerExceptionResolver : ResponseEntityExceptionHandler() {

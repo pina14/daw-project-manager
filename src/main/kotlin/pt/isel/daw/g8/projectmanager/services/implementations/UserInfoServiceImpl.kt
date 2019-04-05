@@ -3,12 +3,12 @@ package pt.isel.daw.g8.projectmanager.services.implementations
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.databaseModel.UserInfo
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserInfoOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ConflictException
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
 import pt.isel.daw.g8.projectmanager.services.interfaces.UserInfoService
 

@@ -1,4 +1,4 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel
+package pt.isel.daw.g8.projectmanager.model.errorModel
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude

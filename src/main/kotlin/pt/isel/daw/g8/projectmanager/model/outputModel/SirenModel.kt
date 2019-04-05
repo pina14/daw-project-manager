@@ -1,8 +1,7 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel.mediaType
+package pt.isel.daw.g8.projectmanager.model.outputModel
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.SirenRepresentation
 

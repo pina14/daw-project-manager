@@ -1,7 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
 
 interface SirenRepresentation {
     val entity : EntityRepresentation?

@@ -1,8 +1,8 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
 
 class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
     override fun getClasses(): Array<String>? = arrayOf("Project")

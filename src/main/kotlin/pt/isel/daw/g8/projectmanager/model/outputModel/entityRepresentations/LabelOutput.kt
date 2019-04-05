@@ -1,7 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations
 
 import pt.isel.daw.g8.projectmanager.model.databaseModel.Label
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 
 class LabelOutput(label : Label) : EntityRepresentation {
 

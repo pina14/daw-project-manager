@@ -1,6 +1,4 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel.mediaType
-
-import pt.isel.daw.g8.projectmanager.model.outputModel.ErrorModel
+package pt.isel.daw.g8.projectmanager.model.errorModel
 
 class ProblemJson(
         val type : String? = null,

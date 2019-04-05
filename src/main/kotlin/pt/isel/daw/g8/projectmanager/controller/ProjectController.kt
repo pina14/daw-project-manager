@@ -4,11 +4,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ForbiddenException
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.SirenModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 import javax.servlet.http.HttpServletRequest
 

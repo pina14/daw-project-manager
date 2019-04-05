@@ -1,7 +1,7 @@
-package pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations
+package pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations
 
 import org.springframework.http.HttpStatus
-import pt.isel.daw.g8.projectmanager.model.outputModel.mediaType.ProblemJson
+import pt.isel.daw.g8.projectmanager.model.errorModel.ProblemJson
 
 class NotAuthenticatedException() : HttpErrorException() {
 

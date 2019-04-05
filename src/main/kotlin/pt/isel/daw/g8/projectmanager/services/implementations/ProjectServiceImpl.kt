@@ -4,6 +4,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import pt.isel.daw.g8.projectmanager.model.databaseModel.*
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.StateInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.StateTransitionInput
@@ -11,10 +15,6 @@ import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectsOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.BadRequestException
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ConflictException
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.ForbiddenException
-import pt.isel.daw.g8.projectmanager.model.outputModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.repository.*
 import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 
