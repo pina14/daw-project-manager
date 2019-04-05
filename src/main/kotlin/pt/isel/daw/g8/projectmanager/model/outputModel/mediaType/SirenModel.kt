@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
+import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.SirenRepresentation
 
 class SirenModel(
         @JsonProperty("class") val _class : Array<String>? = null,
@@ -11,6 +12,14 @@ class SirenModel(
         @JsonProperty("entities") val entities : Array<SirenEntity>? = null,
         @JsonProperty("actions") val actions : Array<SirenAction>? = null,
         @JsonProperty("links") val links : Array<SirenLink>? = null) : OutputModel {
+
+    constructor(sirenRepresentation: SirenRepresentation) : this(
+            sirenRepresentation.getClasses(),
+            sirenRepresentation.getProperties(),
+            sirenRepresentation.getEntities(),
+            sirenRepresentation.getActions(),
+            sirenRepresentation.getLinks()
+    )
 
     companion object {
         const val mediaType = "application/vnd.siren+json"
