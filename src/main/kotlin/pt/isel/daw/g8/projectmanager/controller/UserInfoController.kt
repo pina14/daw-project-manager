@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
-import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.USERS)
-class UserInfoController(val userService : UserInfoService) {
+class UserInfoController(val userService : UserInfoService) : ProjectManagerController {
 
     @PostMapping(consumes = ["application/json"])
     fun createUser(@RequestBody user : CreateUserInfoInput)
@@ -29,9 +28,8 @@ class UserInfoController(val userService : UserInfoService) {
     fun updateUser(request: HttpServletRequest,
                    @RequestBody user : UpdateUserInfoInput,
                    @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != username)
-            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
+        checkAuthorizationToResource(authUsername, username)
 
         return userService.updateUser(username, user)
     }
@@ -40,9 +38,8 @@ class UserInfoController(val userService : UserInfoService) {
     @RequiresAuthentication
     fun deleteUser(request: HttpServletRequest,
                    @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != username)
-            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
+        checkAuthorizationToResource(authUsername, username)
 
         return userService.deleteUser(username)
     }

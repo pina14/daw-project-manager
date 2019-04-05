@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
-import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
@@ -14,15 +13,14 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.PROJECTS)
-class ProjectController(val projectService: ProjectService) {
+class ProjectController(val projectService: ProjectService) : ProjectManagerController{
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
     fun createProject(request: HttpServletRequest,
                       @RequestBody project : CreateProjectInput) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != project.username)
-            throw ForbiddenException("Authentication credentials are not valid to create this resource.")
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
+        checkAuthorizationToResource(authUsername, project.username)
         return projectService.createProject(project)
     }
 
@@ -40,9 +38,8 @@ class ProjectController(val projectService: ProjectService) {
                       @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
                       @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
                       @RequestBody project : UpdateProjectInput) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != username)
-            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
+        checkAuthorizationToResource(authUsername, username)
 
         return projectService.updateProject(projectName, project)
     }
@@ -52,9 +49,8 @@ class ProjectController(val projectService: ProjectService) {
     fun deleteProject(request : HttpServletRequest,
                       @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
                       @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR)
-        if(authUsername != username)
-            throw ForbiddenException("Authentication credentials are not valid to make changes to this user!")
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
+        checkAuthorizationToResource(authUsername, username)
 
         return projectService.deleteProject(authUsername as String, projectName)
     }

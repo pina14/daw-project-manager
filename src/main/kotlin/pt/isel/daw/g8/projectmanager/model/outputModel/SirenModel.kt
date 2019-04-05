@@ -34,7 +34,13 @@ class SirenModel(
                       @JsonProperty("method") val method : String? = null,
                       @JsonProperty("href") val href : String,
                       @JsonProperty("type") val type : String? = null,
-                      @JsonProperty("fields") val fields : Array<Any>? = null)
+                      @JsonProperty("fields") val fields : Array<SirenActionField>? = null)
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    class SirenActionField(@JsonProperty("class") val _class : Array<String>?,
+                           @JsonProperty("name") val name : String,
+                          @JsonProperty("type") val type : String,
+                          @JsonProperty("value") val value : String? = null)
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     interface SirenEntity
