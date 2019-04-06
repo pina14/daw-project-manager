@@ -5,10 +5,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 class CreateProjectInput(val name : String,
                          val description : String,
                          val username : String,
-                         val defaultStateName : String,
-                         val availableLabels : MutableList<LabelInput>? = null,
-                         val availableStates : MutableList<StateInput> = mutableListOf(),
-                         val availableStateTransitions : MutableList<StateTransitionInput> = mutableListOf()) : InputModel {
+                         val defaultStateName : String) : InputModel {
 
     companion object {
         fun getSirenActionFields() : Array<SirenModel.SirenActionField>? {

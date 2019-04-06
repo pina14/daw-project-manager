@@ -17,17 +17,13 @@ class ProjectManagerApplication {
 	@Bean
 	fun getProjectService(userRepo : UserInfoRepo,
 						  projectRepo: ProjectRepo,
-						  labelRepo : LabelRepo,
 						  stateRepo : StateRepo,
-						  projectAvailableLabelRepo: ProjectAvailableLabelRepo,
 						  projectAvailableStateRepo: ProjectAvailableStateRepo,
 						  projectStateTransitionRepo: ProjectStateTransitionRepo) : ProjectService {
 		return ProjectServiceImpl(
 				userRepo,
 				projectRepo,
-				labelRepo,
 				stateRepo,
-				projectAvailableLabelRepo,
 				projectAvailableStateRepo,
 				projectStateTransitionRepo)
 	}

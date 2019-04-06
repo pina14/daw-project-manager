@@ -20,9 +20,7 @@ import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 
 open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
                               private val projectRepo : ProjectRepo,
-                              private val labelRepo : LabelRepo,
                               private val stateRepo : StateRepo,
-                              private val projectAvailableLabelRepo : ProjectAvailableLabelRepo,
                               private val projectAvailableStateRepo : ProjectAvailableStateRepo,
                               private val projectStateTransitionRepo : ProjectStateTransitionRepo) : ProjectService {
 
@@ -34,30 +32,13 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
         if(projectRepo.existsById(project.name))
             throw ConflictException("There's already a project with this name.")
 
+        val availableStates = mutableListOf(StateInput(project.defaultStateName))
         mandatoryStates.forEach { state ->
-            project.availableStates.let { availableStates ->
-                if(!availableStates.contains(state))
-                    availableStates.add(state)
-            }
+            if(!availableStates.contains(state))
+                availableStates.add(state)
         }
 
-        mandatoryTransitions.forEach { transition ->
-            project.availableStateTransitions.let { availableTransition ->
-                if(!availableTransition.contains(transition))
-                    availableTransition.add(transition)
-            }
-        }
-
-        if(!project.availableStates.any { state -> project.defaultStateName == state.stateName})
-            throw BadRequestException("Default state must exist in availableStates set.")
-
-        project.availableLabels?.forEach { label ->
-            val labelDb = Label(label.labelName)
-            if(!labelRepo.existsById(label.labelName))
-                labelRepo.save(labelDb)
-        }
-
-        project.availableStates.forEach { state ->
+        mandatoryStates.forEach { state ->
             val stateDb = State(state.stateName)
             if(!stateRepo.existsById(state.stateName))
                 stateRepo.save(stateDb)
@@ -68,20 +49,14 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
         val projectDb = Project(project.name, project.description, userDb, defaultStateDb)
         projectRepo.save(projectDb)
 
-        project.availableLabels?.forEach {
-            val projectLabelId = ProjectAvailableLabelId(projectDb, Label(it.labelName))
-            val projectLabelDb = ProjectAvailableLabel(projectLabelId)
-            projectAvailableLabelRepo.save(projectLabelDb)
-        }
-
-        project.availableStates.forEach {
-            val projectStateId = ProjectAvailableStateId(projectDb, State(it.stateName))
+        mandatoryStates.forEach {state ->
+            val projectStateId = ProjectAvailableStateId(projectDb, State(state.stateName))
             val projectStateDb = ProjectAvailableState(projectStateId)
             projectAvailableStateRepo.save(projectStateDb)
         }
 
-        project.availableStateTransitions.forEach {
-            val projectStateTransitionId = ProjectStateTransitionId(projectDb, State(it.fromState), State(it.toState))
+        mandatoryTransitions.forEach { transition ->
+            val projectStateTransitionId = ProjectStateTransitionId(projectDb, State(transition.fromState), State(transition.toState))
             val projectStateTransitionDb = ProjectStateTransition(projectStateTransitionId)
             projectStateTransitionRepo.save(projectStateTransitionDb)
         }
