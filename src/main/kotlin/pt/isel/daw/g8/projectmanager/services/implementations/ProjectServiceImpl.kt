@@ -13,8 +13,8 @@ import pt.isel.daw.g8.projectmanager.model.inputModel.StateInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.StateTransitionInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectCollectionOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectsOutput
 import pt.isel.daw.g8.projectmanager.repository.*
 import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 
@@ -96,7 +96,7 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
             throw NotFoundException("User doesn't exist.")
 
         val projects = user.get().projects
-        return ProjectsOutput(username, projects).toSiren()
+        return ProjectCollectionOutput(username, projects).toSiren()
     }
 
     override fun getProjectByName(projectName: String): OutputModel {

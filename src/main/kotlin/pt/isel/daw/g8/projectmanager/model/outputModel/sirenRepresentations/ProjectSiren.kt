@@ -1,5 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
+import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
@@ -37,7 +39,25 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
                 issuesEntity)
     }
 
-    override fun getActions(): Array<SirenModel.SirenAction>? = null
+    override fun getActions(): Array<SirenModel.SirenAction>? {
+        val updateProjectAction = SirenModel.SirenAction(
+                name = "update-project",
+                title = "Update Project",
+                method = HttpMethod.PUT.name,
+                href = "/users/${entity.owner}/projects/${entity.name}",
+                type = "application/json",
+                fields = UpdateProjectInput.getSirenActionFields()
+        )
+
+        val deleteProjectAction = SirenModel.SirenAction(
+                name = "delete-project",
+                title = "Delete Project",
+                method = HttpMethod.DELETE.name,
+                href = "/users/${entity.owner}/projects/${entity.name}"
+        )
+
+        return arrayOf(updateProjectAction, deleteProjectAction)
+    }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
         return arrayOf(SirenModel.SirenLink(arrayOf("self"), "/users/${entity.owner}/projects/${entity.name}"))

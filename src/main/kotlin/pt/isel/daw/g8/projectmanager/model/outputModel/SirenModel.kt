@@ -37,7 +37,7 @@ class SirenModel(
                       @JsonProperty("fields") val fields : Array<SirenActionField>? = null)
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    class SirenActionField(@JsonProperty("class") val _class : Array<String>?,
+    class SirenActionField(@JsonProperty("class") val _class : Array<String>? = null,
                            @JsonProperty("name") val name : String,
                           @JsonProperty("type") val type : String,
                           @JsonProperty("value") val value : String? = null)

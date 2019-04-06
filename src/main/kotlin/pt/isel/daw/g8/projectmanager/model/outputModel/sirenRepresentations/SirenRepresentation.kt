@@ -9,6 +9,6 @@ interface SirenRepresentation {
     fun getClasses(): Array<String>?
     fun getProperties(): EntityRepresentation?
     fun getEntities(): Array<SirenModel.SirenEntity>?
-    fun getActions(): Array<SirenModel.SirenAction>? //TODO implement
+    fun getActions(): Array<SirenModel.SirenAction>?
     fun getLinks(): Array<SirenModel.SirenLink>?
 }
