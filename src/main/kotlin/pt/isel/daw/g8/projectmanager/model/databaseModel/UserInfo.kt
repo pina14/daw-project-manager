@@ -15,4 +15,8 @@ data class UserInfo(
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     lateinit var projects : List<Project>
+
+    @OneToMany(mappedBy = "creator")
+    @JsonIgnore
+    lateinit var createdIssues : List<Issue>
 }

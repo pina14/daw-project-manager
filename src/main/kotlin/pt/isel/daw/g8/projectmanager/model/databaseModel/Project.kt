@@ -7,8 +7,16 @@ import javax.persistence.*
 data class Project(
         @Id @Column(name = "project_name") val name : String,
         @Column(name = "description") val description : String,
-        @ManyToOne @JoinColumn(name = "username") val user: UserInfo,
-        @ManyToOne @JoinColumn(name = "default_issue_state") val defaultIssueState : State) : DbModel {
+        @Column(name = "username") val username: String,
+        @Column(name = "default_issue_state") val defaultIssueStateName : String) : DbModel {
+
+    @ManyToOne
+    @JoinColumn(name = "username", insertable = false, updatable = false)
+    lateinit var user: UserInfo
+
+    @ManyToOne
+    @JoinColumn(name = "default_issue_state", insertable = false, updatable = false)
+    lateinit var defaultIssueState : State
 
     @OneToMany(mappedBy = "projectLabelId.project")
     @JsonIgnore

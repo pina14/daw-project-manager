@@ -14,19 +14,21 @@ insert into project_available_state values
 	('test_project', 'open'), 
 	('test_project', 'closed'), 
 	('test_project', 'archived'), 
+	('project_5', 'closed'),
 	('project_5', 'archived'),
 	('project_5', 'open');
 
 insert into project_state_transition values
 	('test_project', 'open', 'closed'), 
-	('test_project', 'closed', 'archived'), 
+	('test_project', 'closed', 'archived'),
+	('project_5', 'closed', 'archived'), 
 	('project_5', 'open', 'archived');
 	
-insert into issue(project_name, issue_name, description, issue_state) values
-	('test_project', 'issue 1', 'issue 1 description', 'open'),
-	('test_project', 'issue 2', 'issue 2 description', 'open'),
-	('test_project', 'issue 3', 'issue 3 description', 'closed'),
-	('project_5', 'issue 5', 'issue 1 description', 'archived');
+insert into issue(creator_name, project_name, issue_name, description, issue_state) values
+	('test', 'test_project', 'issue 1', 'issue 1 description', 'open'),
+	('test', 'test_project', 'issue 2', 'issue 2 description', 'open'),
+	('test', 'test_project', 'issue 3', 'issue 3 description', 'closed'),
+	('test', 'project_5', 'issue 5', 'issue 1 description', 'archived');
 	
 insert into label values 
 	('bug'), 

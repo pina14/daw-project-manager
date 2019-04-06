@@ -4,8 +4,8 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Forbi
 
 interface ProjectManagerController {
 
-    fun checkAuthorizationToResource(authUsername : String?, resourceUsername : String) {
-        if(authUsername == null || authUsername != resourceUsername)
+    fun checkAuthorizationToResource(vararg usernames: String?) {
+        if(usernames.contains(null) || usernames.distinct().size > 1)
             throw ForbiddenException("Authentication credentials are not valid to make changes to this resource!")
     }
 }

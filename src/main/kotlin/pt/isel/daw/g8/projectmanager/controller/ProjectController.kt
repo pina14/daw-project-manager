@@ -25,7 +25,7 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     }
 
     @GetMapping(produces = [SirenModel.mediaType])
-    fun getUserProjects(@PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel
+    fun getUserProjects(@RequestParam(ProjectPaths.USERNAME_VAR) username: String) : OutputModel
             = projectService.getUserProjects(username)
 
     @GetMapping(ProjectPaths.PROJECT_ID, produces = [SirenModel.mediaType])
@@ -35,23 +35,18 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     @PutMapping(ProjectPaths.PROJECT_ID, consumes = ["application/json"])
     @RequiresAuthentication
     fun updateProject(request : HttpServletRequest,
-                      @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
                       @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
                       @RequestBody project : UpdateProjectInput) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
-        checkAuthorizationToResource(authUsername, username)
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
-        return projectService.updateProject(projectName, project)
+        return projectService.updateProject(authUsername, projectName, project)
     }
 
     @DeleteMapping(ProjectPaths.PROJECT_ID)
     @RequiresAuthentication
     fun deleteProject(request : HttpServletRequest,
-                      @PathVariable(ProjectPaths.USERNAME_VAR) username: String,
                       @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
-        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
-        checkAuthorizationToResource(authUsername, username)
-
-        return projectService.deleteProject(authUsername as String, projectName)
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
+        return projectService.deleteProject(authUsername, projectName)
     }
 }

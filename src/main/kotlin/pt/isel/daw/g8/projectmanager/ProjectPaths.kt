@@ -18,10 +18,9 @@ object ProjectPaths {
     /****************************** USER PATHS ******************************/
     const val USERS = "/users"
     const val USER_ID = "/{$USERNAME_VAR}"
-    private const val FULL_USER_PATH = "$USERS$USER_ID"
 
     /****************************** PROJECT PATHS ******************************/
-    const val PROJECTS = "$FULL_USER_PATH/projects"
+    const val PROJECTS = "/projects"
     const val PROJECT_ID = "/{$PROJECT_NAME_VAR}"
     private const val FULL_PROJECT_PATH = "$PROJECTS$PROJECT_ID"
 
@@ -33,8 +32,12 @@ object ProjectPaths {
     const val STATES = "$FULL_PROJECT_PATH/states"
     const val STATE_ID = "/{$STATE_NAME_VAR}"
 
+    /****************************** STATE-TRANSITIONS PATHS ******************************/
+    const val STATE_TRANSITIONS = "$FULL_PROJECT_PATH/state-transitions"
+    const val STATE_TRANSITIONS_ID = "/{$STATE_NAME_VAR}"
+
     /****************************** ISSUE PATHS ******************************/
-    const val ISSUES = "$FULL_PROJECT_PATH/issues"
+    const val ISSUES = "/issues"
     const val ISSUE_ID = "/{$ISSUE_ID_VAR}"
     private const val FULL_ISSUE_PATH = "$ISSUES$ISSUE_ID"
 

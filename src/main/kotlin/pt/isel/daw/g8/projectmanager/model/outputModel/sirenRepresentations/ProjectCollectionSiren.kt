@@ -20,7 +20,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
                     _class = arrayOf("Project"),
                     rel = arrayOf("/rels/project"),
                     properties = ProjectOutput(project),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "/users/${entity.username}/projects/${project.name}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "/projects/${project.name}"))
             )
         }
     }
@@ -30,7 +30,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
                 name = "create-project",
                 title = "Create Project",
                 method = HttpMethod.POST.name,
-                href = "/users/${entity.username}/projects",
+                href = "/projects",
                 type = "application/json",
                 fields = CreateProjectInput.getSirenActionFields()
         )
@@ -40,7 +40,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        val selfLink = SirenModel.SirenLink(arrayOf("self"), "/users/${entity.username}/projects")
+        val selfLink = SirenModel.SirenLink(arrayOf("self"), "/projects")
         return arrayOf(selfLink)
     }
 }

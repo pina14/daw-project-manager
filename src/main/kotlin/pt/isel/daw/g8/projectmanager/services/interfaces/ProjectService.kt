@@ -9,6 +9,6 @@ interface ProjectService {
     fun createProject(project: CreateProjectInput): ResponseEntity<Unit>
     fun getUserProjects(username: String): OutputModel
     fun getProjectByName(projectName : String): OutputModel
-    fun updateProject(projectName : String, project: UpdateProjectInput): ResponseEntity<Unit>
+    fun updateProject(authUsername: String, projectName: String, project: UpdateProjectInput): ResponseEntity<Unit>
     fun deleteProject(authUsername : String, projectName: String): ResponseEntity<Unit>
 }

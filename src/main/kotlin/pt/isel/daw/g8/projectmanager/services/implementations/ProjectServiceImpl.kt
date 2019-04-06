@@ -38,18 +38,16 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
                 availableStates.add(state)
         }
 
-        mandatoryStates.forEach { state ->
+        availableStates.forEach { state ->
             val stateDb = State(state.stateName)
             if(!stateRepo.existsById(state.stateName))
                 stateRepo.save(stateDb)
         }
 
-        val userDb = userRepo.findById(project.username).get()
-        val defaultStateDb = stateRepo.findById(project.defaultStateName).get()
-        val projectDb = Project(project.name, project.description, userDb, defaultStateDb)
+        val projectDb = Project(project.name, project.description, project.username, project.defaultStateName)
         projectRepo.save(projectDb)
 
-        mandatoryStates.forEach {state ->
+        availableStates.forEach {state ->
             val projectStateId = ProjectAvailableStateId(projectDb, State(state.stateName))
             val projectStateDb = ProjectAvailableState(projectStateId)
             projectAvailableStateRepo.save(projectStateDb)
@@ -82,16 +80,19 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
         return ProjectOutput(project.get()).toSiren()
     }
 
-    override fun updateProject(projectName : String, project: UpdateProjectInput): ResponseEntity<Unit> {
-        if(!projectRepo.existsById(projectName))
+    override fun updateProject(authUsername: String, projectName: String, project: UpdateProjectInput): ResponseEntity<Unit> {
+        val oldProjectReq = projectRepo.findById(projectName)
+        if(!oldProjectReq.isPresent)
             throw NotFoundException("Doesn't exist a project with this name for current user.")
 
-        val oldProject = projectRepo.findById(projectName).get()
-        val defaultState = stateRepo.findById(project.defaultStateName)
-        if(!defaultState.isPresent)
+        val oldProject = oldProjectReq.get()
+        if(oldProject.username != authUsername)
+            throw ForbiddenException("Authentication credentials are not valid to make changes to this resource!")
+
+        if(!stateRepo.existsById(project.defaultStateName))
             throw BadRequestException("Default state must exist.")
 
-        val dbProject = Project(projectName, project.description, oldProject.user, defaultState.get())
+        val dbProject = Project(projectName, project.description, authUsername, project.defaultStateName)
         projectRepo.save(dbProject)
         return ResponseEntity(HttpStatus.OK)
     }

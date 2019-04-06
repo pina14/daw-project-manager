@@ -19,15 +19,17 @@ class CreateProjectInput(val name : String,
     }
 }
 
-class UpdateProjectInput(val description : String,
-                       val defaultStateName : String) : InputModel {
+class UpdateProjectInput(val name : String,
+                         val description : String,
+                         val defaultStateName : String) : InputModel {
 
     companion object {
         fun getSirenActionFields() : Array<SirenModel.SirenActionField>? {
+            val nameField = SirenModel.SirenActionField(name = "name", type = "text")
             val descriptionField = SirenModel.SirenActionField(name = "description", type = "text")
             val defaultStateNameField = SirenModel.SirenActionField(name = "defaultStateName", type = "text")
 
-            return arrayOf(descriptionField, defaultStateNameField)
+            return arrayOf(nameField, descriptionField, defaultStateNameField)
         }
     }
 }
