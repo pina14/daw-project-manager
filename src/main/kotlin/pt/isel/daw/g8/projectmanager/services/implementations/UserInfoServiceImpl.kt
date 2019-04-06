@@ -3,6 +3,7 @@ package pt.isel.daw.g8.projectmanager.services.implementations
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.databaseModel.UserInfo
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInfoInput
@@ -16,6 +17,8 @@ class UserInfoServiceImpl(private val userRepo : UserInfoRepo) : UserInfoService
     override fun createUser(user: CreateUserInfoInput): ResponseEntity<Unit> {
         if(userRepo.existsById(user.username))
             throw ConflictException("There's already one user with this username!")
+        if(user.username.contains(":"))
+            throw BadRequestException("username can't contain ':'.")
 
         val dbUser = UserInfo(user.username, user.password, user.email, user.fullName)
 
