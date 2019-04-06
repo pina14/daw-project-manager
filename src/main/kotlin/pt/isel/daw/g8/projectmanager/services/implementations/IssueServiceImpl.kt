@@ -30,7 +30,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
 
         val project = projectRepo.findById(projectName).get()
 
-        val issueDb = Issue(issue.creatorName, projectName, issue.issueName, issue.description, project.defaultIssueStateName)
+        val issueDb = Issue(issue.issueCreator, projectName, issue.issueName, issue.description, project.defaultIssueStateName)
         issueRepo.save(issueDb)
 
         return ResponseEntity(HttpStatus.CREATED)
@@ -61,7 +61,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
             throw NotFoundException("Doesn't exist a issue with this id = $issueId.")
 
         val oldIssue = oldIssueReq.get()
-        if(oldIssue.creatorName != authUsername)
+        if(oldIssue.issueCreator != authUsername)
             throw ForbiddenException("Authentication credentials are not valid to make changes to this resource!")
 
         val availableStateId = ProjectAvailableStateId(oldIssue.project, State(issue.state))
@@ -74,7 +74,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
         else if(oldIssue.closeDate != null && issue.state == "archived")
             closeDate = oldIssue.closeDate
 
-        val dbIssue = Issue(oldIssue.creatorName, oldIssue.projectName, issue.issueName, issue.description, issue.state, oldIssue.creationDate, closeDate)
+        val dbIssue = Issue(oldIssue.issueCreator, oldIssue.projectName, issue.issueName, issue.description, issue.state, oldIssue.creationDate, closeDate)
         dbIssue.id = oldIssue.id
         issueRepo.save(dbIssue)
         return ResponseEntity(HttpStatus.OK)
@@ -86,7 +86,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
             throw NotFoundException("Doesn't exist a issue with this id = $issueId.")
 
         val oldIssue = oldIssueReq.get()
-        if(oldIssue.creatorName != authUsername)
+        if(oldIssue.issueCreator != authUsername)
             throw ForbiddenException("Authentication credentials are not valid to make changes to this resource!")
 
         issueRepo.deleteById(issueId)

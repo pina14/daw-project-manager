@@ -4,9 +4,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import pt.isel.daw.g8.projectmanager.repository.*
+import pt.isel.daw.g8.projectmanager.services.implementations.CommentImpl
 import pt.isel.daw.g8.projectmanager.services.implementations.IssueServiceImpl
 import pt.isel.daw.g8.projectmanager.services.implementations.ProjectServiceImpl
 import pt.isel.daw.g8.projectmanager.services.implementations.UserInfoServiceImpl
+import pt.isel.daw.g8.projectmanager.services.interfaces.CommentService
 import pt.isel.daw.g8.projectmanager.services.interfaces.IssueService
 import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 import pt.isel.daw.g8.projectmanager.services.interfaces.UserInfoService
@@ -33,6 +35,9 @@ class ProjectManagerApplication {
 	@Bean
 	fun getIssueService(projectRepo: ProjectRepo, issueRepo : IssueRepo, projectAvailableStateRepo: ProjectAvailableStateRepo) : IssueService
 			= IssueServiceImpl(projectRepo, issueRepo, projectAvailableStateRepo)
+
+	@Bean
+	fun getCommentService(issueRepo : IssueRepo, commentRepo: CommentRepo) : CommentService = CommentImpl(issueRepo, commentRepo)
 }
 
 fun main(args: Array<String>) {

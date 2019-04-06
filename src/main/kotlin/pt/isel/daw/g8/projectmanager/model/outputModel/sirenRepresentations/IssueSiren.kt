@@ -12,21 +12,21 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
     override fun getProperties(): EntityRepresentation? = entity
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
-        val labelsEntity = SirenModel.SirenEmbeddedLink(
+        val commentsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Comments", "Collection"),
                 arrayOf("/rels/issue-comments"),
                 "/issues/${entity.id}/comments")
 
-        val issuesEntity = SirenModel.SirenEmbeddedLink(
+        val labelsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Labels", "Collection"),
                 arrayOf("/rels/issue-labels"),
                 "/issues/${entity.id}/labels")
 
-        return arrayOf(labelsEntity, issuesEntity)
+        return arrayOf(commentsEntity, labelsEntity)
     }
 
     override fun getActions(): Array<SirenModel.SirenAction>? {
-        val updateProjectAction = SirenModel.SirenAction(
+        val updateIssueAction = SirenModel.SirenAction(
                 name = "update-issue",
                 title = "Update Issue",
                 method = HttpMethod.PUT.name,
@@ -35,14 +35,14 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
                 fields = UpdateIssueInput.getSirenActionFields()
         )
 
-        val deleteProjectAction = SirenModel.SirenAction(
+        val deleteIssueAction = SirenModel.SirenAction(
                 name = "delete-issue",
                 title = "Delete Issue",
                 method = HttpMethod.DELETE.name,
                 href = "/issues/${entity.id}"
         )
 
-        return arrayOf(updateProjectAction, deleteProjectAction)
+        return arrayOf(updateIssueAction, deleteIssueAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {

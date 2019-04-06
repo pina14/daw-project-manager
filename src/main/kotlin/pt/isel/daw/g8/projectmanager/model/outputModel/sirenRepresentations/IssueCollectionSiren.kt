@@ -26,7 +26,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
     }
 
     override fun getActions(): Array<SirenModel.SirenAction>? {
-        val createProjectAction = SirenModel.SirenAction(
+        val createIssueAction = SirenModel.SirenAction(
                 name = "create-issue",
                 title = "Create Issue",
                 method = HttpMethod.POST.name,
@@ -35,7 +35,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
                 fields = CreateIssueInput.getSirenActionFields()
         )
 
-        return arrayOf(createProjectAction)
+        return arrayOf(createIssueAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {

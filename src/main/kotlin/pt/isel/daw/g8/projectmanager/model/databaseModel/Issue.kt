@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity(name = "issue")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class Issue(@Column(name = "creator_name") val creatorName : String,
+data class Issue(@Column(name = "issue_creator") val issueCreator : String,
                  @Column(name = "project_name") val projectName : String,
                  @Column(name = "issue_name") val name : String,
                  @Column(name = "description") val description : String,
@@ -17,7 +17,7 @@ data class Issue(@Column(name = "creator_name") val creatorName : String,
 
 
     @ManyToOne
-    @JoinColumn(name = "creator_name", insertable = false, updatable = false)
+    @JoinColumn(name = "issue_creator", insertable = false, updatable = false)
     lateinit var creator : UserInfo
 
     @ManyToOne

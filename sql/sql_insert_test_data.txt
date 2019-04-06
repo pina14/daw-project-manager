@@ -24,7 +24,7 @@ insert into project_state_transition values
 	('project_5', 'closed', 'archived'), 
 	('project_5', 'open', 'archived');
 	
-insert into issue(creator_name, project_name, issue_name, description, issue_state) values
+insert into issue(issue_creator, project_name, issue_name, description, issue_state) values
 	('test', 'test_project', 'issue 1', 'issue 1 description', 'open'),
 	('test', 'test_project', 'issue 2', 'issue 2 description', 'open'),
 	('test', 'test_project', 'issue 3', 'issue 3 description', 'closed'),
@@ -46,8 +46,8 @@ insert into issue_label values
 	('project_5', 4, 'improve-ui'),
 	('test_project', 2, 'bug');
 		
-insert into issue_comment(issue_id, content) values
-	(1, 'comment 1 for issue 1'), 
-	(1, 'comment 2 for issue 1'), 
-	(1, 'comment 3 for issue 1'), 
-	(2, 'comment 1 for issue 2');
+insert into issue_comment(comment_creator, issue_id, content) values
+	('test', 1, 'comment 1 for issue 1'), 
+	('test', 1, 'comment 2 for issue 1'), 
+	('test', 1, 'comment 3 for issue 1'), 
+	('test', 2, 'comment 1 for issue 2');

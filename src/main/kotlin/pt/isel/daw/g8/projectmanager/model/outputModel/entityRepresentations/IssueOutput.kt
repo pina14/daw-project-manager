@@ -7,7 +7,7 @@ import java.util.*
 
 class IssueOutput(issue : Issue) : EntityRepresentation {
     var id : Int? = null
-    var creatorName : String? = null
+    var issueCreator : String? = null
     var projectName : String? = null
     var issueName : String? = null
     var description : String? = null
@@ -17,7 +17,7 @@ class IssueOutput(issue : Issue) : EntityRepresentation {
 
     init {
         id = issue.id
-        creatorName = issue.creatorName
+        issueCreator = issue.issueCreator
         projectName = issue.projectName
         issueName = issue.name
         description = issue.description

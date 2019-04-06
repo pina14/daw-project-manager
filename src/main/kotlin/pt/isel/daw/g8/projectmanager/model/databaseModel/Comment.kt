@@ -4,8 +4,13 @@ import java.util.*
 import javax.persistence.*
 
 @Entity(name = "issue_comment")
-data class Comment(@Column(name = "issue_id") val issueId : Int,
-        @Column(name = "content") val content : String) : DbModel {
+data class Comment(@Column(name = "comment_creator") val commentCreator : String,
+                   @Column(name = "issue_id") val issueId : Int,
+                   @Column(name = "content") val content : String) : DbModel {
+
+    @ManyToOne
+    @JoinColumn(name = "comment_creator", insertable = false, updatable = false)
+    lateinit var creator : UserInfo
 
     @ManyToOne
     @JoinColumn(name = "issue_id", insertable = false, updatable = false)

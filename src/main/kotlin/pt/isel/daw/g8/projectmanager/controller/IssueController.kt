@@ -7,6 +7,7 @@ import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateIssueInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateIssueInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.services.interfaces.IssueService
 import javax.servlet.http.HttpServletRequest
 
@@ -14,21 +15,21 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping(ProjectPaths.ISSUES)
 class IssueController(private val issueService: IssueService) : ProjectManagerController {
 
-    @PostMapping
+    @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
     fun createIssue(request: HttpServletRequest, @RequestBody issue : CreateIssueInput) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
-        checkAuthorizationToResource(authUsername, issue.creatorName)
+        checkAuthorizationToResource(authUsername, issue.issueCreator)
         return issueService.createIssue(issue)
     }
 
-    @GetMapping
+    @GetMapping(produces = [SirenModel.mediaType])
     fun getProjectIssues(@RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel = issueService.getProjectIssues(projectName)
 
-    @GetMapping(ProjectPaths.ISSUE_ID)
+    @GetMapping(ProjectPaths.ISSUE_ID, produces = [SirenModel.mediaType])
     fun getIssueById(@PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel = issueService.getIssueById(issueId)
 
-    @PutMapping(ProjectPaths.ISSUE_ID)
+    @PutMapping(ProjectPaths.ISSUE_ID, consumes = ["application/json"])
     @RequiresAuthentication
     fun updateIssue(request: HttpServletRequest,
                     @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
