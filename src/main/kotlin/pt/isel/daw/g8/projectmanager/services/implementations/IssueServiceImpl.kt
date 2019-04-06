@@ -2,6 +2,7 @@ package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.Issue
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableStateId
 import pt.isel.daw.g8.projectmanager.model.databaseModel.State
@@ -69,9 +70,9 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
             throw BadRequestException("state must be available for this project.")
 
         var closeDate : Date? = null
-        if(issue.state == "closed" || oldIssue.closeDate == null && issue.state == "archived")
+        if(issue.state == Rules.CLOSED || oldIssue.closeDate == null && issue.state == Rules.ARCHIVED)
             closeDate = Date()
-        else if(oldIssue.closeDate != null && issue.state == "archived")
+        else if(oldIssue.closeDate != null && issue.state == Rules.ARCHIVED)
             closeDate = oldIssue.closeDate
 
         val dbIssue = Issue(oldIssue.issueCreator, oldIssue.projectName, issue.issueName, issue.description, issue.state, oldIssue.creationDate, closeDate)

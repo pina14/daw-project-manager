@@ -37,6 +37,9 @@ class AuthenticationInterceptor : HandlerInterceptorAdapter() {
                     throw BadRequestException("Authentication has to encoded in Base64 format.")
                 }
 
+                if(authToDecode.isEmpty() || auth.size != 2)
+                    throw BadRequestException("Authentication header has to be in format 'Basic <username>:<password>'.")
+
                 val username = auth[0]
                 val password = auth[1]
 

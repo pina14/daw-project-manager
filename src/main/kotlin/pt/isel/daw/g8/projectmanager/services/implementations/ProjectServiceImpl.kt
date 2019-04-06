@@ -3,6 +3,7 @@ package pt.isel.daw.g8.projectmanager.services.implementations
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
+import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.*
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
@@ -10,7 +11,6 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Forbi
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.StateInput
-import pt.isel.daw.g8.projectmanager.model.inputModel.StateTransitionInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectCollectionOutput
@@ -24,16 +24,13 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
                               private val projectAvailableStateRepo : ProjectAvailableStateRepo,
                               private val projectStateTransitionRepo : ProjectStateTransitionRepo) : ProjectService {
 
-    private val mandatoryStates = listOf(StateInput("closed"), StateInput("archived"))
-    private val mandatoryTransitions = listOf(StateTransitionInput("closed", "archived"))
-
     @Transactional
     override fun createProject(project: CreateProjectInput): ResponseEntity<Unit> {
         if(projectRepo.existsById(project.name))
             throw ConflictException("There's already a project with this name.")
 
         val availableStates = mutableListOf(StateInput(project.defaultStateName))
-        mandatoryStates.forEach { state ->
+        Rules.mandatoryStates.forEach { state ->
             if(!availableStates.contains(state))
                 availableStates.add(state)
         }
@@ -53,7 +50,7 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
             projectAvailableStateRepo.save(projectStateDb)
         }
 
-        mandatoryTransitions.forEach { transition ->
+        Rules.mandatoryTransitions.forEach { transition ->
             val projectStateTransitionId = ProjectStateTransitionId(projectDb, State(transition.fromState), State(transition.toState))
             val projectStateTransitionDb = ProjectStateTransition(projectStateTransitionId)
             projectStateTransitionRepo.save(projectStateTransitionDb)

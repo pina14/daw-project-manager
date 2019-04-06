@@ -4,14 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import pt.isel.daw.g8.projectmanager.repository.*
-import pt.isel.daw.g8.projectmanager.services.implementations.CommentImpl
-import pt.isel.daw.g8.projectmanager.services.implementations.IssueServiceImpl
-import pt.isel.daw.g8.projectmanager.services.implementations.ProjectServiceImpl
-import pt.isel.daw.g8.projectmanager.services.implementations.UserInfoServiceImpl
-import pt.isel.daw.g8.projectmanager.services.interfaces.CommentService
-import pt.isel.daw.g8.projectmanager.services.interfaces.IssueService
-import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
-import pt.isel.daw.g8.projectmanager.services.interfaces.UserInfoService
+import pt.isel.daw.g8.projectmanager.services.implementations.*
+import pt.isel.daw.g8.projectmanager.services.interfaces.*
 
 @SpringBootApplication
 class ProjectManagerApplication {
@@ -37,7 +31,11 @@ class ProjectManagerApplication {
 			= IssueServiceImpl(projectRepo, issueRepo, projectAvailableStateRepo)
 
 	@Bean
-	fun getCommentService(issueRepo : IssueRepo, commentRepo: CommentRepo) : CommentService = CommentImpl(issueRepo, commentRepo)
+	fun getCommentService(issueRepo : IssueRepo, commentRepo: CommentRepo) : CommentService = CommentServiceImpl(issueRepo, commentRepo)
+
+	@Bean
+	fun getIssueLabelService(projectRepo : ProjectRepo, issueRepo : IssueRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo, issueLabelRepo: IssueLabelRepo)
+			: IssueLabelService = IssueLabelServiceImpl(projectRepo, issueRepo, projectAvailableLabelRepo, issueLabelRepo)
 }
 
 fun main(args: Array<String>) {

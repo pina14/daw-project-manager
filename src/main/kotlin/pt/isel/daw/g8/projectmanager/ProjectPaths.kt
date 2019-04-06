@@ -46,6 +46,6 @@ object ProjectPaths {
     const val COMMENT_ID = "/{$COMMENT_ID_VAR}"
 
     /****************************** ISSUE LABEL PATHS ******************************/
-    const val ISSUE_LABELS = "$FULL_ISSUE_PATH/labels"
+    const val ISSUE_LABELS = "/issue-labels"
     const val ISSUE_LABEL_ID = "/{$LABEL_NAME_VAR}"
 }
