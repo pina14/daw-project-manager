@@ -26,23 +26,23 @@ class IssueController(private val issueService: IssueService) : ProjectManagerCo
     @GetMapping(produces = [SirenModel.mediaType])
     fun getProjectIssues(@RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel = issueService.getProjectIssues(projectName)
 
-    @GetMapping(ProjectPaths.ISSUE_ID, produces = [SirenModel.mediaType])
-    fun getIssueById(@PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel = issueService.getIssueById(issueId)
+    @GetMapping(produces = [SirenModel.mediaType])
+    fun getIssueById(@RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel = issueService.getIssueById(issueId)
 
-    @PutMapping(ProjectPaths.ISSUE_ID, consumes = ["application/json"])
+    @PutMapping(consumes = ["application/json"])
     @RequiresAuthentication
     fun updateIssue(request: HttpServletRequest,
-                    @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
+                    @RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
                     @RequestBody issue : UpdateIssueInput) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return issueService.updateIssue(authUsername, issueId, issue)
     }
 
-    @DeleteMapping(ProjectPaths.ISSUE_ID)
+    @DeleteMapping
     @RequiresAuthentication
     fun deleteIssue(request: HttpServletRequest,
-                    @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : ResponseEntity<Unit> {
+                    @RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return issueService.deleteIssue(authUsername, issueId)

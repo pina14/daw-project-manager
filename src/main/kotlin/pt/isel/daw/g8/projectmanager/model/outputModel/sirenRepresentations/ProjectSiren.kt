@@ -1,6 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
@@ -15,22 +16,22 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
         val labelsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Labels", "Collection"),
                 arrayOf("/rels/project-available-labels"),
-                "/projects/${entity.name}/labels")
+                "${ProjectPaths.LABELS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val statesEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("States", "Collection"),
                 arrayOf("/rels/project-available-states"),
-                "/projects/${entity.name}/states")
+                "${ProjectPaths.STATES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val transitionsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Transitions", "Collection"),
                 arrayOf("/rels/project-state-transitions"),
-                "/projects/${entity.name}/state-transitions")
+                "${ProjectPaths.STATE_TRANSITIONS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val issuesEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Issues", "Collection"),
                 arrayOf("/rels/project-issues"),
-                "/issues")
+                "${ProjectPaths.ISSUES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         return arrayOf(
                 labelsEntity,
@@ -44,7 +45,7 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
                 name = "update-project",
                 title = "Update Project",
                 method = HttpMethod.PUT.name,
-                href = "/projects/${entity.name}",
+                href = "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}",
                 type = "application/json",
                 fields = UpdateProjectInput.getSirenActionFields()
         )
@@ -53,13 +54,13 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
                 name = "delete-project",
                 title = "Delete Project",
                 method = HttpMethod.DELETE.name,
-                href = "/projects/${entity.name}"
+                href = "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}"
         )
 
         return arrayOf(updateProjectAction, deleteProjectAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "/projects/${entity.name}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}"))
     }
 }

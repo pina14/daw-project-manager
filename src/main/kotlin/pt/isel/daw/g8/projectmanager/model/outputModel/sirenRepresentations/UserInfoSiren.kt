@@ -1,6 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInfoInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
@@ -15,7 +16,8 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
         val projectsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Projects", "Collection"),
                 arrayOf("/rels/user-projects"),
-                "/users/${entity.username}/projects")
+                ProjectPaths.PROJECTS
+        )
 
         return arrayOf(projectsEntity)
     }
@@ -25,7 +27,7 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
                 name = "update-user",
                 title = "Update User",
                 method = HttpMethod.PUT.name,
-                href = "/users/${entity.username}",
+                href = "${ProjectPaths.USERS}?${ProjectPaths.USERNAME_VAR}=${entity.username}",
                 type = "application/json",
                 fields = UpdateUserInfoInput.getSirenActionFields()
         )
@@ -34,13 +36,13 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
                 name = "delete-user",
                 title = "Delete User",
                 method = HttpMethod.DELETE.name,
-                href = "/users/${entity.username}"
+                href = "${ProjectPaths.USERS}?${ProjectPaths.USERNAME_VAR}=${entity.username}"
         )
 
         return arrayOf(updateUserAction, deleteUserAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "/users/${entity.username}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.USERS}?${ProjectPaths.USERNAME_VAR}=${entity.username}"))
     }
 }

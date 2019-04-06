@@ -1,5 +1,6 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.CommentOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
@@ -14,6 +15,6 @@ class CommentSiren(override val entity : CommentOutput) : SirenRepresentation {
     override fun getActions(): Array<SirenModel.SirenAction>? = null
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "/issues/${entity.issueId}/comments/${entity.id}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.issueId}&${ProjectPaths.COMMENT_ID_VAR}=${entity.id}"))
     }
 }

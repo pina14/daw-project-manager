@@ -1,6 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.CommentInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.CommentCollectionOutput
@@ -20,7 +21,7 @@ class CommentCollectionSiren(override val entity : CommentCollectionOutput) : Si
                     _class = arrayOf("Comment"),
                     rel = arrayOf("/rels/issue-comment"),
                     properties = CommentOutput(comment),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "/issues/${comment.issueId}/comments/${comment.id}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${comment.issueId}&${ProjectPaths.COMMENT_ID_VAR}=${comment.id}"))
             )
         }
     }
@@ -30,7 +31,7 @@ class CommentCollectionSiren(override val entity : CommentCollectionOutput) : Si
                 name = "create-issue-comment",
                 title = "Create Comment",
                 method = HttpMethod.POST.name,
-                href = "/issues/${entity.issueId}/comments",
+                href = ProjectPaths.ISSUE_COMMENTS,
                 type = "application/json",
                 fields = CommentInput.getSirenActionFields()
         )
@@ -39,7 +40,7 @@ class CommentCollectionSiren(override val entity : CommentCollectionOutput) : Si
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        val selfLink = SirenModel.SirenLink(arrayOf("self"), "/issues/${entity.issueId}/comments")
+        val selfLink = SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.issueId}")
         return arrayOf(selfLink)
     }
 }

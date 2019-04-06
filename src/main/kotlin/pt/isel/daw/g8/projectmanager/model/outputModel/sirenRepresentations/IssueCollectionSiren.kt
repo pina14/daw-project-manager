@@ -1,6 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateIssueInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
@@ -20,7 +21,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
                     _class = arrayOf("Issue"),
                     rel = arrayOf("/rels/issue"),
                     properties = IssueOutput(issue),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "/issues/${issue.id}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${issue.id}"))
             )
         }
     }
@@ -30,7 +31,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
                 name = "create-issue",
                 title = "Create Issue",
                 method = HttpMethod.POST.name,
-                href = "/issues",
+                href = ProjectPaths.ISSUES,
                 type = "application/json",
                 fields = CreateIssueInput.getSirenActionFields()
         )
@@ -39,7 +40,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        val selfLink = SirenModel.SirenLink(arrayOf("self"), "/issues?projectName=${entity.projectName}")
+        val selfLink = SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.projectName}")
         return arrayOf(selfLink)
     }
 }

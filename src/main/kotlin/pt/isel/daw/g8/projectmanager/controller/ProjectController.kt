@@ -28,24 +28,24 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     fun getUserProjects(@RequestParam(ProjectPaths.USERNAME_VAR) username: String) : OutputModel
             = projectService.getUserProjects(username)
 
-    @GetMapping(ProjectPaths.PROJECT_ID, produces = [SirenModel.mediaType])
-    fun getProjectByName(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel
+    @GetMapping(produces = [SirenModel.mediaType])
+    fun getProjectByName(@RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel
             = projectService.getProjectByName(projectName)
 
-    @PutMapping(ProjectPaths.PROJECT_ID, consumes = ["application/json"])
+    @PutMapping(consumes = ["application/json"])
     @RequiresAuthentication
     fun updateProject(request : HttpServletRequest,
-                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
+                      @RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
                       @RequestBody project : UpdateProjectInput) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return projectService.updateProject(authUsername, projectName, project)
     }
 
-    @DeleteMapping(ProjectPaths.PROJECT_ID)
+    @DeleteMapping
     @RequiresAuthentication
     fun deleteProject(request : HttpServletRequest,
-                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
+                      @RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectService.deleteProject(authUsername, projectName)
     }

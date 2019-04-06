@@ -27,7 +27,7 @@ class ProjectAvailableStateController {
         throw NotImplementedException()
     }
 
-    @DeleteMapping(ProjectPaths.STATE_ID)
+    @DeleteMapping
     @RequiresAuthentication
     fun deleteProjectAvailableState(
             @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,

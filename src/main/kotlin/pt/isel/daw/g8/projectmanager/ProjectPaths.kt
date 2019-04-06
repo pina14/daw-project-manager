@@ -17,35 +17,25 @@ object ProjectPaths {
      */
     /****************************** USER PATHS ******************************/
     const val USERS = "/users"
-    const val USER_ID = "/{$USERNAME_VAR}"
 
     /****************************** PROJECT PATHS ******************************/
     const val PROJECTS = "/projects"
-    const val PROJECT_ID = "/{$PROJECT_NAME_VAR}"
-    private const val FULL_PROJECT_PATH = "$PROJECTS$PROJECT_ID"
 
     /****************************** LABEL PATHS ******************************/
-    const val LABELS = "$FULL_PROJECT_PATH/labels"
-    const val LABEL_ID = "/{$LABEL_NAME_VAR}"
+    const val LABELS = "$PROJECTS/available-labels"
 
     /****************************** STATE PATHS ******************************/
-    const val STATES = "$FULL_PROJECT_PATH/states"
-    const val STATE_ID = "/{$STATE_NAME_VAR}"
+    const val STATES = "$PROJECTS/available-states"
 
     /****************************** STATE-TRANSITIONS PATHS ******************************/
-    const val STATE_TRANSITIONS = "$FULL_PROJECT_PATH/state-transitions"
-    const val STATE_TRANSITIONS_ID = "/{$STATE_NAME_VAR}"
+    const val STATE_TRANSITIONS = "$PROJECTS/state-transitions"
 
     /****************************** ISSUE PATHS ******************************/
     const val ISSUES = "/issues"
-    const val ISSUE_ID = "/{$ISSUE_ID_VAR}"
-    private const val FULL_ISSUE_PATH = "$ISSUES$ISSUE_ID"
 
     /****************************** ISSUE COMMENT PATHS ******************************/
-    const val COMMENTS = "$FULL_ISSUE_PATH/comments"
-    const val COMMENT_ID = "/{$COMMENT_ID_VAR}"
+    const val ISSUE_COMMENTS = "$ISSUES/comments"
 
     /****************************** ISSUE LABEL PATHS ******************************/
-    const val ISSUE_LABELS = "/issue-labels"
-    const val ISSUE_LABEL_ID = "/{$LABEL_NAME_VAR}"
+    const val ISSUE_LABELS = "$ISSUES/labels"
 }

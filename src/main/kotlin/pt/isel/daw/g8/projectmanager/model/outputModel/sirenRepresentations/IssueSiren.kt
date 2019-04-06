@@ -1,6 +1,7 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
+import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateIssueInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
@@ -13,14 +14,14 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val commentsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Comments", "Collection"),
+                arrayOf("Issue Comments", "Collection"),
                 arrayOf("/rels/issue-comments"),
-                "/issues/${entity.id}/comments")
+                "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}")
 
         val labelsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Labels", "Collection"),
+                arrayOf("Issue Labels", "Collection"),
                 arrayOf("/rels/issue-labels"),
-                "/issues/${entity.id}/labels")
+                "${ProjectPaths.ISSUE_LABELS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}")
 
         return arrayOf(commentsEntity, labelsEntity)
     }
@@ -30,7 +31,7 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
                 name = "update-issue",
                 title = "Update Issue",
                 method = HttpMethod.PUT.name,
-                href = "/issues/${entity.id}",
+                href = "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}",
                 type = "application/json",
                 fields = UpdateIssueInput.getSirenActionFields()
         )
@@ -39,13 +40,13 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
                 name = "delete-issue",
                 title = "Delete Issue",
                 method = HttpMethod.DELETE.name,
-                href = "/issues/${entity.id}"
+                href = "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}"
         )
 
         return arrayOf(updateIssueAction, deleteIssueAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "/issues/${entity.id}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}"))
     }
 }
