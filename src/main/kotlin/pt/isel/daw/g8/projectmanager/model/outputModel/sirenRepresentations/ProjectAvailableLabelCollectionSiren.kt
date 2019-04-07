@@ -11,7 +11,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.Pro
 class ProjectAvailableLabelCollectionSiren(override val entity : ProjectAvailableLabelCollectionOutput) : SirenRepresentation {
     override fun getClasses(): Array<String>? = arrayOf("Collection", "Project Available Label")
 
-    override fun getProperties(): EntityRepresentation? = entity
+    override fun getProperties(): EntityRepresentation? = null
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val availableLabels = entity.availableLabels

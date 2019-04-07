@@ -11,7 +11,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.Iss
 class IssueCommentCollectionSiren(override val entity : IssueCommentCollectionOutput) : SirenRepresentation {
     override fun getClasses(): Array<String>? = arrayOf("Collection", "Issue Comment")
 
-    override fun getProperties(): EntityRepresentation? = entity
+    override fun getProperties(): EntityRepresentation? = null
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val comments = entity.comments
