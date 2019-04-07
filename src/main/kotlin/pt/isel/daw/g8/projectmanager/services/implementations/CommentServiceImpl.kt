@@ -39,7 +39,7 @@ class CommentServiceImpl(private val issueRepo: IssueRepo,
             throw NotFoundException("Issue doesn't exist.")
 
         val issue = issueDb.get()
-        val comments = issue.comments
+        val comments = issue.comments.sortedByDescending { it.creationDate }
         return CommentCollectionOutput(issueId, comments).toSiren()
     }
 
