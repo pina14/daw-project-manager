@@ -9,7 +9,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFo
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserInfoOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserOutput
 import pt.isel.daw.g8.projectmanager.repository.UserRepo
 import pt.isel.daw.g8.projectmanager.services.interfaces.UserService
 
@@ -31,7 +31,7 @@ class UserServiceImpl(private val userRepo : UserRepo) : UserService {
         if(!user.isPresent)
             throw NotFoundException("User with username '$username' doesn't exist.")
 
-        return UserInfoOutput(user.get()).toSiren()
+        return UserOutput(user.get()).toSiren()
     }
 
     override fun updateUser(username : String, user: UpdateUserInput): ResponseEntity<Unit> {

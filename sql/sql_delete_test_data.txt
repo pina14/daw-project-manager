@@ -1,0 +1,10 @@
+delete from project_state_transition;
+delete from issue_comment;
+delete from issue_label;
+delete from project_available_label;
+delete from issue;
+delete from project_available_state;
+delete from project;
+delete from label;
+delete from state;
+delete from user_info;

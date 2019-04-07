@@ -5,9 +5,9 @@ import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserInfoOutput
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserOutput
 
-class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation {
+class UserSiren(override val entity : UserOutput) : SirenRepresentation {
     override fun getClasses(): Array<String>? = arrayOf("User")
 
     override fun getProperties(): EntityRepresentation? = entity
@@ -16,7 +16,7 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
         val projectsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Collection", "Project"),
                 arrayOf("/rels/user-projects"),
-                ProjectPaths.PROJECTS
+                "${ProjectPaths.PROJECTS}?${ProjectPaths.USERNAME_VAR}=${entity.username}"
         )
 
         return arrayOf(projectsEntity)

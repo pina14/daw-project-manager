@@ -22,20 +22,20 @@ create table project(
 
 create table project_available_state(
 	project_name text references project on delete cascade,
-	state_name text references state,
+	state_name text not null default 'open' references state on delete set default,
 	primary key(project_name, state_name)
 );
 
 create table project_state_transition(
 	project_name text references project on delete cascade,
-	from_state text references state,
-	to_state text references state,
+	from_state text references state on delete cascade,
+	to_state text references state on delete cascade,
 	primary key(project_name, from_state, to_state)
 );
 
 create table issue(
 	issue_id serial primary key,
-	issue_creator text not null references user_info on delete cascade,
+	issue_creator text references user_info on delete set null,
 	project_name text not null references project on delete cascade,
 	issue_name text not null,
 	description text not null,
@@ -47,7 +47,7 @@ create table issue(
 
 create table issue_comment(
 	comment_id serial primary key,
-	comment_creator text not null references user_info,
+	comment_creator text references user_info on delete set null,
 	issue_id integer not null references issue on delete cascade,
 	content text not null,
 	creation_date timestamptz default now()
@@ -55,14 +55,14 @@ create table issue_comment(
 
 create table project_available_label(
 	project_name text references project on delete cascade,
-	label_name text references label,
+	label_name text references label on delete cascade,
 	primary key(project_name, label_name)
 );
 
 create table issue_label(
-	project_name text references project,
+	project_name text references project on delete cascade,
 	issue_id integer not null references issue on delete cascade,
-	label_name text references label,
+	label_name text references label on delete cascade,
 	foreign key (project_name, label_name) references project_available_label,
 	primary key(project_name, issue_id, label_name)
 );
