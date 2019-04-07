@@ -17,31 +17,31 @@ object ProjectPaths {
     /**
      * PATHS
      */
-    /****************************** USER PATHS ******************************/
+    /****************************** USERS PATHS ******************************/
     const val USERS = "/users"
     const val USER_ID = "/{$USERNAME_VAR}"
 
-    /****************************** PROJECT PATHS ******************************/
+    /****************************** PROJECTS PATHS ******************************/
     const val PROJECTS = "/projects"
     const val PROJECT_ID = "/{$PROJECT_NAME_VAR}"
 
-    /****************************** LABEL PATHS ******************************/
+    /****************************** PROJECT AVAILABLE LABELS PATHS ******************************/
     const val PROJECT_LABELS = "$PROJECTS/available-labels"
 
-    /****************************** STATE PATHS ******************************/
+    /****************************** PROJECT AVAILABLE STATES PATHS ******************************/
     const val PROJECT_STATES = "$PROJECTS/available-states"
 
-    /****************************** STATE-TRANSITIONS PATHS ******************************/
+    /****************************** PROJECT STATE TRANSITIONS PATHS ******************************/
     const val PROJECT_STATE_TRANSITIONS = "$PROJECTS/state-transitions"
 
-    /****************************** ISSUE PATHS ******************************/
+    /****************************** ISSUES PATHS ******************************/
     const val ISSUES = "/issues"
     const val ISSUE_ID = "/{$ISSUE_ID_VAR}"
 
-    /****************************** ISSUE COMMENT PATHS ******************************/
+    /****************************** ISSUE COMMENTS PATHS ******************************/
     const val ISSUE_COMMENTS = "$ISSUES/comments"
     const val ISSUE_COMMENT_ID = "/{$COMMENT_ID_VAR}"
 
-    /****************************** ISSUE LABEL PATHS ******************************/
+    /****************************** ISSUE LABELS PATHS ******************************/
     const val ISSUE_LABELS = "$ISSUES/labels"
 }

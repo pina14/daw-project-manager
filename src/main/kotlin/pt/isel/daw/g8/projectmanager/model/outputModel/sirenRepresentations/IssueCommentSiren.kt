@@ -2,11 +2,11 @@ package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.CommentOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
+import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueCommentOutput
 
-class CommentSiren(override val entity : CommentOutput) : SirenRepresentation {
-    override fun getClasses(): Array<String>? = arrayOf("Comment")
+class IssueCommentSiren(override val entity : IssueCommentOutput) : SirenRepresentation {
+    override fun getClasses(): Array<String>? = arrayOf("Issue Comment")
 
     override fun getProperties(): EntityRepresentation? = entity
 

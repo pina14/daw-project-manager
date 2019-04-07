@@ -2,7 +2,7 @@ package pt.isel.daw.g8.projectmanager.model.inputModel
 
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 
-class CommentInput(val issueId : Int, val commentCreator : String, val content : String) : InputModel {
+class IssueCommentInput(val issueId : Int, val commentCreator : String, val content : String) : InputModel {
 
     companion object {
         fun getSirenActionFields() : Array<SirenModel.SirenActionField>? {

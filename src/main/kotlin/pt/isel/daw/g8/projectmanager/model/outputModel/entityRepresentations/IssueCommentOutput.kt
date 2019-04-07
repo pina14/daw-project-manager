@@ -1,11 +1,11 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations
 
-import pt.isel.daw.g8.projectmanager.model.databaseModel.Comment
+import pt.isel.daw.g8.projectmanager.model.databaseModel.IssueComment
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
-import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.CommentSiren
+import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.IssueCommentSiren
 import java.util.*
 
-class CommentOutput(comment : Comment) : EntityRepresentation {
+class IssueCommentOutput(comment : IssueComment) : EntityRepresentation {
 
     var id : Int? = null
     var commentCreator : String? = null
@@ -21,6 +21,6 @@ class CommentOutput(comment : Comment) : EntityRepresentation {
         creationDate = comment.creationDate
     }
 
-    override fun toSiren(): SirenModel = SirenModel(CommentSiren(this))
+    override fun toSiren(): SirenModel = SirenModel(IssueCommentSiren(this))
 }
 

@@ -31,7 +31,7 @@ class ProjectManagerApplication {
 			= IssueServiceImpl(projectRepo, issueRepo, projectAvailableStateRepo)
 
 	@Bean
-	fun getCommentService(issueRepo : IssueRepo, commentRepo: CommentRepo) : CommentService = CommentServiceImpl(issueRepo, commentRepo)
+	fun getCommentService(issueRepo : IssueRepo, commentRepo: IssueCommentRepo) : IssueCommentService = IssueCommentServiceImpl(issueRepo, commentRepo)
 
 	@Bean
 	fun getIssueLabelService(issueRepo : IssueRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo, issueLabelRepo: IssueLabelRepo)

@@ -39,5 +39,5 @@ data class Issue(@Column(name = "issue_creator") val issueCreator : String,
 
     @OneToMany(mappedBy = "issue")
     @JsonIgnore
-    lateinit var comments : List<Comment>
+    lateinit var comments : List<IssueComment>
 }
