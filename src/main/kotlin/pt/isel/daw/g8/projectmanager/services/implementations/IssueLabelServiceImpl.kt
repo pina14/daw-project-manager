@@ -9,23 +9,22 @@ import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableLabelId
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
+import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.IssueLabelInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueLabelCollectionOutput
 import pt.isel.daw.g8.projectmanager.repository.IssueLabelRepo
 import pt.isel.daw.g8.projectmanager.repository.IssueRepo
 import pt.isel.daw.g8.projectmanager.repository.ProjectAvailableLabelRepo
-import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
 import pt.isel.daw.g8.projectmanager.services.interfaces.IssueLabelService
 
-class IssueLabelServiceImpl(val projectRepo: ProjectRepo,
-                            val issueRepo: IssueRepo,
-                            val projectAvailableLabelRepo: ProjectAvailableLabelRepo,
-                            val issueLabelRepo: IssueLabelRepo) : IssueLabelService {
+class IssueLabelServiceImpl(private val issueRepo: IssueRepo,
+                            private val projectAvailableLabelRepo: ProjectAvailableLabelRepo,
+                            private val issueLabelRepo: IssueLabelRepo) : IssueLabelService {
 
     override fun addIssueLabel(authUsername: String, issueLabel: IssueLabelInput): ResponseEntity<Unit> {
         if(!issueRepo.existsById(issueLabel.issueId))
-            throw BadRequestException("There isn't a issue with id = '${issueLabel.issueId}'.")
+            throw NotFoundException("There isn't a issue with id = '${issueLabel.issueId}'.")
 
         val issueDb = issueRepo.findById(issueLabel.issueId).get()
         if(issueDb.issueCreator != authUsername)
@@ -48,14 +47,14 @@ class IssueLabelServiceImpl(val projectRepo: ProjectRepo,
 
     override fun getIssueLabels(issueId: Int): OutputModel {
         if(!issueRepo.existsById(issueId))
-            throw BadRequestException("There isn't a issue with id = '$issueId'.")
+            throw NotFoundException("There isn't a issue with id = '$issueId'.")
         val issueDb = issueRepo.findById(issueId).get()
         return IssueLabelCollectionOutput(issueDb.projectName, issueId, issueDb.labels).toSiren()
     }
 
     override fun deleteIssueLabel(authUsername: String, issueId: Int, labelName: String): ResponseEntity<Unit> {
         if(!issueRepo.existsById(issueId))
-            throw BadRequestException("There isn't a issue with id = '$issueId'.")
+            throw NotFoundException("There isn't a issue with id = '$issueId'.")
         val issueDb = issueRepo.findById(issueId).get()
 
         if(issueDb.issueCreator != authUsername)
@@ -65,8 +64,11 @@ class IssueLabelServiceImpl(val projectRepo: ProjectRepo,
         val labelDb = Label(labelName)
 
         val issueLabelId = IssueLabelId(projectDb, issueDb, labelDb)
+        if(!issueLabelRepo.existsById(issueLabelId))
+            throw NotFoundException("Issue Label doesn't exist.")
+
         issueLabelRepo.deleteById(issueLabelId)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return ResponseEntity(HttpStatus.OK)
     }
 }

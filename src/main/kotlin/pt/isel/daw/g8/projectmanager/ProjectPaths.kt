@@ -17,24 +17,28 @@ object ProjectPaths {
      */
     /****************************** USER PATHS ******************************/
     const val USERS = "/users"
+    const val USER_ID = "/{$USERNAME_VAR}"
 
     /****************************** PROJECT PATHS ******************************/
     const val PROJECTS = "/projects"
+    const val PROJECT_ID = "/{$PROJECT_NAME_VAR}"
 
     /****************************** LABEL PATHS ******************************/
-    const val LABELS = "$PROJECTS/available-labels"
+    const val PROJECT_LABELS = "$PROJECTS/available-labels"
 
     /****************************** STATE PATHS ******************************/
-    const val STATES = "$PROJECTS/available-states"
+    const val PROJECT_STATES = "$PROJECTS/available-states"
 
     /****************************** STATE-TRANSITIONS PATHS ******************************/
-    const val STATE_TRANSITIONS = "$PROJECTS/state-transitions"
+    const val PROJECT_STATE_TRANSITIONS = "$PROJECTS/state-transitions"
 
     /****************************** ISSUE PATHS ******************************/
     const val ISSUES = "/issues"
+    const val ISSUE_ID = "/{$ISSUE_ID_VAR}"
 
     /****************************** ISSUE COMMENT PATHS ******************************/
     const val ISSUE_COMMENTS = "$ISSUES/comments"
+    const val ISSUE_COMMENT_ID = "/{$COMMENT_ID_VAR}"
 
     /****************************** ISSUE LABEL PATHS ******************************/
     const val ISSUE_LABELS = "$ISSUES/labels"

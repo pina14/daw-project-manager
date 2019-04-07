@@ -31,7 +31,7 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
                 name = "update-issue",
                 title = "Update Issue",
                 method = HttpMethod.PUT.name,
-                href = "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}",
+                href = "${ProjectPaths.ISSUES}/${entity.id}",
                 type = "application/json",
                 fields = UpdateIssueInput.getSirenActionFields()
         )
@@ -40,13 +40,13 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
                 name = "delete-issue",
                 title = "Delete Issue",
                 method = HttpMethod.DELETE.name,
-                href = "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}"
+                href = "${ProjectPaths.ISSUES}/${entity.id}"
         )
 
         return arrayOf(updateIssueAction, deleteIssueAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}/${entity.id}"))
     }
 }

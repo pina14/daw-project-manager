@@ -21,7 +21,7 @@ class CommentCollectionSiren(override val entity : CommentCollectionOutput) : Si
                     _class = arrayOf("Comment"),
                     rel = arrayOf("/rels/issue-comment"),
                     properties = CommentOutput(comment),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${comment.issueId}&${ProjectPaths.COMMENT_ID_VAR}=${comment.id}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}/${comment.id}?${ProjectPaths.ISSUE_ID_VAR}=${comment.issueId}"))
             )
         }
     }

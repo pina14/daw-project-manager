@@ -9,7 +9,7 @@ import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 @RestController
-@RequestMapping(ProjectPaths.STATES)
+@RequestMapping(ProjectPaths.PROJECT_STATES)
 class ProjectAvailableStateController {
 
     @Autowired lateinit var projectRepo : ProjectRepo

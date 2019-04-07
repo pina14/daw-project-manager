@@ -34,8 +34,12 @@ class ProjectManagerApplication {
 	fun getCommentService(issueRepo : IssueRepo, commentRepo: CommentRepo) : CommentService = CommentServiceImpl(issueRepo, commentRepo)
 
 	@Bean
-	fun getIssueLabelService(projectRepo : ProjectRepo, issueRepo : IssueRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo, issueLabelRepo: IssueLabelRepo)
-			: IssueLabelService = IssueLabelServiceImpl(projectRepo, issueRepo, projectAvailableLabelRepo, issueLabelRepo)
+	fun getIssueLabelService(issueRepo : IssueRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo, issueLabelRepo: IssueLabelRepo)
+			: IssueLabelService = IssueLabelServiceImpl(issueRepo, projectAvailableLabelRepo, issueLabelRepo)
+
+	@Bean
+	fun getProjectAvailableLabelService(projectRepo : ProjectRepo, labelRepo : LabelRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo)
+			: ProjectAvailabeLabelService = ProjectAvailableLabelServiceImpl(projectRepo, labelRepo, projectAvailableLabelRepo)
 }
 
 fun main(args: Array<String>) {

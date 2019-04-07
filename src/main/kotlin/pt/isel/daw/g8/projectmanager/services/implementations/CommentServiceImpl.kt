@@ -20,7 +20,7 @@ class CommentServiceImpl(private val issueRepo: IssueRepo,
     override fun createComment(issueId : Int, comment: CommentInput): ResponseEntity<Unit> {
         val issueDbReq = issueRepo.findById(issueId)
         if(!issueDbReq.isPresent)
-            throw BadRequestException("There isn't a issue with id = '$issueId'.")
+            throw NotFoundException("There isn't a issue with id = '$issueId'.")
 
         val issueDb = issueDbReq.get()
         if(issueDb.stateName == Rules.ARCHIVED)
@@ -46,7 +46,7 @@ class CommentServiceImpl(private val issueRepo: IssueRepo,
     override fun getCommentById(commentId: Int): OutputModel {
         val comment = commentRepo.findById(commentId)
         if(!comment.isPresent)
-            throw NotFoundException("Doesn't exist a comment with this id.")
+            throw NotFoundException("Doesn't exist a comment with id = '$commentId'.")
 
         return CommentOutput(comment.get()).toSiren()
     }

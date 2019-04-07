@@ -16,17 +16,17 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
         val labelsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Labels", "Collection"),
                 arrayOf("/rels/project-available-labels"),
-                "${ProjectPaths.LABELS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
+                "${ProjectPaths.PROJECT_LABELS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val statesEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("States", "Collection"),
                 arrayOf("/rels/project-available-states"),
-                "${ProjectPaths.STATES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
+                "${ProjectPaths.PROJECT_STATES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val transitionsEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Transitions", "Collection"),
                 arrayOf("/rels/project-state-transitions"),
-                "${ProjectPaths.STATE_TRANSITIONS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
+                "${ProjectPaths.PROJECT_STATE_TRANSITIONS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val issuesEntity = SirenModel.SirenEmbeddedLink(
                 arrayOf("Issues", "Collection"),
@@ -45,7 +45,7 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
                 name = "update-project",
                 title = "Update Project",
                 method = HttpMethod.PUT.name,
-                href = "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}",
+                href = "${ProjectPaths.PROJECTS}/${entity.name}",
                 type = "application/json",
                 fields = UpdateProjectInput.getSirenActionFields()
         )
@@ -54,13 +54,13 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
                 name = "delete-project",
                 title = "Delete Project",
                 method = HttpMethod.DELETE.name,
-                href = "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}"
+                href = "${ProjectPaths.PROJECTS}/${entity.name}"
         )
 
         return arrayOf(updateProjectAction, deleteProjectAction)
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}/${entity.name}"))
     }
 }

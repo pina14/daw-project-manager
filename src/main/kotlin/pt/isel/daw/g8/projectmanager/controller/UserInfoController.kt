@@ -19,25 +19,25 @@ class UserInfoController(val userService : UserInfoService) : ProjectManagerCont
     fun createUser(@RequestBody user : CreateUserInfoInput)
             : ResponseEntity<Unit> = userService.createUser(user)
 
-    @GetMapping(produces = [SirenModel.mediaType])
-    fun getUserByUsername(@RequestParam(ProjectPaths.USERNAME_VAR) username: String)
+    @GetMapping(ProjectPaths.USER_ID, produces = [SirenModel.mediaType])
+    fun getUserByUsername(@PathVariable(ProjectPaths.USERNAME_VAR) username: String)
             : OutputModel = userService.getUserByUsername(username)
 
-    @PutMapping(consumes = ["application/json"])
+    @PutMapping(ProjectPaths.USER_ID, consumes = ["application/json"])
     @RequiresAuthentication
     fun updateUser(request: HttpServletRequest,
                    @RequestBody user : UpdateUserInfoInput,
-                   @RequestParam(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
+                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
         checkAuthorizationToResource(authUsername, username)
 
         return userService.updateUser(username, user)
     }
 
-    @DeleteMapping
+    @DeleteMapping(ProjectPaths.USER_ID)
     @RequiresAuthentication
     fun deleteUser(request: HttpServletRequest,
-                   @RequestParam(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
+                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
         checkAuthorizationToResource(authUsername, username)
 

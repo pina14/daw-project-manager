@@ -27,7 +27,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
     override fun createIssue(issue: CreateIssueInput): ResponseEntity<Unit> {
         val projectName = issue.projectName
         if(!projectRepo.existsById(projectName))
-            throw BadRequestException("There isn't a project with name '$projectName'.")
+            throw NotFoundException("There isn't a project with name '$projectName'.")
 
         val project = projectRepo.findById(projectName).get()
 

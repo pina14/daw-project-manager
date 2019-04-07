@@ -27,6 +27,6 @@ class CommentController(val commentService : CommentService) : ProjectManagerCon
     @GetMapping(produces = [SirenModel.mediaType])
     fun getIssueComments(@RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel = commentService.getIssueComments(issueId)
 
-    @GetMapping(produces = [SirenModel.mediaType])
-    fun getCommentById(@RequestParam(ProjectPaths.COMMENT_ID_VAR) commentId: Int) : OutputModel = commentService.getCommentById(commentId)
+    @GetMapping(ProjectPaths.ISSUE_COMMENT_ID, produces = [SirenModel.mediaType])
+    fun getCommentById(@PathVariable(ProjectPaths.COMMENT_ID_VAR) commentId: Int) : OutputModel = commentService.getCommentById(commentId)
 }

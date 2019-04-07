@@ -17,8 +17,8 @@ class UserInfoServiceImpl(private val userRepo : UserInfoRepo) : UserInfoService
     override fun createUser(user: CreateUserInfoInput): ResponseEntity<Unit> {
         if(userRepo.existsById(user.username))
             throw ConflictException("There's already one user with this username!")
-        if(user.username.contains(":"))
-            throw BadRequestException("username can't contain ':'.")
+        if(user.username.contains(":") || user.username.contains(" "))
+            throw BadRequestException("username can't contain ':' character or spaces.")
 
         val dbUser = UserInfo(user.username, user.password, user.email, user.fullName)
 
@@ -29,7 +29,7 @@ class UserInfoServiceImpl(private val userRepo : UserInfoRepo) : UserInfoService
     override fun getUserByUsername(username: String): OutputModel {
         val user = userRepo.findById(username)
         if(!user.isPresent)
-            throw NotFoundException()
+            throw NotFoundException("User with username '$username' doesn't exist.")
 
         return UserInfoOutput(user.get()).toSiren()
     }
@@ -42,6 +42,9 @@ class UserInfoServiceImpl(private val userRepo : UserInfoRepo) : UserInfoService
     }
 
     override fun deleteUser(username: String): ResponseEntity<Unit> {
+        if(!userRepo.existsById(username))
+            throw NotFoundException("User with username '$username' doesn't exist.")
+
         userRepo.deleteById(username)
         return ResponseEntity(HttpStatus.OK)
     }

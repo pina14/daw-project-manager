@@ -35,7 +35,7 @@ create table project_state_transition(
 
 create table issue(
 	issue_id serial primary key,
-	issue_creator text not null references user_info,
+	issue_creator text not null references user_info on delete cascade,
 	project_name text not null references project on delete cascade,
 	issue_name text not null,
 	description text not null,

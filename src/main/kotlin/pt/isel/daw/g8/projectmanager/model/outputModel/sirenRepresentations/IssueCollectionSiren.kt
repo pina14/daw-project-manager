@@ -21,7 +21,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
                     _class = arrayOf("Issue"),
                     rel = arrayOf("/rels/issue"),
                     properties = IssueOutput(issue),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}?${ProjectPaths.ISSUE_ID_VAR}=${issue.id}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}/${issue.id}"))
             )
         }
     }

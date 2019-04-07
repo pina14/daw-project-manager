@@ -21,7 +21,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
                     _class = arrayOf("Project"),
                     rel = arrayOf("/rels/project"),
                     properties = ProjectOutput(project),
-                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}?${ProjectPaths.PROJECT_NAME_VAR}=${project.name}"))
+                    links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}/${project.name}"))
             )
         }
     }

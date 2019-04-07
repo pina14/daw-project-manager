@@ -5,12 +5,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.*
-import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ConflictException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
-import pt.isel.daw.g8.projectmanager.model.inputModel.StateInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectCollectionOutput
@@ -29,15 +27,15 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
         if(projectRepo.existsById(project.name))
             throw ConflictException("There's already a project with this name.")
 
-        val availableStates = mutableListOf(StateInput(project.defaultStateName))
+        val availableStates = mutableListOf(project.defaultStateName)
         Rules.mandatoryStates.forEach { state ->
             if(!availableStates.contains(state))
                 availableStates.add(state)
         }
 
         availableStates.forEach { state ->
-            val stateDb = State(state.stateName)
-            if(!stateRepo.existsById(state.stateName))
+            val stateDb = State(state)
+            if(!stateRepo.existsById(state))
                 stateRepo.save(stateDb)
         }
 
@@ -45,7 +43,7 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
         projectRepo.save(projectDb)
 
         availableStates.forEach {state ->
-            val projectStateId = ProjectAvailableStateId(projectDb, State(state.stateName))
+            val projectStateId = ProjectAvailableStateId(projectDb, State(state))
             val projectStateDb = ProjectAvailableState(projectStateId)
             projectAvailableStateRepo.save(projectStateDb)
         }
@@ -87,7 +85,7 @@ open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
             throw ForbiddenException("Authentication credentials are not valid to make changes to this resource!")
 
         if(!stateRepo.existsById(project.defaultStateName))
-            throw BadRequestException("Default state must exist.")
+            throw NotFoundException("Default state doesn't exist.")
 
         val dbProject = Project(projectName, project.description, authUsername, project.defaultStateName)
         projectRepo.save(dbProject)
