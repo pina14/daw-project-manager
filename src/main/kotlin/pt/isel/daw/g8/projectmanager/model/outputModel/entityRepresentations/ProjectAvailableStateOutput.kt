@@ -2,6 +2,7 @@ package pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations
 
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableState
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
+import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.ProjectAvailableStateSiren
 
 class ProjectAvailableStateOutput(availableState : ProjectAvailableState) : EntityRepresentation {
     var projectName : String? = null
@@ -12,7 +13,5 @@ class ProjectAvailableStateOutput(availableState : ProjectAvailableState) : Enti
         stateName = availableState.projectStateId.state.stateName
     }
 
-    override fun toSiren(): SirenModel {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun toSiren(): SirenModel = SirenModel(ProjectAvailableStateSiren(this))
 }

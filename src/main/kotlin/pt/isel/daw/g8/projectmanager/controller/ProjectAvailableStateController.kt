@@ -1,38 +1,36 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
+import pt.isel.daw.g8.projectmanager.model.inputModel.ProjectAvailableStateInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
-import pt.isel.daw.g8.projectmanager.repository.ProjectRepo
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
+import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
+import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectAvailableStateService
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.PROJECT_STATES)
-class ProjectAvailableStateController {
+class ProjectAvailableStateController(val projectAvailableStateService : ProjectAvailableStateService) {
 
-    @Autowired lateinit var projectRepo : ProjectRepo
-
-    @PostMapping
+    @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun addProjectAvailableState() {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    fun addProjectAvailableState(request : HttpServletRequest, @RequestBody projectAvailableState : ProjectAvailableStateInput) : ResponseEntity<Unit> {
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
+        return projectAvailableStateService.addProjectAvailableState(authUsername, projectAvailableState)
     }
 
-    @GetMapping
-    fun getProjectAvailableStates(@PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
-    }
+    @GetMapping(produces = [SirenModel.mediaType])
+    fun getProjectAvailableStates(@RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel
+            = projectAvailableStateService.getProjectAvailableStates(projectName)
 
     @DeleteMapping
     @RequiresAuthentication
-    fun deleteProjectAvailableState(
-            @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
-            @PathVariable(ProjectPaths.STATE_NAME_VAR) stateName: String) : OutputModel {
-        //TODO Implement and set parameters
-        throw NotImplementedException()
+    fun deleteProjectAvailableState(request : HttpServletRequest,
+                                    @RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
+                                    @RequestParam(ProjectPaths.STATE_NAME_VAR) stateName: String) : ResponseEntity<Unit> {
+        val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
+        return projectAvailableStateService.deleteProjectAvailableState(authUsername, projectName, stateName)
     }
 }

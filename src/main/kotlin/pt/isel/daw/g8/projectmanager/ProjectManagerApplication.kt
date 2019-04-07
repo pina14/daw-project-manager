@@ -40,6 +40,10 @@ class ProjectManagerApplication {
 	@Bean
 	fun getProjectAvailableLabelService(projectRepo : ProjectRepo, labelRepo : LabelRepo, projectAvailableLabelRepo: ProjectAvailableLabelRepo)
 			: ProjectAvailabeLabelService = ProjectAvailableLabelServiceImpl(projectRepo, labelRepo, projectAvailableLabelRepo)
+
+	@Bean
+	fun getProjectAvailableStateService(projectRepo : ProjectRepo, stateRepo: StateRepo, projectAvailableStateRepo: ProjectAvailableStateRepo)
+			: ProjectAvailableStateService = ProjectAvailableStateServiceImpl(projectRepo, stateRepo, projectAvailableStateRepo)
 }
 
 fun main(args: Array<String>) {
