@@ -44,6 +44,10 @@ class ProjectManagerApplication {
 	@Bean
 	fun getProjectAvailableStateService(projectRepo : ProjectRepo, stateRepo: StateRepo, projectAvailableStateRepo: ProjectAvailableStateRepo)
 			: ProjectAvailableStateService = ProjectAvailableStateServiceImpl(projectRepo, stateRepo, projectAvailableStateRepo)
+
+	@Bean
+	fun getProjectStateTransitionService(projectRepo : ProjectRepo, projectAvailableStateRepo: ProjectAvailableStateRepo, projectStateTransitionRepo : ProjectStateTransitionRepo)
+			: ProjectStateTransitionService = ProjectStateTransitionServiceImpl(projectRepo, projectAvailableStateRepo, projectStateTransitionRepo)
 }
 
 fun main(args: Array<String>) {

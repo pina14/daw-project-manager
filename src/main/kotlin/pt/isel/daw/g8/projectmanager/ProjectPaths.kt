@@ -9,6 +9,8 @@ object ProjectPaths {
     const val PROJECT_NAME_VAR = "projectName"
     const val LABEL_NAME_VAR = "labelName"
     const val STATE_NAME_VAR = "stateName"
+    const val FROM_STATE_VAR = "fromState"
+    const val TO_STATE_VAR = "toState"
     const val ISSUE_ID_VAR = "issueId"
     const val COMMENT_ID_VAR = "commentId"
 
