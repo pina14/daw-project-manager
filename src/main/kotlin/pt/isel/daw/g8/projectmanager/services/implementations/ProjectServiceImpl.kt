@@ -16,7 +16,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.Pro
 import pt.isel.daw.g8.projectmanager.repository.*
 import pt.isel.daw.g8.projectmanager.services.interfaces.ProjectService
 
-open class ProjectServiceImpl(private val userRepo : UserInfoRepo,
+open class ProjectServiceImpl(private val userRepo : UserRepo,
                               private val projectRepo : ProjectRepo,
                               private val stateRepo : StateRepo,
                               private val projectAvailableStateRepo : ProjectAvailableStateRepo,

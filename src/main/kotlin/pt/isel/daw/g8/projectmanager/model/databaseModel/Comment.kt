@@ -10,7 +10,7 @@ data class Comment(@Column(name = "comment_creator") val commentCreator : String
 
     @ManyToOne
     @JoinColumn(name = "comment_creator", insertable = false, updatable = false)
-    lateinit var creator : UserInfo
+    lateinit var creator : User
 
     @ManyToOne
     @JoinColumn(name = "issue_id", insertable = false, updatable = false)

@@ -12,7 +12,7 @@ data class Project(
 
     @ManyToOne
     @JoinColumn(name = "username", insertable = false, updatable = false)
-    lateinit var user: UserInfo
+    lateinit var user: User
 
     @ManyToOne
     @JoinColumn(name = "default_issue_state", insertable = false, updatable = false)

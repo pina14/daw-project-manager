@@ -2,13 +2,13 @@ package pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations
 
 import org.springframework.http.HttpMethod
 import pt.isel.daw.g8.projectmanager.ProjectPaths
-import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInfoInput
+import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.UserInfoOutput
 
 class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation {
-    override fun getClasses(): Array<String>? = arrayOf("User Info")
+    override fun getClasses(): Array<String>? = arrayOf("User")
 
     override fun getProperties(): EntityRepresentation? = entity
 
@@ -29,7 +29,7 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
                 method = HttpMethod.PUT.name,
                 href = "${ProjectPaths.USERS}/${entity.username}",
                 type = "application/json",
-                fields = UpdateUserInfoInput.getSirenActionFields()
+                fields = UpdateUserInput.getSirenActionFields()
         )
 
         val deleteUserAction = SirenModel.SirenAction(

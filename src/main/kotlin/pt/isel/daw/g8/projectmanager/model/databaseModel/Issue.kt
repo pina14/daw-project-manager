@@ -18,7 +18,7 @@ data class Issue(@Column(name = "issue_creator") val issueCreator : String,
 
     @ManyToOne
     @JoinColumn(name = "issue_creator", insertable = false, updatable = false)
-    lateinit var creator : UserInfo
+    lateinit var creator : User
 
     @ManyToOne
     @JoinColumn(name = "project_name", insertable = false, updatable = false)

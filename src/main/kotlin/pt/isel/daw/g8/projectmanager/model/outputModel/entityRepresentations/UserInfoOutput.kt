@@ -1,10 +1,10 @@
 package pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations
 
-import pt.isel.daw.g8.projectmanager.model.databaseModel.UserInfo
+import pt.isel.daw.g8.projectmanager.model.databaseModel.User
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.sirenRepresentations.UserInfoSiren
 
-class UserInfoOutput(user : UserInfo) : EntityRepresentation {
+class UserInfoOutput(user : User) : EntityRepresentation {
     var username : String? = null
     var email : String? = null
     var fullName : String? = null

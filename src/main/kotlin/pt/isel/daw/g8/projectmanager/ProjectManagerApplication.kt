@@ -10,10 +10,10 @@ import pt.isel.daw.g8.projectmanager.services.interfaces.*
 @SpringBootApplication
 class ProjectManagerApplication {
 	@Bean
-	fun getUserService(userRepo : UserInfoRepo) : UserInfoService = UserInfoServiceImpl(userRepo)
+	fun getUserService(userRepo : UserRepo) : UserService = UserServiceImpl(userRepo)
 
 	@Bean
-	fun getProjectService(userRepo : UserInfoRepo,
+	fun getProjectService(userRepo : UserRepo,
 						  projectRepo: ProjectRepo,
 						  stateRepo : StateRepo,
 						  projectAvailableStateRepo: ProjectAvailableStateRepo,

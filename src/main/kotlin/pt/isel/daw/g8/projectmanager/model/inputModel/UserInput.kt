@@ -2,12 +2,12 @@ package pt.isel.daw.g8.projectmanager.model.inputModel
 
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 
-class CreateUserInfoInput(val username : String,
-                          val password : String,
-                          val email : String,
-                          val fullName : String) : InputModel
+class CreateUserInput(val username : String,
+                      val password : String,
+                      val email : String,
+                      val fullName : String) : InputModel
 
-class UpdateUserInfoInput(val email : String, val fullName : String) : InputModel {
+class UpdateUserInput(val email : String, val fullName : String) : InputModel {
 
     companion object {
         fun getSirenActionFields() : Array<SirenModel.SirenActionField>? {

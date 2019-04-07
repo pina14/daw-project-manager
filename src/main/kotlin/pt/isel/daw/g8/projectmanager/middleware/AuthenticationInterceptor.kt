@@ -9,7 +9,7 @@ import pt.isel.daw.g8.projectmanager.loggerFor
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.BadRequestException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotAuthenticatedException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.WrongCredentialsException
-import pt.isel.daw.g8.projectmanager.repository.UserInfoRepo
+import pt.isel.daw.g8.projectmanager.repository.UserRepo
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -19,7 +19,7 @@ private val log = loggerFor<AuthenticationInterceptor>()
 @Component
 class AuthenticationInterceptor : HandlerInterceptorAdapter() {
 
-    @Autowired lateinit var userRepo : UserInfoRepo
+    @Autowired lateinit var userRepo : UserRepo
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         try {

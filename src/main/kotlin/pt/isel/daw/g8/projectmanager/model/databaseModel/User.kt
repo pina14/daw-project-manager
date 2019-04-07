@@ -7,7 +7,7 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 @Entity(name = "user_info")
-data class UserInfo(
+data class User(
         @Id @Column(name = "username") val username : String,
         @Column(name = "password") val password : String,
         @Column(name = "email") val email : String,
