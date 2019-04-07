@@ -9,7 +9,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.Com
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.EntityRepresentation
 
 class CommentCollectionSiren(override val entity : CommentCollectionOutput) : SirenRepresentation {
-    override fun getClasses(): Array<String>? = arrayOf("Comments", "Collection")
+    override fun getClasses(): Array<String>? = arrayOf("Collection", "Comment")
 
     override fun getProperties(): EntityRepresentation? = entity
 

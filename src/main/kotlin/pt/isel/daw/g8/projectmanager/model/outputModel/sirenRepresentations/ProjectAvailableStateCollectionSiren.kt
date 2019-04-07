@@ -9,7 +9,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.Pro
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectAvailableStateOutput
 
 class ProjectAvailableStateCollectionSiren(override val entity : ProjectAvailableStateCollectionOutput) : SirenRepresentation {
-    override fun getClasses(): Array<String>? = arrayOf("Project Available States", "Collection")
+    override fun getClasses(): Array<String>? = arrayOf("Collection", "Project Available State")
 
     override fun getProperties(): EntityRepresentation? = entity
 

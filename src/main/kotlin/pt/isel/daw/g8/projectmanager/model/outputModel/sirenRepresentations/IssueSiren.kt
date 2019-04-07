@@ -14,12 +14,12 @@ class IssueSiren(override val entity : IssueOutput) : SirenRepresentation {
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val commentsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Issue Comments", "Collection"),
+                arrayOf("Collection", "Issue Comment"),
                 arrayOf("/rels/issue-comments"),
                 "${ProjectPaths.ISSUE_COMMENTS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}")
 
         val labelsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Issue Labels", "Collection"),
+                arrayOf("Collection", "Issue Label"),
                 arrayOf("/rels/issue-labels"),
                 "${ProjectPaths.ISSUE_LABELS}?${ProjectPaths.ISSUE_ID_VAR}=${entity.id}")
 

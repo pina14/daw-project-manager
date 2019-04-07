@@ -14,7 +14,7 @@ class UserInfoSiren(override val entity : UserInfoOutput) : SirenRepresentation 
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val projectsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Projects", "Collection"),
+                arrayOf("Collection", "Project"),
                 arrayOf("/rels/user-projects"),
                 ProjectPaths.PROJECTS
         )

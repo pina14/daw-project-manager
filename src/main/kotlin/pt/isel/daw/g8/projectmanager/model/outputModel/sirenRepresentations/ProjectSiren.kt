@@ -14,22 +14,22 @@ class ProjectSiren(override val entity : ProjectOutput) : SirenRepresentation {
 
     override fun getEntities(): Array<SirenModel.SirenEntity>? {
         val labelsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Labels", "Collection"),
+                arrayOf("Collection", "Label"),
                 arrayOf("/rels/project-available-labels"),
                 "${ProjectPaths.PROJECT_LABELS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val statesEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("States", "Collection"),
+                arrayOf("Collection", "State"),
                 arrayOf("/rels/project-available-states"),
                 "${ProjectPaths.PROJECT_STATES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val transitionsEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Transitions", "Collection"),
+                arrayOf("Collection", "Transition"),
                 arrayOf("/rels/project-state-transitions"),
                 "${ProjectPaths.PROJECT_STATE_TRANSITIONS}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
         val issuesEntity = SirenModel.SirenEmbeddedLink(
-                arrayOf("Issues", "Collection"),
+                arrayOf("Collection", "Issue"),
                 arrayOf("/rels/project-issues"),
                 "${ProjectPaths.ISSUES}?${ProjectPaths.PROJECT_NAME_VAR}=${entity.name}")
 
