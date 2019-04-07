@@ -44,7 +44,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
             throw NotFoundException("Project doesn't exist.")
 
         val project = projectDb.get()
-        val issues = project.issues
+        val issues = project.issues.sortedByDescending { it.creationDate }
         return IssueCollectionOutput(projectName, issues).toSiren()
     }
 
