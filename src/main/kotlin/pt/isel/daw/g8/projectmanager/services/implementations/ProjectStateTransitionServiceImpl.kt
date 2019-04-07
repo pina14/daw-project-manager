@@ -36,12 +36,12 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
         val fromState = State(projectStateTransition.fromState)
         val fromAvailableStateId = ProjectAvailableStateId(projectDb, fromState)
         if(!projectAvailableStateRepo.existsById(fromAvailableStateId))
-            throw BadRequestException("State '$fromState' isn't allowed for this project.")
+            throw BadRequestException("State '${fromState.stateName}' isn't allowed for this project.")
 
         val toState = State(projectStateTransition.toState)
         val toAvailableStateId = ProjectAvailableStateId(projectDb, toState)
         if(!projectAvailableStateRepo.existsById(toAvailableStateId))
-            throw BadRequestException("State '$toState' isn't allowed for this project.")
+            throw BadRequestException("State '${toState.stateName}' isn't allowed for this project.")
 
         val projectStateTransitionId = ProjectStateTransitionId(projectDb, fromState, toState)
         if(projectStateTransitionRepo.existsById(projectStateTransitionId))

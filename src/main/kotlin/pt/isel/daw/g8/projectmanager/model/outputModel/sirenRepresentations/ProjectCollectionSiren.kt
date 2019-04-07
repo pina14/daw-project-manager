@@ -41,7 +41,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
     }
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        val selfLink = SirenModel.SirenLink(arrayOf("self"), ProjectPaths.PROJECTS)
+        val selfLink = SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}?${ProjectPaths.USERNAME_VAR}=${entity.username}")
         return arrayOf(selfLink)
     }
 }

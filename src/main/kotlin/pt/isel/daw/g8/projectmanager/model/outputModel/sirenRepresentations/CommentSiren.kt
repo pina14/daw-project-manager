@@ -15,6 +15,6 @@ class CommentSiren(override val entity : CommentOutput) : SirenRepresentation {
     override fun getActions(): Array<SirenModel.SirenAction>? = null
 
     override fun getLinks(): Array<SirenModel.SirenLink>? {
-        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}/${entity.id}?${ProjectPaths.ISSUE_ID_VAR}=${entity.issueId}"))
+        return arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUE_COMMENTS}/${entity.id}"))
     }
 }
