@@ -1,6 +1,6 @@
 
 ***
-# _General Information_ 
+# _API Documentation_ 
 ***
 ## Media-Type
 * All endpoints that end successfully return in [application/vnd.siren+json](https://github.com/kevinswiber/siren).
