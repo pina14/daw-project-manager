@@ -1,9 +1,10 @@
 import React from 'react'
+import AppRouter from './app-router'
 
 export default function (props) {
   return (
-    <div>
-      <h1>Project Manager</h1>
-    </div>
+    <>
+      <AppRouter />
+    </>
   )
 }
