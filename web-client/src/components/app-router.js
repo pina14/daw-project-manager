@@ -1,11 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import Login from './login'
+import Profile from './profile'
 
-// TODO remove
 const Home = () => <h1>Home</h1>
-const MenuItem1 = () => <h2>Item 1</h2>
-const MenuItem2 = () => <h2>Item 2</h2>
 
 /**
  * CSS Styles
@@ -31,52 +29,35 @@ const menuItemStyle = {
   textDecoration: 'none',
   border: '2px solid dimgrey',
   borderRadius: '5px'
-} 
+}
 
 export default class extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      username: '',
-      password: '',
-      base64auth: ''
-    }
-    this.isAuthenticated = this.isAuthenticated.bind(this)
-  }
-
-  authenticate (history, username, password) {
-    this.setState({
-      username: username,
-      password: password,
-      base64auth: Buffer.from(`${username}:${password}`).toString('base64')
-    })
-    history.push('/')
-  }
-
-  signout (history) {
-    this.setState({
-      username: '',
-      password: '',
-      base64auth: ''
-    })
-    history.push('/')
-  }
-
-  isAuthenticated () {
-    return this.state.base64auth !== ''
-  }
-
   render () {
     return (
       <Router>
         {this.menu()}
         <Switch>
-          <PrivateRoute authFunction={this.isAuthenticated} path='/item1' component={MenuItem1} />
-          <PrivateRoute authFunction={this.isAuthenticated} path='/item2' component={MenuItem2} />
-          <Route path='/login' render={({ history }) =>
-            <Login onSuccess={(username, password) => this.authenticate(history, username, password)} />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/profile' component={({ history }) =>
+            <Profile
+              username={this.props.username}
+              host='http://localhost:8090'
+              path='/users/{username}'
+              method='GET'
+              credentials={this.props.base64auth}
+              onDelete={() => {
+                this.props.signout()
+              }}
+              onUpdate={() => history.goBack()} />
           } />
-          <Route path='/logout' render={({ history }) => this.signout(history)} />
+          <Route path='/login' render={({ history }) =>
+            <Login
+              host='http://localhost:8090'
+              path='/users/authenticate'
+              method='POST'
+              onSuccess={(username, password, base64auth) => this.props.authenticate(history, username, password, base64auth)}
+            />
+          } />
+          <Route path='/logout' render={({ history }) => this.props.signout(history)} />
           <Route path='/' exact component={Home} />
           <Route path='/' render={({ location }) => (
             <h1>{location.pathname} Not Found</h1>
@@ -90,9 +71,8 @@ export default class extends React.Component {
     return (
       <div style={menuStyle}>
         <Link style={iconStyle} to='/'>Project Manager</Link>
-        <Link style={menuItemStyle} to='/item1'>Item 1</Link>
-        <Link style={menuItemStyle} to='/item2'>Item 2</Link>
-        {this.isAuthenticated()
+        <Link style={menuItemStyle} to='/profile'>Profile</Link>
+        {this.props.isAuthenticated()
           ? <Link style={menuItemStyle} to='/logout'>Logout</Link>
           : <Link style={menuItemStyle} to='/login'>Login</Link>}
       </div>

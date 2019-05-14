@@ -1,10 +1,10 @@
 import React from 'react'
-import AppRouter from './app-router'
+import Auth from './auth'
 
 export default function (props) {
   return (
     <>
-      <AppRouter />
+      <Auth />
     </>
   )
 }
