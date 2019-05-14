@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -16,7 +15,7 @@ class ProjectStateTransitionController(val projectStateTransitionService : Proje
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun addProjectStateTransition(request : HttpServletRequest, @RequestBody projectStateTransition : ProjectStateTransitionInput) : ResponseEntity<Unit> {
+    fun addProjectStateTransition(request : HttpServletRequest, @RequestBody projectStateTransition : ProjectStateTransitionInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectStateTransitionService.addProjectStateTransition(authUsername, projectStateTransition)
     }
@@ -30,7 +29,7 @@ class ProjectStateTransitionController(val projectStateTransitionService : Proje
     fun deleteProjectStateTransition(request : HttpServletRequest,
                                     @RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
                                     @RequestParam(ProjectPaths.FROM_STATE_VAR) fromState: String,
-                                    @RequestParam(ProjectPaths.TO_STATE_VAR) toState: String) : ResponseEntity<Unit> {
+                                    @RequestParam(ProjectPaths.TO_STATE_VAR) toState: String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectStateTransitionService.deleteProjectStateTransition(authUsername, projectName, fromState, toState)
     }

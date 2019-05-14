@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.Issue
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableStateId
@@ -11,6 +10,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Forbi
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateIssueInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateIssueInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueCollectionOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueOutput
@@ -24,7 +24,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
                        private val issueRepo: IssueRepo,
                        private val availableStateRepo: ProjectAvailableStateRepo) : IssueService {
 
-    override fun createIssue(issue: CreateIssueInput): ResponseEntity<Unit> {
+    override fun createIssue(issue: CreateIssueInput): EmptyResponseEntity {
         val projectName = issue.projectName
         if(!projectRepo.existsById(projectName))
             throw NotFoundException("There isn't a project with name '$projectName'.")
@@ -34,7 +34,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
         val issueDb = Issue(issue.issueCreator, projectName, issue.issueName, issue.description, project.defaultIssueStateName)
         issueRepo.save(issueDb)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getProjectIssues(projectName: String): OutputModel {
@@ -56,7 +56,7 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
         return IssueOutput(issue.get()).toSiren()
     }
 
-    override fun updateIssue(authUsername: String, issueId: Int, issue: UpdateIssueInput): ResponseEntity<Unit> {
+    override fun updateIssue(authUsername: String, issueId: Int, issue: UpdateIssueInput): EmptyResponseEntity {
         val oldIssueReq = issueRepo.findById(issueId)
         if(!oldIssueReq.isPresent)
             throw NotFoundException("Doesn't exist a issue with this id = $issueId.")
@@ -78,10 +78,10 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
         val dbIssue = Issue(oldIssue.issueCreator, oldIssue.projectName, issue.issueName, issue.description, issue.state, oldIssue.creationDate, closeDate)
         dbIssue.id = oldIssue.id
         issueRepo.save(dbIssue)
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 
-    override fun deleteIssue(authUsername: String, issueId: Int): ResponseEntity<Unit> {
+    override fun deleteIssue(authUsername: String, issueId: Int): EmptyResponseEntity {
         val oldIssueReq = issueRepo.findById(issueId)
         if(!oldIssueReq.isPresent)
             throw NotFoundException("Doesn't exist a issue with this id = $issueId.")
@@ -92,6 +92,6 @@ class IssueServiceImpl(private val projectRepo: ProjectRepo,
 
         issueRepo.deleteById(issueId)
 
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

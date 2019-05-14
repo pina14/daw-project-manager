@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.*
@@ -10,6 +9,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Forbi
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateProjectInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateProjectInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectCollectionOutput
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectOutput
@@ -23,7 +23,7 @@ open class ProjectServiceImpl(private val userRepo : UserRepo,
                               private val projectStateTransitionRepo : ProjectStateTransitionRepo) : ProjectService {
 
     @Transactional
-    override fun createProject(project: CreateProjectInput): ResponseEntity<Unit> {
+    override fun createProject(project: CreateProjectInput): EmptyResponseEntity {
         if(projectRepo.existsById(project.name))
             throw ConflictException("There's already a project with this name.")
 
@@ -54,7 +54,7 @@ open class ProjectServiceImpl(private val userRepo : UserRepo,
             projectStateTransitionRepo.save(projectStateTransitionDb)
         }
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getUserProjects(username: String): OutputModel {
@@ -75,7 +75,7 @@ open class ProjectServiceImpl(private val userRepo : UserRepo,
         return ProjectOutput(project.get()).toSiren()
     }
 
-    override fun updateProject(authUsername: String, projectName: String, project: UpdateProjectInput): ResponseEntity<Unit> {
+    override fun updateProject(authUsername: String, projectName: String, project: UpdateProjectInput): EmptyResponseEntity {
         val oldProjectReq = projectRepo.findById(projectName)
         if(!oldProjectReq.isPresent)
             throw NotFoundException("Doesn't exist a project with this name for current user.")
@@ -89,10 +89,10 @@ open class ProjectServiceImpl(private val userRepo : UserRepo,
 
         val dbProject = Project(projectName, project.description, authUsername, project.defaultStateName)
         projectRepo.save(dbProject)
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 
-    override fun deleteProject(authUsername : String, projectName: String): ResponseEntity<Unit> {
+    override fun deleteProject(authUsername : String, projectName: String): EmptyResponseEntity {
         val project = projectRepo.findById(projectName)
         if(!project.isPresent)
             throw NotFoundException("Doesn't exist a project with this name for current user.")
@@ -102,6 +102,6 @@ open class ProjectServiceImpl(private val userRepo : UserRepo,
 
 
         projectRepo.deleteById(projectName)
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

@@ -1,5 +1,6 @@
 package pt.isel.daw.g8.projectmanager.controller
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
@@ -17,7 +18,12 @@ class UserController(val userService : UserService) : ProjectManagerController {
 
     @PostMapping(consumes = ["application/json"])
     fun createUser(@RequestBody user : CreateUserInput)
-            : ResponseEntity<Unit> = userService.createUser(user)
+            : OutputModel = userService.createUser(user)
+
+    //TODO add authenticate to API documentation
+    @PostMapping(ProjectPaths.AUTHENTICATE)
+    @RequiresAuthentication
+    fun authenticate() : ResponseEntity<String> = ResponseEntity("{}", HttpStatus.OK)
 
     @GetMapping(ProjectPaths.USER_ID, produces = [SirenModel.mediaType])
     fun getUserByUsername(@PathVariable(ProjectPaths.USERNAME_VAR) username: String)
@@ -27,7 +33,7 @@ class UserController(val userService : UserService) : ProjectManagerController {
     @RequiresAuthentication
     fun updateUser(request: HttpServletRequest,
                    @RequestBody user : UpdateUserInput,
-                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
+                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
         checkAuthorizationToResource(authUsername, username)
 
@@ -37,7 +43,7 @@ class UserController(val userService : UserService) : ProjectManagerController {
     @DeleteMapping(ProjectPaths.USER_ID)
     @RequiresAuthentication
     fun deleteUser(request: HttpServletRequest,
-                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : ResponseEntity<Unit> {
+                   @PathVariable(ProjectPaths.USERNAME_VAR) username: String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
         checkAuthorizationToResource(authUsername, username)
 

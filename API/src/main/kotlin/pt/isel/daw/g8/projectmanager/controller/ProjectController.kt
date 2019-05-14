@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -18,7 +17,7 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
     fun createProject(request: HttpServletRequest,
-                      @RequestBody project : CreateProjectInput) : ResponseEntity<Unit> {
+                      @RequestBody project : CreateProjectInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String?
         checkAuthorizationToResource(authUsername, project.username)
         return projectService.createProject(project)
@@ -36,7 +35,7 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     @RequiresAuthentication
     fun updateProject(request : HttpServletRequest,
                       @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
-                      @RequestBody project : UpdateProjectInput) : ResponseEntity<Unit> {
+                      @RequestBody project : UpdateProjectInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return projectService.updateProject(authUsername, projectName, project)
@@ -45,7 +44,7 @@ class ProjectController(val projectService: ProjectService) : ProjectManagerCont
     @DeleteMapping(ProjectPaths.PROJECT_ID)
     @RequiresAuthentication
     fun deleteProject(request : HttpServletRequest,
-                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : ResponseEntity<Unit> {
+                      @PathVariable(ProjectPaths.PROJECT_NAME_VAR) projectName: String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectService.deleteProject(authUsername, projectName)
     }

@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.databaseModel.Label
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableLabel
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableLabelId
@@ -9,6 +8,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Confl
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.ProjectAvailableLabelInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectAvailableLabelCollectionOutput
 import pt.isel.daw.g8.projectmanager.repository.LabelRepo
@@ -20,7 +20,7 @@ class ProjectAvailableLabelServiceImpl(private val projectRepo: ProjectRepo,
                                        private val labelRepo : LabelRepo,
                                        private val projectAvailableLabelRepo : ProjectAvailableLabelRepo) : ProjectAvailabeLabelService {
 
-    override fun addProjectAvailableLabel(authUsername: String, projectAvailableLabel: ProjectAvailableLabelInput): ResponseEntity<Unit> {
+    override fun addProjectAvailableLabel(authUsername: String, projectAvailableLabel: ProjectAvailableLabelInput): EmptyResponseEntity {
         val projectName = projectAvailableLabel.projectName
         if(!projectRepo.existsById(projectName))
             throw NotFoundException("Doesn't exist a project with name '$projectName'.")
@@ -41,7 +41,7 @@ class ProjectAvailableLabelServiceImpl(private val projectRepo: ProjectRepo,
 
         projectAvailableLabelRepo.save(projectAvailableLabelDb)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getProjectAvailableLabels(projectName: String): OutputModel {
@@ -52,7 +52,7 @@ class ProjectAvailableLabelServiceImpl(private val projectRepo: ProjectRepo,
         return ProjectAvailableLabelCollectionOutput(projectName, projectDb.availableLabels).toSiren()
     }
 
-    override fun deleteProjectAvailableLabel(authUsername: String, projectName: String, labelName: String): ResponseEntity<Unit> {
+    override fun deleteProjectAvailableLabel(authUsername: String, projectName: String, labelName: String): EmptyResponseEntity {
         if(!projectRepo.existsById(projectName))
             throw NotFoundException("There isn't a project with name '$projectName'.")
         val projectDb = projectRepo.findById(projectName).get()
@@ -68,6 +68,6 @@ class ProjectAvailableLabelServiceImpl(private val projectRepo: ProjectRepo,
 
         projectAvailableLabelRepo.deleteById(projectAvailableLabelId)
 
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

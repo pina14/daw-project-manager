@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -17,7 +16,7 @@ class IssueController(private val issueService: IssueService) : ProjectManagerCo
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun createIssue(request: HttpServletRequest, @RequestBody issue : CreateIssueInput) : ResponseEntity<Unit> {
+    fun createIssue(request: HttpServletRequest, @RequestBody issue : CreateIssueInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         checkAuthorizationToResource(authUsername, issue.issueCreator)
         return issueService.createIssue(issue)
@@ -33,7 +32,7 @@ class IssueController(private val issueService: IssueService) : ProjectManagerCo
     @RequiresAuthentication
     fun updateIssue(request: HttpServletRequest,
                     @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
-                    @RequestBody issue : UpdateIssueInput) : ResponseEntity<Unit> {
+                    @RequestBody issue : UpdateIssueInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return issueService.updateIssue(authUsername, issueId, issue)
@@ -42,7 +41,7 @@ class IssueController(private val issueService: IssueService) : ProjectManagerCo
     @DeleteMapping(ProjectPaths.ISSUE_ID)
     @RequiresAuthentication
     fun deleteIssue(request: HttpServletRequest,
-                    @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : ResponseEntity<Unit> {
+                    @PathVariable(ProjectPaths.ISSUE_ID_VAR) issueId: Int) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
 
         return issueService.deleteIssue(authUsername, issueId)

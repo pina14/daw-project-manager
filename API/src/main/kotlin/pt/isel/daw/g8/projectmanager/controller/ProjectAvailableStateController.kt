@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -16,7 +15,7 @@ class ProjectAvailableStateController(val projectAvailableStateService : Project
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun addProjectAvailableState(request : HttpServletRequest, @RequestBody projectAvailableState : ProjectAvailableStateInput) : ResponseEntity<Unit> {
+    fun addProjectAvailableState(request : HttpServletRequest, @RequestBody projectAvailableState : ProjectAvailableStateInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectAvailableStateService.addProjectAvailableState(authUsername, projectAvailableState)
     }
@@ -29,7 +28,7 @@ class ProjectAvailableStateController(val projectAvailableStateService : Project
     @RequiresAuthentication
     fun deleteProjectAvailableState(request : HttpServletRequest,
                                     @RequestParam(ProjectPaths.PROJECT_NAME_VAR) projectName: String,
-                                    @RequestParam(ProjectPaths.STATE_NAME_VAR) stateName: String) : ResponseEntity<Unit> {
+                                    @RequestParam(ProjectPaths.STATE_NAME_VAR) stateName: String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return projectAvailableStateService.deleteProjectAvailableState(authUsername, projectName, stateName)
     }

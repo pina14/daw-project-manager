@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableStateId
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectStateTransition
@@ -13,6 +12,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Forbi
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.ProjectStateTransitionInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.StateTransitionInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectStateTransitionCollectionOutput
 import pt.isel.daw.g8.projectmanager.repository.ProjectAvailableStateRepo
@@ -24,7 +24,7 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
                                         private val projectAvailableStateRepo : ProjectAvailableStateRepo,
                                         private val projectStateTransitionRepo : ProjectStateTransitionRepo) : ProjectStateTransitionService {
 
-    override fun addProjectStateTransition(authUsername: String, projectStateTransition: ProjectStateTransitionInput): ResponseEntity<Unit> {
+    override fun addProjectStateTransition(authUsername: String, projectStateTransition: ProjectStateTransitionInput): EmptyResponseEntity {
         val projectName = projectStateTransition.projectName
         if(!projectRepo.existsById(projectName))
             throw NotFoundException("Doesn't exist a project with name '$projectName'.")
@@ -51,7 +51,7 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
 
         projectStateTransitionRepo.save(projectStateTransitionDb)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getProjectStateTransitions(projectName: String): OutputModel {
@@ -62,7 +62,7 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
         return ProjectStateTransitionCollectionOutput(projectName, projectDb.availableStateTransitions).toSiren()
     }
 
-    override fun deleteProjectStateTransition(authUsername: String, projectName: String, fromState: String, toState: String): ResponseEntity<Unit> {
+    override fun deleteProjectStateTransition(authUsername: String, projectName: String, fromState: String, toState: String): EmptyResponseEntity {
         if(Rules.mandatoryTransitions.contains(StateTransitionInput(fromState, toState)))
             throw BadRequestException("It's not allowed to delete this transition.")
 
@@ -79,6 +79,6 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
 
         projectStateTransitionRepo.deleteById(projectStateTransitionId)
 
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

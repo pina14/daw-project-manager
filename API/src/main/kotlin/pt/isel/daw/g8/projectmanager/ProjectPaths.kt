@@ -20,6 +20,7 @@ object ProjectPaths {
     /****************************** USERS PATHS ******************************/
     const val USERS = "/users"
     const val USER_ID = "/{$USERNAME_VAR}"
+    const val AUTHENTICATE = "/authenticate"
 
     /****************************** PROJECTS PATHS ******************************/
     const val PROJECTS = "/projects"

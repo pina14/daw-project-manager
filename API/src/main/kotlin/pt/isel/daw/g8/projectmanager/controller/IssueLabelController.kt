@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -16,7 +15,7 @@ class IssueLabelController(val issueLabelService : IssueLabelService) {
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun addIssueLabel(request : HttpServletRequest, @RequestBody issueLabel : IssueLabelInput) : ResponseEntity<Unit> {
+    fun addIssueLabel(request : HttpServletRequest, @RequestBody issueLabel : IssueLabelInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return issueLabelService.addIssueLabel(authUsername, issueLabel)
     }
@@ -28,7 +27,7 @@ class IssueLabelController(val issueLabelService : IssueLabelService) {
     @RequiresAuthentication
     fun deleteIssueLabel(request : HttpServletRequest,
                          @RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId : Int,
-                         @RequestParam(ProjectPaths.LABEL_NAME_VAR) labelName : String) : ResponseEntity<Unit> {
+                         @RequestParam(ProjectPaths.LABEL_NAME_VAR) labelName : String) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         return issueLabelService.deleteIssueLabel(authUsername, issueId, labelName)
     }

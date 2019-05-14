@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.databaseModel.IssueLabel
 import pt.isel.daw.g8.projectmanager.model.databaseModel.IssueLabelId
 import pt.isel.daw.g8.projectmanager.model.databaseModel.Label
@@ -11,6 +10,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Confl
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.IssueLabelInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.IssueLabelCollectionOutput
 import pt.isel.daw.g8.projectmanager.repository.IssueLabelRepo
@@ -22,7 +22,7 @@ class IssueLabelServiceImpl(private val issueRepo: IssueRepo,
                             private val projectAvailableLabelRepo: ProjectAvailableLabelRepo,
                             private val issueLabelRepo: IssueLabelRepo) : IssueLabelService {
 
-    override fun addIssueLabel(authUsername: String, issueLabel: IssueLabelInput): ResponseEntity<Unit> {
+    override fun addIssueLabel(authUsername: String, issueLabel: IssueLabelInput): EmptyResponseEntity {
         if(!issueRepo.existsById(issueLabel.issueId))
             throw NotFoundException("There isn't a issue with id = '${issueLabel.issueId}'.")
 
@@ -42,7 +42,7 @@ class IssueLabelServiceImpl(private val issueRepo: IssueRepo,
         val issueLabelDb = IssueLabel(issueLabelId)
         issueLabelRepo.save(issueLabelDb)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getIssueLabels(issueId: Int): OutputModel {
@@ -52,7 +52,7 @@ class IssueLabelServiceImpl(private val issueRepo: IssueRepo,
         return IssueLabelCollectionOutput(issueDb.projectName, issueId, issueDb.labels).toSiren()
     }
 
-    override fun deleteIssueLabel(authUsername: String, issueId: Int, labelName: String): ResponseEntity<Unit> {
+    override fun deleteIssueLabel(authUsername: String, issueId: Int, labelName: String): EmptyResponseEntity {
         if(!issueRepo.existsById(issueId))
             throw NotFoundException("There isn't a issue with id = '$issueId'.")
         val issueDb = issueRepo.findById(issueId).get()
@@ -69,6 +69,6 @@ class IssueLabelServiceImpl(private val issueRepo: IssueRepo,
 
         issueLabelRepo.deleteById(issueLabelId)
 
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

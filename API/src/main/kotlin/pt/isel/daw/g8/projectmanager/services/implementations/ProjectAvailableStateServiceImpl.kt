@@ -1,7 +1,6 @@
 package pt.isel.daw.g8.projectmanager.services.implementations
 
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import pt.isel.daw.g8.projectmanager.model.Rules
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableState
 import pt.isel.daw.g8.projectmanager.model.databaseModel.ProjectAvailableStateId
@@ -11,6 +10,7 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Confl
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.ProjectAvailableStateInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectAvailableStateCollectionOutput
 import pt.isel.daw.g8.projectmanager.repository.ProjectAvailableStateRepo
@@ -22,7 +22,7 @@ class ProjectAvailableStateServiceImpl(private val projectRepo: ProjectRepo,
                                        private val stateRepo : StateRepo,
                                        private val projectAvailableStateRepo : ProjectAvailableStateRepo) : ProjectAvailableStateService {
 
-    override fun addProjectAvailableState(authUsername: String, projectAvailableState: ProjectAvailableStateInput): ResponseEntity<Unit> {
+    override fun addProjectAvailableState(authUsername: String, projectAvailableState: ProjectAvailableStateInput): EmptyResponseEntity {
         val projectName = projectAvailableState.projectName
         if(!projectRepo.existsById(projectName))
             throw NotFoundException("Doesn't exist a project with name '$projectName'.")
@@ -43,7 +43,7 @@ class ProjectAvailableStateServiceImpl(private val projectRepo: ProjectRepo,
 
         projectAvailableStateRepo.save(projectAvailableStateDb)
 
-        return ResponseEntity(HttpStatus.CREATED)
+        return EmptyResponseEntity(HttpStatus.CREATED)
     }
 
     override fun getProjectAvailableStates(projectName: String): OutputModel {
@@ -54,7 +54,7 @@ class ProjectAvailableStateServiceImpl(private val projectRepo: ProjectRepo,
         return ProjectAvailableStateCollectionOutput(projectName, projectDb.availableStates).toSiren()
     }
 
-    override fun deleteProjectAvailableState(authUsername: String, projectName: String, stateName: String): ResponseEntity<Unit> {
+    override fun deleteProjectAvailableState(authUsername: String, projectName: String, stateName: String): EmptyResponseEntity {
         if(Rules.mandatoryStates.contains(stateName))
             throw BadRequestException("It's not allowed to delete this state.")
 
@@ -73,6 +73,6 @@ class ProjectAvailableStateServiceImpl(private val projectRepo: ProjectRepo,
 
         projectAvailableStateRepo.deleteById(projectAvailableStateId)
 
-        return ResponseEntity(HttpStatus.OK)
+        return EmptyResponseEntity(HttpStatus.OK)
     }
 }

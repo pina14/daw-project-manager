@@ -1,6 +1,5 @@
 package pt.isel.daw.g8.projectmanager.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
@@ -18,7 +17,7 @@ class IssueCommentController(val commentService : IssueCommentService) : Project
     @RequiresAuthentication
     fun createIssueComment(request: HttpServletRequest,
                            @RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
-                           @RequestBody comment : IssueCommentInput) : ResponseEntity<Unit> {
+                           @RequestBody comment : IssueCommentInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         checkAuthorizationToResource(authUsername, comment.commentCreator)
         return commentService.createComment(issueId, comment)
