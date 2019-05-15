@@ -1,5 +1,6 @@
 import React from 'react'
 import Request from '../utils/cancelable-request'
+import Actions from '../utils/actions'
 
 export default class extends React.Component {
   constructor (props) {
@@ -8,7 +9,7 @@ export default class extends React.Component {
       fullName: this.props.user.properties.fullName,
       email: this.props.user.properties.email
     }
-    this.updateAction = this.props.user.actions.find(elem => elem.name === 'update-user')
+    this.updateAction = Actions.findByName(this.props.user, 'update-user')
     this.update = this.update.bind(this)
     this.onChangeFullnameHandler = this.onChangeFullnameHandler.bind(this)
     this.onChangeEmailHandler = this.onChangeEmailHandler.bind(this)
@@ -47,7 +48,8 @@ export default class extends React.Component {
     })
   }
 
-  update () {
+  update (ev) {
+    ev.preventDefault()
     this.request = new Request(
       this.props.host,
       this.updateAction.href,

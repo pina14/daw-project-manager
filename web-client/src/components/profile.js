@@ -10,16 +10,17 @@ export default class extends React.Component {
     this.state = {
       showNupdate: true
     }
+    this.version = 0
   }
 
   render () {
-    console.log('render')
     return (
       <HttpRequest
         host={this.props.host}
         path={this.props.path}
         method={this.props.method}
         credentials={this.props.credentials}
+        version={this.version}
         onLoaded={(user) => {
           return this.state.showNupdate
             ? (<>
@@ -37,13 +38,16 @@ export default class extends React.Component {
               </div>
               <div>
                 <button onClick={() => this.DeleteUser(user)}> Delete User</button>
-                <button onClick={() => this.UpdateUser(user)}>Update User</button>
+                <button onClick={() => this.UpdateUser()}>Update User</button>
               </div>
             </>) : (<UpdateUser
               user={user}
               host={this.props.host}
               credentials={this.props.credentials}
-              onSuccess={() => this.setState({ showNupdate: true })}
+              onSuccess={() => {
+                this.version++
+                this.setState({ showNupdate: true })
+              }}
             />)
         }} />
     )
@@ -68,7 +72,7 @@ export default class extends React.Component {
     this.deleteRequest.send()
   }
 
-  UpdateUser (user) {
+  UpdateUser () {
     this.setState({ showNupdate: false })
   }
 }

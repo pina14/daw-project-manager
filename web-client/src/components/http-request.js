@@ -21,7 +21,7 @@ export default class extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.path !== prevProps.path) {
+    if (this.props.path !== prevProps.path || this.props.version > prevProps.version) {
       this.load(this.props.host, this.props.path, this.props.query, this.props.method, this.props.credentials)
     }
   }
