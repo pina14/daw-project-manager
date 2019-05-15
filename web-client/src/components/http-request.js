@@ -17,12 +17,12 @@ export default class extends React.Component {
   }
 
   componentDidMount () {
-    this.load(this.props.host, this.props.path, this.props.method, this.props.credentials)
+    this.load(this.props.host, this.props.path, this.props.query, this.props.method, this.props.credentials)
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.path !== prevProps.path) {
-      this.load(this.props.host, this.props.path, this.props.method, this.props.credentials)
+      this.load(this.props.host, this.props.path, this.props.query, this.props.method, this.props.credentials)
     }
   }
 
@@ -50,7 +50,7 @@ export default class extends React.Component {
     return this.props.onError ? this.props.onError(this.state.error) : <div>{this.state.error.message}</div>
   }
 
-  load (host, path, method, credentials) {
+  load (host, path, query, method, credentials) {
     if (this.request) {
       this.request.cancel()
       this.setState({
@@ -60,6 +60,7 @@ export default class extends React.Component {
     this.request = new Request(
       host,
       path,
+      query,
       method,
       (json) => this.setState({
         loadState: FetchState.loaded,
