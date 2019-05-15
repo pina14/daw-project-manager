@@ -4,12 +4,11 @@ export default class extends React.Component {
   constructor (props) {
     super(props)
 
-    if (this.props.user) {
-      this.state = {
-        fullname: this.props.user.fullname,
-        email: this.props.user.email,
-        username: this.props.user.username
-      }
+    this.state = {
+      fullName: '',
+      email: '',
+      username: '',
+      password: ''
     }
 
     this.onChangeFullnameHandler = this.onChangeFullnameHandler.bind(this)
@@ -25,7 +24,7 @@ export default class extends React.Component {
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
-            <input type='text' value={this.state.fullname} onChange={this.onChangeFullnameHandler} required />
+            <input type='text' value={this.state.fullName} onChange={this.onChangeFullnameHandler} required />
           </div>
           <div>
             <label>Email: </label>
@@ -46,23 +45,31 @@ export default class extends React.Component {
   }
 
   onChangeFullnameHandler (ev) {
-
+    this.setState({
+      fullName: ev.target.value
+    })
   }
 
   onChangeEmailHandler (ev) {
-
+    this.setState({
+      email: ev.target.value
+    })
   }
 
   onChangeUsernameHandler (ev) {
-
+    this.setState({
+      username: ev.target.value
+    })
   }
 
   onChangePasswordHandler (ev) {
-
+    this.setState({
+      password: ev.target.value
+    })
   }
 
   onSubmitHandler (ev) {
     ev.preventDefault()
-    this.props.submit()
+    this.props.submit(this.state)
   }
 }

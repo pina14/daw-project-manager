@@ -2,6 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import Login from './login'
 import Profile from './profile'
+import Register from './register'
+import Projects from './projects'
+import Project from './project'
 
 const Home = () => <h1>Home</h1>
 
@@ -37,17 +40,32 @@ export default class extends React.Component {
       <Router>
         {this.menu()}
         <Switch>
-          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/profile' component={({ history }) =>
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/profile/:username' component={({ history, match }) =>
             <Profile
               username={this.props.username}
               host='http://localhost:8090'
-              path='/users/{username}'
+              path={`/users/${match.params.username}`}
               method='GET'
               credentials={this.props.base64auth}
-              onDelete={() => {
-                this.props.signout()
-              }}
-              onUpdate={() => history.goBack()} />
+              onDelete={() => this.props.signout()} />
+          } />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/users/:username/projects' component={({ history }) =>
+            <Projects
+              username={this.props.username}
+              host='http://localhost:8090'
+              path='/projects'
+              method='GET'
+              credentials={this.props.base64auth} />
+          } />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/projects/:projectName' component={({ history, match }) =>
+            <Project
+              projectName={match.params.projectName}
+              username={this.props.username}
+              host='http://localhost:8090'
+              path={`/projects/${match.params.projectName}`}
+              method='GET'
+              credentials={this.props.base64auth}
+            />
           } />
           <Route path='/login' render={({ history }) =>
             <Login
@@ -55,6 +73,14 @@ export default class extends React.Component {
               path='/users/authenticate'
               method='POST'
               onSuccess={(username, password, base64auth) => this.props.authenticate(history, username, password, base64auth)}
+            />
+          } />
+          <Route path='/register' render={({ history }) =>
+            <Register
+              host='http://localhost:8090'
+              path='/users'
+              method='POST'
+              onSuccess={() => history.push('/login')}
             />
           } />
           <Route path='/logout' render={({ history }) => this.props.signout(history)} />
@@ -71,10 +97,19 @@ export default class extends React.Component {
     return (
       <div style={menuStyle}>
         <Link style={iconStyle} to='/'>Project Manager</Link>
-        <Link style={menuItemStyle} to='/profile'>Profile</Link>
+        <Link style={menuItemStyle}
+          to={`/profile/${this.props.username ? this.props.username : '*'}`}>Profile</Link>
+        <Link style={menuItemStyle}
+          to={`/users/${this.props.username ? this.props.username : '*'}/projects`}>Projects</Link>
         {this.props.isAuthenticated()
           ? <Link style={menuItemStyle} to='/logout'>Logout</Link>
-          : <Link style={menuItemStyle} to='/login'>Login</Link>}
+          : (
+            <>
+              <Link style={menuItemStyle} to='/login'>Login</Link>
+              <Link style={menuItemStyle} to='/register'>Register</Link>
+            </>
+          )
+        }
       </div>
     )
   }

@@ -8,20 +8,34 @@
  * onError -> Function to call if request fails
  */
 export default class {
-  constructor (host, path, method, onSuccess, onError) {
-    this.url = host + path
+  constructor (host, path, query, method, onSuccess, onError) {
+    this.url = host + path + this.buildQueryString(query)
     this.method = method
+    this.headers = {}
     this.onSuccess = onSuccess.bind(this)
     this.onError = onError.bind(this)
     this.isActive = true
   }
 
-  setHeaders (headers) {
-    this.headers = headers
+  buildQueryString (query) {
+    if (!query) return ''
+    let ret = '?'
+    Object.entries(query).forEach(element => {
+      ret += `${element[0]}=${element[1]}&`
+    })
+    return ret.slice(0, -1)
   }
 
+  setHeaders (headers) {
+    Object.assign(this.headers, headers)
+  }
+
+  /**
+   * Add header content-Type to application/json and set body
+   */
   setBody (body) {
-    this.body = body
+    this.headers['Content-Type'] = 'application/json'
+    this.body = JSON.stringify(body)
   }
 
   async send () {
@@ -33,12 +47,8 @@ export default class {
       }
       let res = await fetch(this.url, reqData)
       if (res.status === 200 || res.status === 201) {
-        if (res.body) {
-          let json = await res.json()
-          this.callbackIfActive(this.onSuccess, json)
-        } else {
-          this.callbackIfActive(this.onSuccess, {})
-        }
+        let json = await res.json()
+        this.callbackIfActive(this.onSuccess, json)
       } else {
         this.callbackIfActive(this.onError, { message: `non-200 status (${res.status})` })
       }

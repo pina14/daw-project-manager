@@ -57,6 +57,7 @@ export default class extends React.Component {
     this.request = new Request(
       this.props.host,
       this.props.path,
+      undefined,
       this.props.method,
       () => {
         this.setState({ wrongAuth: false })
@@ -72,7 +73,6 @@ export default class extends React.Component {
   success (credentials) {
     this.setState({ wrongAuth: false })
     this.props.onSuccess(this.state.username, this.state.password, credentials)
-    console.log('Success')
   }
 
   componentWillUnmount () {
