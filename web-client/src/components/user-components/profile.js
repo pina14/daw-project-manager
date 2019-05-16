@@ -1,6 +1,6 @@
 import React from 'react'
-import HttpRequest from './http-request'
-import { call } from '../utils/actions'
+import HttpRequest from '../http-request'
+import { call } from '../../utils/actions'
 
 export default class extends React.Component {
   render () {

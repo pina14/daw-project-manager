@@ -1,6 +1,6 @@
 import React from 'react'
-import UserForm from './user-form'
-import Request from '../utils/cancelable-request'
+import UserForm from '../user-components/user-form'
+import Request from '../../utils/cancelable-request'
 
 export default class extends React.Component {
   constructor (props) {

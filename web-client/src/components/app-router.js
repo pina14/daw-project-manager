@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
-import Login from './login'
-import Register from './register'
-import Profile from './profile'
-import UpdateUser from './update-user'
-import Projects from './projects'
-import Project from './project'
-import UpdateProject from './update-project'
+import Login from './session-components/login'
+import Register from './session-components/register'
+import Profile from './user-components/profile'
+import UpdateUser from './user-components/update-user'
+import Projects from './project-components/projects'
+import Project from './project-components/project'
+import UpdateProject from './project-components/update-project'
 import ApiPaths from '../utils/api-paths'
 import ClientPaths from '../utils/client-paths'
 
@@ -109,7 +109,7 @@ export default class extends React.Component {
           <Route path={ClientPaths.registerTemplate()} render={({ history }) =>
             <Register
               host={this.host}
-              path={ApiPaths.usersUrl}
+              path={ApiPaths.usersUrl()}
               method='POST'
               onSuccess={() => history.push(ClientPaths.loginTemplateFilled())}
             />

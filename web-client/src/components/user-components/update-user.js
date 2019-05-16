@@ -1,6 +1,6 @@
 import React from 'react'
-import HttpRequest from './http-request'
-import { findByName, call } from '../utils/actions'
+import HttpRequest from '../http-request'
+import { findByName, call } from '../../utils/actions'
 
 export default class extends React.Component {
   constructor (props) {
@@ -24,12 +24,12 @@ export default class extends React.Component {
             <form onSubmit={(ev) => this.update(ev, user)}>
               <div>
                 <label>Name: </label>
-                <input type={updateAction.fields.find(field => field.name === 'fullName')}
+                <input type={updateAction.fields.find(field => field.name === 'fullName').type}
                   value={this.state.fullName !== undefined ? this.state.fullName : user.properties.fullName} onChange={this.onChangeFullnameHandler} required />
               </div>
               <div>
                 <label>Email: </label>
-                <input type={updateAction.fields.find(field => field.name === 'email')}
+                <input type={updateAction.fields.find(field => field.name === 'email').type}
                   value={this.state.email !== undefined ? this.state.email : user.properties.email} onChange={this.onChangeEmailHandler} required />
               </div>
               <button>Submit</button>

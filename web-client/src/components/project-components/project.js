@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HttpRequest from './http-request'
-import { call } from '../utils/actions'
+import HttpRequest from '../http-request'
+import { call } from '../../utils/actions'
 
 export default class extends React.Component {
   render () {

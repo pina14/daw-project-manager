@@ -11,7 +11,7 @@ class UpdateUserInput(val email : String, val fullName : String) : InputModel {
 
     companion object {
         fun getSirenActionFields() : Array<SirenModel.SirenActionField>? {
-            val emailField = SirenModel.SirenActionField(name = "email", type = "text")
+            val emailField = SirenModel.SirenActionField(name = "email", type = "email")
             val fullNameField = SirenModel.SirenActionField(name = "fullName", type = "text")
 
             return arrayOf(emailField, fullNameField)

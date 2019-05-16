@@ -1,6 +1,6 @@
 import React from 'react'
-import AppRouter from './app-router'
-import ClientPaths from '../utils/client-paths'
+import AppRouter from '../app-router'
+import ClientPaths from '../../utils/client-paths'
 
 export default class extends React.Component {
   constructor (props) {
