@@ -18,7 +18,7 @@ export default class extends React.Component {
   }
 
   componentWillUnmount () {
-    if(this.request) this.request.cancel()
+    if (this.request) this.request.cancel()
   }
 
   register (state) {

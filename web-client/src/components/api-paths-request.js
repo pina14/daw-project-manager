@@ -1,16 +1,16 @@
 import React from 'react'
 import HttpRequest from './http-request'
-import ApiInfo from '../utils/api-info'
+import ApiPaths from '../utils/api-paths'
 
 export default class extends React.Component {
   render () {
     return (
       <HttpRequest
-        host={ApiInfo.getHost()}
+        host={ApiPaths.getHost()}
         path='/'
         method={'GET'}
         onLoaded={(paths) => {
-          ApiInfo.setPaths(paths)
+          ApiPaths.setPaths(paths)
           return this.props.render()
         }}
       />

@@ -1,5 +1,6 @@
 import React from 'react'
 import AppRouter from './app-router'
+import ClientPaths from '../utils/client-paths'
 
 export default class extends React.Component {
   constructor (props) {
@@ -33,7 +34,7 @@ export default class extends React.Component {
       password: password,
       base64auth: base64auth
     })
-    history.push('/')
+    history.push(ClientPaths.homeTemplateFilled())
   }
 
   signout (history) {
@@ -42,7 +43,7 @@ export default class extends React.Component {
       password: '',
       base64auth: ''
     })
-    history.push('/')
+    history.push(ClientPaths.homeTemplateFilled())
   }
 
   isAuthenticated () {
