@@ -1,9 +1,9 @@
 import React from 'react'
+import Request from '../../utils/cancelable-request'
 
 export default class extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
       fullName: '',
       email: '',
@@ -21,6 +21,7 @@ export default class extends React.Component {
   render () {
     return (
       <>
+        <h1>Register</h1>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
@@ -70,6 +71,22 @@ export default class extends React.Component {
 
   onSubmitHandler (ev) {
     ev.preventDefault()
-    this.props.submit(this.state)
+
+    this.request = new Request(
+      this.props.host,
+      this.props.path,
+      this.props.method,
+      () => {
+        this.props.onSuccess()
+      },
+      (error) => console.log(error)
+    )
+
+    this.request.setBody(this.state)
+    this.request.send()
+  }
+
+  componentWillUnmount () {
+    if (this.request) this.request.cancel()
   }
 }

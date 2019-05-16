@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import HttpRequest from '../http-request'
-import { call } from '../../utils/actions'
+import Actions from '../../utils/siren-actions'
+import Issues from '../issue-components/issues'
+import SubEntities from '../../utils/siren-sub-entities'
 
 export default class extends React.Component {
   render () {
@@ -17,6 +18,7 @@ export default class extends React.Component {
             return <>
               <h1>{this.props.projectName}</h1>
               {this.renderProjectDetail(project)}
+              {this.renderProjectIssues(project)}
             </>
           }}
         />
@@ -53,8 +55,17 @@ export default class extends React.Component {
     </>
   }
 
+  renderProjectIssues (project) {
+    return <Issues
+      username={this.props.username}
+      host={this.props.host}
+      path={SubEntities.findByName(project, '/rels/project-issues').href}
+      method='GET'
+      credentials={this.props.base64auth} />
+  }
+
   Delete (project) {
-    this.deleteRequest = call(
+    this.deleteRequest = Actions.call(
       project,
       'delete-project',
       this.props.host,

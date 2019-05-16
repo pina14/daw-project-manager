@@ -89,6 +89,27 @@ export default class ClientPaths {
     if (!projectName) projectName = '*'
     return UriBuilder.build(ClientPaths.paths.project_update.uri_template, { projectName: projectName })
   }
+
+  static projectCreateTemplate () {
+    return ClientPaths.paths.project_create.router_template
+  }
+
+  static projectCreateTemplateFilled (username) {
+    if (!username) username = '*'
+    return UriBuilder.build(ClientPaths.paths.project_create.uri_template, { username: username })
+  }
+
+  /**
+   * Issue Templates
+   */
+  static issueTemplate () {
+    return ClientPaths.paths.issue.router_template
+  }
+
+  static issueTemplateFilled (issueId) {
+    if (!issueId) issueId = '*'
+    return UriBuilder.build(ClientPaths.paths.issue.uri_template, { issueId: issueId })
+  }
 }
 
 ClientPaths.paths = {
@@ -100,5 +121,7 @@ ClientPaths.paths = {
   profile_update: { router_template: '/profile/:username/update', uri_template: '/profile/{username}/update' },
   user_projects: { router_template: '/users/:username/projects', uri_template: '/users/{username}/projects' },
   project: { router_template: '/projects/:projectName', uri_template: '/projects/{projectName}' },
-  project_update: { router_template: '/projects/:projectName/update', uri_template: '/projects/{projectName}/update' }
+  project_update: { router_template: '/projects/:projectName/update', uri_template: '/projects/{projectName}/update' },
+  project_create: { router_template: '/users/:username/projects/create', uri_template: '/users/{username}/projects/create' },
+  issue: { router_template: '/issues/:issueId', uri_template: '/issues/{issueId}' }
 }

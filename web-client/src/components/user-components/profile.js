@@ -1,6 +1,6 @@
 import React from 'react'
 import HttpRequest from '../http-request'
-import { call } from '../../utils/actions'
+import Actions from '../../utils/siren-actions'
 
 export default class extends React.Component {
   render () {
@@ -40,7 +40,7 @@ export default class extends React.Component {
   }
 
   Delete (user) {
-    this.request = call(
+    this.request = Actions.call(
       user,
       'delete-user',
       this.props.host,

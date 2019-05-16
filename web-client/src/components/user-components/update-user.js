@@ -1,6 +1,6 @@
 import React from 'react'
 import HttpRequest from '../http-request'
-import { findByName, call } from '../../utils/actions'
+import Actions from '../../utils/siren-actions'
 
 export default class extends React.Component {
   constructor (props) {
@@ -18,7 +18,7 @@ export default class extends React.Component {
         method={this.props.method}
         credentials={this.props.credentials}
         onLoaded={(user) => {
-          const updateAction = findByName(user, 'update-user')
+          const updateAction = Actions.findByName(user, 'update-user')
           return <>
             <h1>Update User</h1>
             <form onSubmit={(ev) => this.update(ev, user)}>
@@ -58,7 +58,7 @@ export default class extends React.Component {
     Object.assign(body, this.state)
     if (!body.fullName) body.fullName = user.properties.fullName
     if (!body.email) body.email = user.properties.email
-    this.request = call(
+    this.request = Actions.call(
       user,
       'update-user',
       this.props.host,

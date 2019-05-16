@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import HttpRequest from '../http-request'
+import ClientPaths from '../../utils/client-paths'
 
 export default class extends React.Component {
   render () {
@@ -30,7 +31,7 @@ export default class extends React.Component {
                       return (
                         <tr key={properties.name}>
                           <td key={`projectName=${properties.name}`}>
-                            <Link to={`/projects/${properties.name}`}>
+                            <Link to={ClientPaths.projectTemplateFilled(properties.name)}>
                               {properties.name}
                             </Link>
                           </td>
@@ -42,6 +43,7 @@ export default class extends React.Component {
                     })}
                   </tbody>
                 </table>
+                <button onClick={this.props.onAdd}>Add Project</button>
               </>
             )
           }}
