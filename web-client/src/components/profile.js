@@ -1,18 +1,8 @@
 import React from 'react'
 import HttpRequest from './http-request'
-import Request from '../utils/cancelable-request'
-import Actions from '../utils/actions'
-import UpdateUser from './update-user'
+import { call } from '../utils/actions'
 
 export default class extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      showNupdate: true
-    }
-    this.version = 0
-  }
-
   render () {
     return (
       <HttpRequest
@@ -20,59 +10,44 @@ export default class extends React.Component {
         path={this.props.path}
         method={this.props.method}
         credentials={this.props.credentials}
-        version={this.version}
         onLoaded={(user) => {
-          return this.state.showNupdate
-            ? (<>
-              <div>
-                <b>Full Name: </b>
-                <p>{user.properties.fullName}</p>
-              </div>
-              <div>
-                <b>Username: </b>
-                <p>{user.properties.username}</p>
-              </div>
-              <div>
-                <b>Email: </b>
-                <p>{user.properties.email}</p>
-              </div>
-              <div>
-                <button onClick={() => this.DeleteUser(user)}> Delete User</button>
-                <button onClick={() => this.UpdateUser()}>Update User</button>
-              </div>
-            </>) : (<UpdateUser
-              user={user}
-              host={this.props.host}
-              credentials={this.props.credentials}
-              onSuccess={() => {
-                this.version++
-                this.setState({ showNupdate: true })
-              }}
-            />)
-        }} />
+          return <>
+            <h1>{this.props.projectName}</h1>
+            <div>
+              <b>Full Name: </b>
+              <p>{user.properties.fullName}</p>
+            </div>
+            <div>
+              <b>Username: </b>
+              <p>{user.properties.username}</p>
+            </div>
+            <div>
+              <b>Email: </b>
+              <p>{user.properties.email}</p>
+            </div>
+            <div>
+              <button onClick={() => this.Delete(user)}> Delete User</button>
+              <button onClick={this.props.onUpdate}>Update User</button>
+            </div>
+          </>
+        }}
+      />
     )
   }
 
   componentWillMount () {
-    if (this.deleteRequest) this.deleteRequest.cancel()
-    if (this.updateRequest) this.updateRequest.cancel()
+    if (this.request) this.request.cancel()
   }
 
-  DeleteUser (user) {
-    const action = Actions.findByName(user, 'delete-user')
-    this.deleteRequest = new Request(
+  Delete (user) {
+    this.request = call(
+      user,
+      'delete-user',
       this.props.host,
-      action.href,
-      action.method,
-      () => this.props.onDelete(),
+      undefined,
+      this.props.credentials,
+      this.props.onDelete,
       (error) => console.log(error)
     )
-
-    this.deleteRequest.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })
-    this.deleteRequest.send()
-  }
-
-  UpdateUser () {
-    this.setState({ showNupdate: false })
   }
 }

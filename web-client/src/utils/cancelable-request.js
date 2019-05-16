@@ -8,22 +8,13 @@
  * onError -> Function to call if request fails
  */
 export default class {
-  constructor (host, path, query, method, onSuccess, onError) {
-    this.url = host + path + this.buildQueryString(query)
+  constructor (host, path, method, onSuccess, onError) {
+    this.url = host + path
     this.method = method
     this.headers = {}
     this.onSuccess = onSuccess.bind(this)
     this.onError = onError.bind(this)
     this.isActive = true
-  }
-
-  buildQueryString (query) {
-    if (!query) return ''
-    let ret = '?'
-    Object.entries(query).forEach(element => {
-      ret += `${element[0]}=${element[1]}&`
-    })
-    return ret.slice(0, -1)
   }
 
   setHeaders (headers) {

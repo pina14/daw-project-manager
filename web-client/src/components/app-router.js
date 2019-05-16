@@ -1,10 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import Login from './login'
-import Profile from './profile'
 import Register from './register'
+import Profile from './profile'
+import UpdateUser from './update-user'
 import Projects from './projects'
 import Project from './project'
+import UpdateProject from './update-project'
 
 const Home = () => <h1>Home</h1>
 
@@ -35,6 +37,10 @@ const menuItemStyle = {
 }
 
 export default class extends React.Component {
+  constructor (props) {
+    super(props)
+    this.host = 'http://localhost:8090'
+  }
   render () {
     return (
       <Router>
@@ -43,48 +49,70 @@ export default class extends React.Component {
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/profile/:username' component={({ history, match }) =>
             <Profile
               username={this.props.username}
-              host='http://localhost:8090'
+              host={this.host}
               path={`/users/${match.params.username}`}
               method='GET'
               credentials={this.props.base64auth}
-              onDelete={() => this.props.signout()} />
-          } />
+              onDelete={() => this.props.signout(history)}
+              onUpdate={() => history.push(`/profile/${this.props.username}/update`)} />
+          } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/profile/:username/update' component={({ history, match }) =>
+            <UpdateUser
+              username={this.props.username}
+              host={this.host}
+              path={`/users/${match.params.username}`}
+              method='GET'
+              credentials={this.props.base64auth}
+              onSuccess={() => history.push(`/profile/${this.props.username}`)} />
+          } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/users/:username/projects' component={({ history }) =>
             <Projects
               username={this.props.username}
-              host='http://localhost:8090'
-              path='/projects'
+              host={this.host}
+              path={`/projects?username=${this.props.username}`}
               method='GET'
               credentials={this.props.base64auth} />
-          } />
+          } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/projects/:projectName' component={({ history, match }) =>
             <Project
               projectName={match.params.projectName}
               username={this.props.username}
-              host='http://localhost:8090'
+              host={this.host}
               path={`/projects/${match.params.projectName}`}
               method='GET'
               credentials={this.props.base64auth}
+              onDelete={() => history.push(`/users/${this.props.username}/projects`)}
+              onUpdate={() => history.push(`/projects/${match.params.projectName}/update`)}
             />
-          } />
+          } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path='/projects/:projectName/update' component={({ history, match }) =>
+            <UpdateProject
+              projectName={match.params.projectName}
+              username={this.props.username}
+              host={this.host}
+              path={`/projects/${match.params.projectName}`}
+              method='GET'
+              credentials={this.props.base64auth}
+              onSuccess={() => history.push(`/projects/${match.params.projectName}`)} />
+          } exact />
           <Route path='/login' render={({ history }) =>
             <Login
-              host='http://localhost:8090'
+              host={this.host}
               path='/users/authenticate'
               method='POST'
               onSuccess={(username, password, base64auth) => this.props.authenticate(history, username, password, base64auth)}
             />
-          } />
+          } exact />
           <Route path='/register' render={({ history }) =>
             <Register
-              host='http://localhost:8090'
+              host={this.host}
               path='/users'
               method='POST'
               onSuccess={() => history.push('/login')}
             />
-          } />
-          <Route path='/logout' render={({ history }) => this.props.signout(history)} />
-          <Route path='/' exact component={Home} />
+          } exact />
+          <Route path='/logout' render={({ history }) => this.props.signout(history)} exact />
+          <Route path='/' component={Home} exact />
           <Route path='/' render={({ location }) => (
             <h1>{location.pathname} Not Found</h1>
           )} />
@@ -129,8 +157,7 @@ function PrivateRoute ({ authFunction, component: Component, ...rest }) {
         authFunction() ? (<Component {...props} />) : (
           <Redirect
             to={{
-              pathname: '/login',
-              state: { from: props.location }
+              pathname: '/login'
             }}
           />
         )

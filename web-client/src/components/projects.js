@@ -10,7 +10,6 @@ export default class extends React.Component {
         <HttpRequest
           host={this.props.host}
           path={this.props.path}
-          query={{ username: this.props.username }}
           method={this.props.method}
           credentials={this.props.credentials}
           onLoaded={(projects) => {
@@ -22,7 +21,7 @@ export default class extends React.Component {
                       <th key='Name'>Name</th>
                       <th key='Owner'>Owner</th>
                       <th key='Description'>Description</th>
-                      <th key='Default State'>Default State</th>
+                      <th key='Default Issue State'>Default State</th>
                     </tr>
                   </thead>
                   <tbody key='tableBody'>
@@ -37,7 +36,7 @@ export default class extends React.Component {
                           </td>
                           <td key={`owner=${properties.name}${properties.owner}`}>{properties.owner}</td>
                           <td key={`owner=${properties.name}${properties.description}`}>{properties.description}</td>
-                          <td key={`owner=${properties.name}${properties.defaultIssueState}`}>{properties.defaultIssueState}</td>
+                          <td key={`owner=${properties.name}${properties.defaultStateName}`}>{properties.defaultStateName}</td>
                         </tr>
                       )
                     })}

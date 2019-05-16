@@ -1,38 +1,42 @@
 import React from 'react'
-import Request from '../utils/cancelable-request'
-import Actions from '../utils/actions'
+import HttpRequest from './http-request'
+import { findByName, call } from '../utils/actions'
 
 export default class extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      fullName: this.props.user.properties.fullName,
-      email: this.props.user.properties.email
-    }
-    this.updateAction = Actions.findByName(this.props.user, 'update-user')
-    this.update = this.update.bind(this)
+    this.state = {}
     this.onChangeFullnameHandler = this.onChangeFullnameHandler.bind(this)
     this.onChangeEmailHandler = this.onChangeEmailHandler.bind(this)
   }
 
   render () {
     return (
-      <>
-        <h1>Update User</h1>
-        <form onSubmit={this.update}>
-          <div>
-            <label>Name: </label>
-            <input type={this.updateAction.fields.find(field => field.name === 'fullName')}
-              value={this.state.fullName} onChange={this.onChangeFullnameHandler} required />
-          </div>
-          <div>
-            <label>Email: </label>
-            <input type={this.updateAction.fields.find(field => field.name === 'email')}
-              value={this.state.email} onChange={this.onChangeEmailHandler} required />
-          </div>
-          <button>Submit</button>
-        </form>
-      </>
+      <HttpRequest
+        host={this.props.host}
+        path={this.props.path}
+        method={this.props.method}
+        credentials={this.props.credentials}
+        onLoaded={(user) => {
+          const updateAction = findByName(user, 'update-user')
+          return <>
+            <h1>Update User</h1>
+            <form onSubmit={(ev) => this.update(ev, user)}>
+              <div>
+                <label>Name: </label>
+                <input type={updateAction.fields.find(field => field.name === 'fullName')}
+                  value={this.state.fullName !== undefined ? this.state.fullName : user.properties.fullName} onChange={this.onChangeFullnameHandler} required />
+              </div>
+              <div>
+                <label>Email: </label>
+                <input type={updateAction.fields.find(field => field.name === 'email')}
+                  value={this.state.email !== undefined ? this.state.email : user.properties.email} onChange={this.onChangeEmailHandler} required />
+              </div>
+              <button>Submit</button>
+            </form>
+          </>
+        }}
+      />
     )
   }
 
@@ -48,20 +52,21 @@ export default class extends React.Component {
     })
   }
 
-  update (ev) {
+  update (ev, user) {
     ev.preventDefault()
-    this.request = new Request(
+    const body = {}
+    Object.assign(body, this.state)
+    if (!body.fullName) body.fullName = user.properties.fullName
+    if (!body.email) body.email = user.properties.email
+    this.request = call(
+      user,
+      'update-user',
       this.props.host,
-      this.updateAction.href,
-      undefined,
-      this.updateAction.method,
+      body,
+      this.props.credentials,
       this.props.onSuccess,
       (error) => console.log(error)
     )
-
-    this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })
-    this.request.setBody(this.state)
-    this.request.send()
   }
 
   componentWillUnmount () {

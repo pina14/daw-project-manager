@@ -8,13 +8,13 @@ class ProjectOutput(project : Project) : EntityRepresentation {
     var owner : String? = null
     var name : String? = null
     var description : String? = null
-    var defaultIssueState : String? = null
+    var defaultStateName : String? = null
 
     init {
         owner = project.user.username
         name = project.name
         description = project.description
-        defaultIssueState = project.defaultIssueState.stateName
+        defaultStateName = project.defaultIssueState.stateName
     }
 
     override fun toSiren(): SirenModel = SirenModel(ProjectSiren(this))

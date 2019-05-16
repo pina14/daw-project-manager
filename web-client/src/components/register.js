@@ -17,11 +17,14 @@ export default class extends React.Component {
     )
   }
 
+  componentWillUnmount () {
+    if(this.request) this.request.cancel()
+  }
+
   register (state) {
     this.request = new Request(
       this.props.host,
       this.props.path,
-      undefined,
       this.props.method,
       () => {
         this.props.onSuccess()
