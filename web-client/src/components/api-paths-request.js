@@ -10,9 +10,7 @@ export default class extends React.Component {
         path='/'
         method={'GET'}
         onLoaded={(paths) => {
-          console.log(paths)
           ApiInfo.setPaths(paths)
-          console.log(ApiInfo.getPaths())
           return this.props.render()
         }}
       />

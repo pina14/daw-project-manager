@@ -52,7 +52,7 @@ export default class extends React.Component {
             <Profile
               username={this.props.username}
               host={this.host}
-              path={`/users/${match.params.username}`}
+              path={ApiInfo.userUrl(match.params.username)}
               method='GET'
               credentials={this.props.base64auth}
               onDelete={() => this.props.signout(history)}
@@ -62,7 +62,7 @@ export default class extends React.Component {
             <UpdateUser
               username={this.props.username}
               host={this.host}
-              path={`/users/${match.params.username}`}
+              path={ApiInfo.userUrl(match.params.username)}
               method='GET'
               credentials={this.props.base64auth}
               onSuccess={() => history.push(`/profile/${this.props.username}`)} />
@@ -71,7 +71,7 @@ export default class extends React.Component {
             <Projects
               username={this.props.username}
               host={this.host}
-              path={`/projects?username=${this.props.username}`}
+              path={ApiInfo.userProjectsUrl(this.props.username)}
               method='GET'
               credentials={this.props.base64auth} />
           } exact />
@@ -80,7 +80,7 @@ export default class extends React.Component {
               projectName={match.params.projectName}
               username={this.props.username}
               host={this.host}
-              path={`/projects/${match.params.projectName}`}
+              path={ApiInfo.projectUrl(match.params.projectName)}
               method='GET'
               credentials={this.props.base64auth}
               onDelete={() => history.push(`/users/${this.props.username}/projects`)}
@@ -92,7 +92,7 @@ export default class extends React.Component {
               projectName={match.params.projectName}
               username={this.props.username}
               host={this.host}
-              path={`/projects/${match.params.projectName}`}
+              path={ApiInfo.projectUrl(match.params.projectName)}
               method='GET'
               credentials={this.props.base64auth}
               onSuccess={() => history.push(`/projects/${match.params.projectName}`)} />
@@ -100,7 +100,7 @@ export default class extends React.Component {
           <Route path='/login' render={({ history }) =>
             <Login
               host={this.host}
-              path='/users/authenticate'
+              path={ApiInfo.authenticateUrl()}
               method='POST'
               onSuccess={(username, password, base64auth) => this.props.authenticate(history, username, password, base64auth)}
             />
@@ -108,7 +108,7 @@ export default class extends React.Component {
           <Route path='/register' render={({ history }) =>
             <Register
               host={this.host}
-              path='/users'
+              path={ApiInfo.usersUrl}
               method='POST'
               onSuccess={() => history.push('/login')}
             />
