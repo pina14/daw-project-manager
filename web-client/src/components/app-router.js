@@ -7,6 +7,7 @@ import UpdateUser from './update-user'
 import Projects from './projects'
 import Project from './project'
 import UpdateProject from './update-project'
+import ApiInfo from '../utils/api-info'
 
 const Home = () => <h1>Home</h1>
 
@@ -39,8 +40,9 @@ const menuItemStyle = {
 export default class extends React.Component {
   constructor (props) {
     super(props)
-    this.host = 'http://localhost:8090'
+    this.host = ApiInfo.getHost()
   }
+
   render () {
     return (
       <Router>
