@@ -1,5 +1,5 @@
 import React from 'react'
-import HttpRequest from '../http-request'
+import HttpRequest from '../general-components/http-request'
 import { Link } from 'react-router-dom'
 import ClientPaths from '../../utils/client-paths'
 

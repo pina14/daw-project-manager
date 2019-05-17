@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HttpRequest from '../http-request'
+import HttpRequest from '../general-components/http-request'
 import ClientPaths from '../../utils/client-paths'
 
 export default class extends React.Component {

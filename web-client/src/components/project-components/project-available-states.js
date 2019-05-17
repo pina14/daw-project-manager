@@ -1,5 +1,5 @@
 import React from 'react'
-import HttpRequest from '../http-request'
+import HttpRequest from '../general-components/http-request'
 import SubEntities from '../../utils/siren-sub-entities'
 import EntitiesProperties from '../../utils/siren-entities-properties'
 

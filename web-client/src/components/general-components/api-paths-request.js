@@ -1,6 +1,6 @@
 import React from 'react'
 import HttpRequest from './http-request'
-import ApiPaths from '../utils/api-paths'
+import ApiPaths from '../../utils/api-paths'
 
 export default class extends React.Component {
   render () {

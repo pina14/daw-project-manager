@@ -1,5 +1,5 @@
 import React from 'react'
-import Request from '../utils/cancelable-request'
+import Request from '../../utils/cancelable-request'
 
 const FetchState = {
   loading: 'loading',
