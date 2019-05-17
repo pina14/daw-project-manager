@@ -319,7 +319,7 @@
 
   * Entities: (Each sub-entity represents an issue)
     
-    **rel:** /rels/issue
+    **rel:** /rels/project-issue
 
     | Name | Type | Description |
     | ---- | ---- | ----------- |
