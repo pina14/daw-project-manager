@@ -50,64 +50,64 @@ export default class extends React.Component {
       <Router>
         {this.menu()}
         <Switch>
-          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.profileTemplate()} component={({ history, match }) =>
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.profileTemplate()} component={({ history }) =>
             <Profile
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
-              path={ApiPaths.userUrl(match.params.username)}
+              path={ApiPaths.userUrl(this.props.username)}
               method='GET'
               credentials={this.props.base64auth}
               onDelete={() => this.props.signout(history)}
-              onUpdate={() => history.push(ClientPaths.profileUpdateTemplateFilled(match.params.username))} />
+              onUpdate={() => history.push(ClientPaths.profileUpdateTemplateFilled(this.props.username))} />
           } exact />
-          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.profileUpdateTemplate()} component={({ history, match }) =>
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.profileUpdateTemplate()} component={({ history }) =>
             <UpdateUser
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
-              path={ApiPaths.userUrl(match.params.username)}
+              path={ApiPaths.userUrl(this.props.username)}
               method='GET'
               credentials={this.props.base64auth}
-              onSuccess={() => history.push(ClientPaths.profileTemplateFilled(match.params.username))} />
+              onSuccess={() => history.push(ClientPaths.profileTemplateFilled(this.props.username))} />
           } exact />
-          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.userProjectsTemplate()} component={({ history, match }) =>
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.userProjectsTemplate()} component={({ history }) =>
             <Projects
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
-              path={ApiPaths.userProjectsUrl(match.params.username)}
+              path={ApiPaths.userProjectsUrl(this.props.username)}
               method='GET'
               credentials={this.props.base64auth}
-              onAdd={() => history.push(ClientPaths.projectCreateTemplateFilled(match.params.username))} />
+              onAdd={() => history.push(ClientPaths.projectCreateTemplateFilled(this.props.username))} />
           } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectTemplate()} component={({ history, match }) =>
             <Project
               projectName={match.params.projectName}
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
               path={ApiPaths.projectUrl(match.params.projectName)}
               method='GET'
               credentials={this.props.base64auth}
-              onDelete={() => history.push(ClientPaths.userProjectsTemplateFilled(match.params.username))}
+              onDelete={() => history.push(ClientPaths.userProjectsTemplateFilled(this.props.username))}
               onUpdate={() => history.push(ClientPaths.projectUpdateTemplateFilled(match.params.projectName))}
             />
           } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectUpdateTemplate()} component={({ history, match }) =>
             <UpdateProject
               projectName={match.params.projectName}
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
               path={ApiPaths.projectUrl(match.params.projectName)}
               method='GET'
               credentials={this.props.base64auth}
               onSuccess={() => history.push(ClientPaths.projectTemplateFilled(match.params.projectName))} />
           } exact />
-          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectCreateTemplate()} component={({ history, match }) =>
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectCreateTemplate()} component={({ history }) =>
             <CreateProject
-              username={match.params.username}
+              username={this.props.username}
               host={this.host}
-              path={ApiPaths.userProjectsUrl(match.params.username)}
+              path={ApiPaths.userProjectsUrl(this.props.username)}
               method='POST'
               credentials={this.props.base64auth}
-              onSuccess={() => history.push(ClientPaths.userProjectsTemplateFilled(match.params.username))} />
+              onSuccess={() => history.push(ClientPaths.userProjectsTemplateFilled(this.props.username))} />
           } exact />
           <Route path={ClientPaths.loginTemplate()} render={({ history }) =>
             <Login

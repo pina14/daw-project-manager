@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.PROJECT_STATES)
-class ProjectAvailableStateController(val projectAvailableStateService : ProjectAvailableStateService) {
+class ProjectAvailableStateController(val projectAvailableStateService : ProjectAvailableStateService) : ProjectManagerController {
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication

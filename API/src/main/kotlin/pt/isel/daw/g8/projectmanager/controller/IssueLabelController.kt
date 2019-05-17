@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.ISSUE_LABELS)
-class IssueLabelController(val issueLabelService : IssueLabelService) {
+class IssueLabelController(val issueLabelService : IssueLabelService) : ProjectManagerController {
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication

@@ -1,6 +1,7 @@
 import React from 'react'
 import HttpRequest from '../http-request'
 import Actions from '../../utils/siren-actions'
+import ProjectAvailableStates from './project-available-states'
 
 export default class extends React.Component {
   constructor (props) {
@@ -24,15 +25,18 @@ export default class extends React.Component {
             <form onSubmit={(ev) => this.update(ev, project)}>
               <div>
                 <label>Description: </label>
-                <input type={updateAction.fields.find(field => field.name === 'description')}
+                <input type={updateAction.fields.find(field => field.name === 'description').type}
                   value={this.state.description !== undefined ? this.state.description : project.properties.description}
                   onChange={this.onChangeDescriptionHandler} required />
               </div>
               <div>
                 <label>Default Issue State: </label>
-                <input type={updateAction.fields.find(field => field.name === 'defaultStateName')}
-                  value={this.state.defaultStateName !== undefined ? this.state.defaultStateName : project.properties.defaultStateName}
-                  onChange={this.onChangeDefaultStateNameHandler} required />
+                <ProjectAvailableStates
+                  project={project}
+                  host={this.props.host}
+                  credentials={this.props.credentials}
+                  initialState={project.properties.defaultStateName}
+                  onChangeState={this.onChangeDefaultStateNameHandler} />
               </div>
               <button>Submit</button>
             </form>
@@ -48,9 +52,9 @@ export default class extends React.Component {
     })
   }
 
-  onChangeDefaultStateNameHandler (ev) {
+  onChangeDefaultStateNameHandler (state) {
     this.setState({
-      defaultStateName: ev.target.value
+      defaultStateName: state
     })
   }
 

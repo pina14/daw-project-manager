@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping(ProjectPaths.PROJECT_STATE_TRANSITIONS)
-class ProjectStateTransitionController(val projectStateTransitionService : ProjectStateTransitionService) {
+class ProjectStateTransitionController(val projectStateTransitionService : ProjectStateTransitionService) : ProjectManagerController {
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
