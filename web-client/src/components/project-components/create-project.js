@@ -60,7 +60,6 @@ export default class extends React.Component {
 
   onSubmitHandler (ev) {
     ev.preventDefault()
-    console.log(this.state)
 
     this.request = new Request(
       this.props.host,

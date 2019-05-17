@@ -19,7 +19,7 @@ class ProjectCollectionSiren(override val entity : ProjectCollectionOutput) : Si
             val project = projects[index]
             SirenModel.SirenEmbeddedRepresentation(
                     _class = arrayOf("Project"),
-                    rel = arrayOf("/rels/project"),
+                    rel = arrayOf("/rels/user-project"),
                     properties = ProjectOutput(project),
                     links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.PROJECTS}/${project.name}"))
             )

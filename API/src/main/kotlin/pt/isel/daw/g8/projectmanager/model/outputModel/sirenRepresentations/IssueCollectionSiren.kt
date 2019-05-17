@@ -19,7 +19,7 @@ class IssueCollectionSiren(override val entity : IssueCollectionOutput) : SirenR
             val issue = issues[index]
             SirenModel.SirenEmbeddedRepresentation(
                     _class = arrayOf("Issue"),
-                    rel = arrayOf("/rels/issue"),
+                    rel = arrayOf("/rels/project-issue"),
                     properties = IssueOutput(issue),
                     links = arrayOf(SirenModel.SirenLink(arrayOf("self"), "${ProjectPaths.ISSUES}/${issue.id}"))
             )

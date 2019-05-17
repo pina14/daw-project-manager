@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import HttpRequest from '../general-components/http-request'
 import ClientPaths from '../../utils/client-paths'
+import EntitiesProperties from '../../utils/siren-entities-properties'
+import Rels from '../../utils/rels'
 
 export default class extends React.Component {
   render () {
@@ -14,6 +16,7 @@ export default class extends React.Component {
           method={this.props.method}
           credentials={this.props.credentials}
           onLoaded={(projects) => {
+            const projectsProperties = EntitiesProperties.getProperties(projects, Rels.user_project)
             return (
               <>
                 <table>
@@ -26,8 +29,7 @@ export default class extends React.Component {
                     </tr>
                   </thead>
                   <tbody key='tableBody'>
-                    {projects.entities.map((project) => {
-                      const properties = project.properties
+                    {projectsProperties.map((properties) => {
                       return (
                         <tr key={properties.name}>
                           <td key={`projectName=${properties.name}`}>
