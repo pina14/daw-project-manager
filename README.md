@@ -122,7 +122,7 @@
 
   * Entities: (Each sub-entity represents a project)
     
-    **rel:** /rels/project
+    **rel:** /rels/user-project
 
     | Name | Type | Description |
     | ---- | ---- | ----------- |
