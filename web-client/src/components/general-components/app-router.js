@@ -7,9 +7,10 @@ import UpdateUser from '../user-components/update-user'
 import ProjectsList from '../project-components/projects-list'
 import Project from '../project-components/project'
 import Issue from '../issue-components/issue'
+import CreateIssue from '../issue-components/create-issue'
+import UpdateIssue from '../issue-components/update-issue'
 import UpdateProject from '../project-components/update-project'
 import CreateProject from '../project-components/create-project'
-import CreateIssue from '../issue-components/create-issue'
 import CreateProjectLabel from '../label-components/create-project-label'
 import CreateProjectState from '../state-components/create-project-state'
 import CreateProjectStateTransition from '../state-transition-components/create-project-state-transition'
@@ -132,6 +133,14 @@ export default class extends React.Component {
               method='GET'
               credentials={this.props.base64auth}
               onDelete={() => history.push(ClientPaths.projectTemplateFilled(match.params.projectName))} />
+          } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.issueUpdateTemplate()} component={({ history, match }) =>
+            <UpdateIssue
+              host={this.host}
+              path={ApiPaths.issueUrl(match.params.issueId)}
+              method='GET'
+              credentials={this.props.base64auth}
+              onSuccess={() => history.push(ClientPaths.issueTemplateFilled(match.params.projectName, match.params.issueId))} />
           } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectLabelCreateTemplate()} component={({ history, match }) =>
             <CreateProjectLabel
