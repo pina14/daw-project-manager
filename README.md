@@ -427,7 +427,7 @@
 
 ## Issue Comment
 * ### Create Issue Comment [Requires Authentication]
-  `POST /issues/comments?issueId={issueId}`
+  `POST /issues/comments`
 
   Creates a comment for a specific issue.
   * Request Body:
