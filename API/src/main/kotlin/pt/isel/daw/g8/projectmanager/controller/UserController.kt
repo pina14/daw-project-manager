@@ -7,6 +7,7 @@ import pt.isel.daw.g8.projectmanager.ProjectPaths
 import pt.isel.daw.g8.projectmanager.middleware.RequiresAuthentication
 import pt.isel.daw.g8.projectmanager.model.inputModel.CreateUserInput
 import pt.isel.daw.g8.projectmanager.model.inputModel.UpdateUserInput
+import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.SirenModel
 import pt.isel.daw.g8.projectmanager.services.interfaces.UserService
@@ -20,10 +21,9 @@ class UserController(val userService : UserService) : ProjectManagerController {
     fun createUser(@RequestBody user : CreateUserInput)
             : OutputModel = userService.createUser(user)
 
-    //TODO add authenticate to API documentation
     @PostMapping(ProjectPaths.AUTHENTICATE)
     @RequiresAuthentication
-    fun authenticate() : ResponseEntity<String> = ResponseEntity("{}", HttpStatus.OK)
+    fun authenticate() : ResponseEntity<String> = EmptyResponseEntity(HttpStatus.OK)
 
     @GetMapping(ProjectPaths.USER_ID, produces = [SirenModel.mediaType])
     fun getUserByUsername(@PathVariable(ProjectPaths.USERNAME_VAR) username: String)

@@ -45,6 +45,29 @@
 ***
 # _Endpoints_
 ***
+## URI Templates
+  `GET /`
+
+  URI templates to all resources in API.
+
+  Templates are formed in compliance with [RFC 6570 - URI Template](https://tools.ietf.org/html/rfc6570).
+```json
+{
+    "users_url": "/users",
+    "authenticate_url": "/users/authenticate",
+    "user_url": "/users/{username}",
+    "user_projects_url": "/projects{?username}",
+    "project_url": "/projects/{projectName}",
+    "project_labels_url": "/projects/available-labels{?projectName,labelName}",
+    "project_states_url": "/projects/available-states{?projectName,stateName}",
+    "project_state_transitions_url": "/projects/state-transitions{?projectName,fromState,toState}",
+    "project_issues_url": "/issues{?projectName}",
+    "issue_url": "/issues/{issueId}",
+    "issue_comments_url": "/issues/comments{?issueId}",
+    "issue_comment_url": "/issues/comments/{commentId}",
+    "issue_labels_url": "/issues/labels{?issueId,labelName}"
+}
+```
 ## User
 * ### Create User
   `POST /users`
@@ -58,6 +81,11 @@
     | password | String | Password for user authentication. |
     | email | String | User email. |
     | fullName | String | User complete name. |
+    
+* ### Authenticate User
+  `POST /users/authenticate`
+
+  Request with header Authorization in compliance with [HTTP Basic scheme](https://tools.ietf.org/html/rfc7617) to authenticate user credentials.
 
 * ### Get User By Username
   `GET /users/{username}`
