@@ -5,34 +5,29 @@ export default class extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
-      description: '',
-      username: this.props.username,
-      defaultStateName: ''
+      issueCreator: this.props.username,
+      projectName: this.props.projectName,
+      issueName: '',
+      description: ''
     }
 
-    this.onChangeNameHandler = this.onChangeNameHandler.bind(this)
+    this.onChangeIssueNameHandler = this.onChangeIssueNameHandler.bind(this)
     this.onChangeDescriptionHandler = this.onChangeDescriptionHandler.bind(this)
-    this.onChangeDefaultStateHandler = this.onChangeDefaultStateHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
 
   render () {
     return (
       <>
-        <h1>Create Project</h1>
+        <h1>Create Issue</h1>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
-            <input type='text' value={this.state.name} onChange={this.onChangeNameHandler} required />
+            <input type='text' value={this.state.issueName} onChange={this.onChangeIssueNameHandler} required />
           </div>
           <div>
             <label>Description: </label>
             <input type='text' value={this.state.description} onChange={this.onChangeDescriptionHandler} required />
-          </div>
-          <div>
-            <label>Default State for Issues: </label>
-            <input type='text' value={this.state.defaultStateName} onChange={this.onChangeDefaultStateHandler} required />
           </div>
           <button>Submit</button>
         </form>
@@ -40,21 +35,15 @@ export default class extends React.Component {
     )
   }
 
-  onChangeNameHandler (ev) {
+  onChangeIssueNameHandler (ev) {
     this.setState({
-      name: ev.target.value
+      issueName: ev.target.value
     })
   }
 
   onChangeDescriptionHandler (ev) {
     this.setState({
       description: ev.target.value
-    })
-  }
-
-  onChangeDefaultStateHandler (ev) {
-    this.setState({
-      defaultStateName: ev.target.value
     })
   }
 

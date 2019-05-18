@@ -23,9 +23,7 @@ export default class extends React.Component {
                   <thead key='tableHead'>
                     <tr key='headerkey'>
                       <th key='Name'>Name</th>
-                      <th key='Owner'>Owner</th>
                       <th key='Description'>Description</th>
-                      <th key='Default Issue State'>Default State</th>
                     </tr>
                   </thead>
                   <tbody key='tableBody'>
@@ -37,15 +35,15 @@ export default class extends React.Component {
                               {properties.name}
                             </Link>
                           </td>
-                          <td key={`owner=${properties.name}${properties.owner}`}>{properties.owner}</td>
                           <td key={`owner=${properties.name}${properties.description}`}>{properties.description}</td>
-                          <td key={`owner=${properties.name}${properties.defaultStateName}`}>{properties.defaultStateName}</td>
                         </tr>
                       )
                     })}
                   </tbody>
                 </table>
-                <button onClick={this.props.onAdd}>Add Project</button>
+                <Link to={ClientPaths.projectCreateTemplateFilled(this.props.username)} >
+                  <button>Add Project</button>
+                </Link>
               </>
             )
           }}

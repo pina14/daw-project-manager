@@ -2,6 +2,7 @@ import React from 'react'
 import HttpRequest from '../general-components/http-request'
 import SubEntities from '../../utils/siren-sub-entities'
 import EntitiesProperties from '../../utils/siren-entities-properties'
+import Rels from '../../utils/rels'
 
 export default class extends React.Component {
   constructor (props) {
@@ -18,7 +19,7 @@ export default class extends React.Component {
       <>
         <HttpRequest
           host={this.props.host}
-          path={SubEntities.findByName(this.props.project, '/rels/project-available-states').href}
+          path={SubEntities.findByName(this.props.project, Rels.project_states).href}
           method='GET'
           credentials={this.props.credentials}
           onLoaded={(states) => {
@@ -33,7 +34,7 @@ export default class extends React.Component {
   }
 
   renderOptions (states) {
-    const properties = EntitiesProperties.getProperties(states, '/rels/project-available-state')
+    const properties = EntitiesProperties.getProperties(states, Rels.project_state)
     const selected = properties.find(s => s.stateName === this.state.stateName)
     if (selected) {
       const selectedName = selected.stateName

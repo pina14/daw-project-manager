@@ -1,8 +1,11 @@
 import React from 'react'
 import HttpRequest from '../general-components/http-request'
+import { Link } from 'react-router-dom'
+import ClientPaths from '../../utils/client-paths'
 import Actions from '../../utils/siren-actions'
 import Issues from '../issue-components/issues'
 import SubEntities from '../../utils/siren-sub-entities'
+import Rels from '../../utils/rels'
 
 export default class extends React.Component {
   render () {
@@ -50,7 +53,9 @@ export default class extends React.Component {
       </div>
       <div>
         <button onClick={() => this.Delete(project)}> Delete Project</button>
-        <button onClick={this.props.onUpdate}>Update Project</button>
+        <Link to={ClientPaths.projectUpdateTemplateFilled(this.props.projectName)} >
+          <button>Update Project</button>
+        </Link>
       </div>
     </>
   }
@@ -58,8 +63,9 @@ export default class extends React.Component {
   renderProjectIssues (project) {
     return <Issues
       username={this.props.username}
+      projectName={this.props.projectName}
       host={this.props.host}
-      path={SubEntities.findByName(project, '/rels/project-issues').href}
+      path={SubEntities.findByName(project, Rels.project_issues).href}
       method='GET'
       credentials={this.props.base64auth} />
   }

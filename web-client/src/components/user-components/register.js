@@ -76,9 +76,7 @@ export default class extends React.Component {
       this.props.host,
       this.props.path,
       this.props.method,
-      () => {
-        this.props.onSuccess()
-      },
+      this.props.onSuccess,
       (error) => console.log(error)
     )
 

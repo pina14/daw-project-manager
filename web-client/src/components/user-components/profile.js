@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import ClientPaths from '../../utils/client-paths'
 import HttpRequest from '../general-components/http-request'
 import Actions from '../../utils/siren-actions'
 
@@ -27,7 +29,9 @@ export default class extends React.Component {
             </div>
             <div>
               <button onClick={() => this.Delete(user)}> Delete User</button>
-              <button onClick={this.props.onUpdate}>Update User</button>
+              <Link to={ClientPaths.profileUpdateTemplateFilled(this.props.username)} >
+                <button>Update User</button>
+              </Link>
             </div>
           </>
         }}
