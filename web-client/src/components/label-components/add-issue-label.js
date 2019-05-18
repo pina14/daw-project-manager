@@ -1,30 +1,29 @@
 import React from 'react'
 import Request from '../../utils/cancelable-request'
-import ProjectStatesSelector from '../state-components/project-states-selector'
 import HttpRequest from '../general-components/http-request'
 import ApiPaths from '../../utils/api-paths'
+import ProjectLabelsSelector from './project-labels-selector'
 
 export default class extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       projectName: this.props.projectName,
-      fromState: '',
-      toState: '',
-      invalidTransitionMessage: null
+      issueId: this.props.issueId,
+      labelName: '',
+      invalidLabelMessage: null
     }
 
-    this.onChangeFromStateNameHandler = this.onChangeFromStateNameHandler.bind(this)
-    this.onChangeToStateNameHandler = this.onChangeToStateNameHandler.bind(this)
+    this.onChangeLabelNameHandler = this.onChangeLabelNameHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
 
   render () {
     return (
       <>
-        <h1>Create Project State Transition</h1>
-        <div style={{ color: 'red', display: this.state.invalidTransitionMessage ? 'block' : 'none' }}>
-          {this.state.invalidTransitionMessage}
+        <h1>Add Issue Label</h1>
+        <div style={{ color: 'red', display: this.state.invalidLabelMessage ? 'block' : 'none' }}>
+          {this.state.invalidLabelMessage}
         </div>
         <HttpRequest
           host={this.props.host}
@@ -35,22 +34,12 @@ export default class extends React.Component {
             return (
               <form onSubmit={this.onSubmitHandler}>
                 <div>
-                  <label>From State: </label>
-                  <ProjectStatesSelector
+                  <label>Name: </label>
+                  <ProjectLabelsSelector
                     project={project}
                     host={this.props.host}
                     credentials={this.props.credentials}
-                    initialState={'-'}
-                    onChangeState={this.onChangeFromStateNameHandler} />
-                </div>
-                <div>
-                  <label>To State: </label>
-                  <ProjectStatesSelector
-                    project={project}
-                    host={this.props.host}
-                    credentials={this.props.credentials}
-                    initialState={'-'}
-                    onChangeState={this.onChangeToStateNameHandler} />
+                    onChangeState={this.onChangeLabelNameHandler} />
                 </div>
                 <button>Submit</button>
               </form>
@@ -60,15 +49,9 @@ export default class extends React.Component {
     )
   }
 
-  onChangeFromStateNameHandler (state) {
+  onChangeLabelNameHandler (label) {
     this.setState({
-      fromState: state
-    })
-  }
-
-  onChangeToStateNameHandler (state) {
-    this.setState({
-      toState: state
+      labelName: label
     })
   }
 
@@ -80,7 +63,11 @@ export default class extends React.Component {
       this.props.path,
       this.props.method,
       this.props.onSuccess,
-      () => this.setState({ invalidTransitionMessage: 'Invalid or Repeated Transition.' })
+      () => this.setState({ invalidLabelMessage: 
+        this.state.labelName
+          ? `Issue already has '${this.state.labelName}' label`
+          : 'Select a label to add.'
+      })
     )
 
     this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })

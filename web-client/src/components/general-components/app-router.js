@@ -6,12 +6,14 @@ import Profile from '../user-components/profile'
 import UpdateUser from '../user-components/update-user'
 import ProjectsList from '../project-components/projects-list'
 import Project from '../project-components/project'
+import Issue from '../issue-components/issue'
 import UpdateProject from '../project-components/update-project'
 import CreateProject from '../project-components/create-project'
 import CreateIssue from '../issue-components/create-issue'
 import CreateProjectLabel from '../label-components/create-project-label'
 import CreateProjectState from '../state-components/create-project-state'
 import CreateProjectStateTransition from '../state-transition-components/create-project-state-transition'
+import AddIssueLabel from '../label-components/add-issue-label'
 import ApiPaths from '../../utils/api-paths'
 import ClientPaths from '../../utils/client-paths'
 
@@ -119,6 +121,16 @@ export default class extends React.Component {
               credentials={this.props.base64auth}
               onSuccess={() => history.push(ClientPaths.projectTemplateFilled(match.params.projectName))} />
           } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.issueTemplate()} component={({ history, match }) =>
+            <Issue
+              username={this.props.username}
+              projectName={match.params.projectName}
+              host={this.host}
+              path={ApiPaths.issueUrl(match.params.issueId)}
+              method='GET'
+              credentials={this.props.base64auth}
+              onDelete={() => history.push(ClientPaths.projectTemplateFilled(match.params.projectName))} />
+          } exact />
           <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.projectLabelCreateTemplate()} component={({ history, match }) =>
             <CreateProjectLabel
               username={this.props.username}
@@ -148,6 +160,16 @@ export default class extends React.Component {
               method='POST'
               credentials={this.props.base64auth}
               onSuccess={() => history.push(ClientPaths.projectTemplateFilled(match.params.projectName))} />
+          } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.issueLabelAddTemplate()} component={({ history, match }) =>
+            <AddIssueLabel
+              projectName={match.params.projectName}
+              issueId={match.params.issueId}
+              host={this.host}
+              path={ApiPaths.issueLabelsUrl()}
+              method='POST'
+              credentials={this.props.base64auth}
+              onSuccess={() => history.push(ClientPaths.issueTemplateFilled(match.params.projectName, match.params.issueId))} />
           } exact />
           <Route path={ClientPaths.loginTemplate()} render={({ history }) =>
             <Login

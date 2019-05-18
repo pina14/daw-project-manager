@@ -31,12 +31,12 @@ export default class extends React.Component {
                       return (
                         <tr key={properties.id}>
                           <td key={`id=${properties.id}`}>
-                            <Link to={ClientPaths.issueTemplateFilled(properties.id)} >
+                            <Link to={ClientPaths.issueTemplateFilled(this.props.projectName, properties.id)} >
                               {properties.id}
                             </Link>
                           </td>
-                          <td key={`${properties.id}${properties.issueName}`}>{properties.issueName}</td>
-                          <td key={`${properties.id}${properties.description}`}>{properties.description}</td>
+                          <td key={`name=${properties.id}`}>{properties.issueName}</td>
+                          <td key={`description=${properties.id}`}>{properties.description}</td>
                         </tr>
                       )
                     })}
