@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ClientPaths from '../../utils/client-paths'
 import Actions from '../../utils/siren-actions'
 import IssueLabelsList from '../label-components/issue-labels-list'
+import IssueCommentsList from '../comments-components/issue-comments-list'
 import SubEntities from '../../utils/siren-sub-entities'
 import Rels from '../../utils/rels'
 
@@ -32,7 +33,7 @@ export default class extends React.Component {
     )
   }
 
-  componentWillMount () {
+  componentWillUnmount () {
     if (this.deleteRequest) this.deleteRequest.cancel()
   }
 
@@ -68,7 +69,7 @@ export default class extends React.Component {
         <p>{properties.creationDate}</p>
       </div>
       <div>
-        <button onClick={() => this.Delete(issue)}> Delete Issue</button>
+        <button onClick={() => this.Delete(issue)}>Delete Issue</button>
         <Link to={ClientPaths.issueUpdateTemplateFilled(this.props.projectName, properties.id)} >
           <button>Update Issue</button>
         </Link>
@@ -88,7 +89,14 @@ export default class extends React.Component {
   }
 
   renderIssueComments (issue) {
-
+    return <IssueCommentsList
+      username={this.props.username}
+      projectName={this.props.projectName}
+      issueId={issue.properties.id}
+      host={this.props.host}
+      path={SubEntities.findByName(issue, Rels.issue_comments).href}
+      method='GET'
+      credentials={this.props.credentials} />
   }
 
   Delete (issue) {

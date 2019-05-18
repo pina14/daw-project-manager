@@ -179,6 +179,34 @@ export default class ClientPaths {
     if (!issueId) issueId = '*'
     return UriBuilder.build(ClientPaths.paths.issue_label_add.uri_template, { projectName: projectName, issueId: issueId })
   }
+
+  /**
+   * Issue Labels Templates
+   */
+  static issueCommentTemplate () {
+    return ClientPaths.paths.issue_comment.router_template
+  }
+
+  static issueCommentTemplateFilled (projectName, issueId, commentId) {
+    if (!projectName) projectName = '*'
+    if (!issueId) issueId = '*'
+    if (!commentId) commentId = '*'
+    return UriBuilder.build(ClientPaths.paths.issue_comment.uri_template, {
+      projectName: projectName,
+      issueId: issueId,
+      commentId
+    })
+  }
+
+  static issueCommentCreateTemplate () {
+    return ClientPaths.paths.issue_comment_create.router_template
+  }
+
+  static issueCommentCreateTemplateFilled (projectName, issueId) {
+    if (!projectName) projectName = '*'
+    if (!issueId) issueId = '*'
+    return UriBuilder.build(ClientPaths.paths.issue_comment_create.uri_template, { projectName: projectName, issueId: issueId })
+  }
 }
 
 ClientPaths.paths = {
@@ -198,5 +226,7 @@ ClientPaths.paths = {
   issue: { router_template: '/projects/:projectName/issues/:issueId', uri_template: '/projects/{projectName}/issues/{issueId}' },
   issue_create: { router_template: '/projects/:projectName/issues/create', uri_template: '/projects/{projectName}/issues/create' },
   issue_update: { router_template: '/projects/:projectName/issues/:issueId/update', uri_template: '/projects/{projectName}/issues/{issueId}/update' },
-  issue_label_add: { router_template: '/projects/:projectName/issues/:issueId/labels/add', uri_template: '/projects/{projectName}/issues/{issueId}/labels/add' }
+  issue_label_add: { router_template: '/projects/:projectName/issues/:issueId/labels/add', uri_template: '/projects/{projectName}/issues/{issueId}/labels/add' },
+  issue_comment: { router_template: '/projects/:projectName/issues/:issueId/comments/:commentId', uri_template: '/projects/{projectName}/issues/{issueId}/comments/{commentId}' },
+  issue_comment_create: { router_template: '/projects/:projectName/issues/:issueId/comments/create', uri_template: '/projects/{projectName}/issues/{issueId}/comments/create' }
 }

@@ -14,6 +14,8 @@ import CreateProjectLabel from '../label-components/create-project-label'
 import CreateProjectState from '../state-components/create-project-state'
 import CreateProjectStateTransition from '../state-transition-components/create-project-state-transition'
 import AddIssueLabel from '../label-components/add-issue-label'
+import IssueComment from '../comments-components/issue-comment'
+import CreateIssueComment from '../comments-components/create-issue-comment'
 import ApiPaths from '../../utils/api-paths'
 import ClientPaths from '../../utils/client-paths'
 
@@ -170,6 +172,24 @@ export default class extends React.Component {
               method='POST'
               credentials={this.props.base64auth}
               onSuccess={() => history.push(ClientPaths.issueTemplateFilled(match.params.projectName, match.params.issueId))} />
+          } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.issueCommentCreateTemplate()}
+            component={({ history, match }) =>
+              <CreateIssueComment
+                username={this.props.username}
+                issueId={match.params.issueId}
+                host={this.host}
+                path={ApiPaths.issueCommentsUrl()}
+                method='POST'
+                credentials={this.props.base64auth}
+                onSuccess={() => history.push(ClientPaths.issueTemplateFilled(match.params.projectName, match.params.issueId))} />
+            } exact />
+          <PrivateRoute authFunction={() => this.props.isAuthenticated()} path={ClientPaths.issueCommentTemplate()} component={({ history, match }) =>
+            <IssueComment
+              host={this.host}
+              path={ApiPaths.issueCommentUrl(match.params.commentId)}
+              method='GET'
+              credentials={this.props.base64auth} />
           } exact />
           <Route path={ClientPaths.loginTemplate()} render={({ history }) =>
             <Login
