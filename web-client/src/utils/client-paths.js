@@ -100,6 +100,42 @@ export default class ClientPaths {
   }
 
   /**
+   * Project Labels Templates
+   */
+  static projectLabelCreateTemplate () {
+    return ClientPaths.paths.project_label_create.router_template
+  }
+
+  static projectLabelCreateTemplateFilled (projectName) {
+    if (!projectName) projectName = '*'
+    return UriBuilder.build(ClientPaths.paths.project_label_create.uri_template, { projectName: projectName })
+  }
+
+  /**
+   * Project States Templates
+   */
+  static projectStateCreateTemplate () {
+    return ClientPaths.paths.project_state_create.router_template
+  }
+
+  static projectStateCreateTemplateFilled (projectName) {
+    if (!projectName) projectName = '*'
+    return UriBuilder.build(ClientPaths.paths.project_state_create.uri_template, { projectName: projectName })
+  }
+
+  /**
+   * Project State Transitions Templates
+   */
+  static projectStateTransitionCreateTemplate () {
+    return ClientPaths.paths.project_state_transition_create.router_template
+  }
+
+  static projectStateTransitionCreateTemplateFilled (projectName) {
+    if (!projectName) projectName = '*'
+    return UriBuilder.build(ClientPaths.paths.project_state_transition_create.uri_template, { projectName: projectName })
+  }
+
+  /**
    * Issue Templates
    */
   static issueTemplate () {
@@ -132,6 +168,9 @@ ClientPaths.paths = {
   project: { router_template: '/projects/:projectName', uri_template: '/projects/{projectName}' },
   project_update: { router_template: '/projects/:projectName/update', uri_template: '/projects/{projectName}/update' },
   project_create: { router_template: '/users/:username/projects/create', uri_template: '/users/{username}/projects/create' },
+  project_label_create: { router_template: '/projects/:projectName/labels/create', uri_template: '/projects/{projectName}/labels/create' },
+  project_state_create: { router_template: '/projects/:projectName/states/create', uri_template: '/projects/{projectName}/states/create' },
+  project_state_transition_create: { router_template: '/projects/:projectName/state-transitions/create', uri_template: '/projects/{projectName}/state-transitions/create' },
   issue: { router_template: '/issues/:issueId', uri_template: '/issues/{issueId}' },
   issue_create: { router_template: '/projects/:projectName/issues/create', uri_template: '/projects/{projectName}/issues/create' }
 }

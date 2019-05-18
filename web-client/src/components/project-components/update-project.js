@@ -1,7 +1,7 @@
 import React from 'react'
 import HttpRequest from '../general-components/http-request'
 import Actions from '../../utils/siren-actions'
-import ProjectAvailableStates from './project-available-states'
+import ProjectStatesSelector from '../state-components/project-states-selector'
 
 export default class extends React.Component {
   constructor (props) {
@@ -31,7 +31,7 @@ export default class extends React.Component {
               </div>
               <div>
                 <label>Default Issue State: </label>
-                <ProjectAvailableStates
+                <ProjectStatesSelector
                   project={project}
                   host={this.props.host}
                   credentials={this.props.credentials}

@@ -9,7 +9,6 @@ export default class extends React.Component {
   render () {
     return (
       <>
-        <h2>Issues:</h2>
         <HttpRequest
           host={this.props.host}
           path={this.props.path}

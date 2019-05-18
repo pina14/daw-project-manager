@@ -3,7 +3,10 @@ import HttpRequest from '../general-components/http-request'
 import { Link } from 'react-router-dom'
 import ClientPaths from '../../utils/client-paths'
 import Actions from '../../utils/siren-actions'
-import Issues from '../issue-components/issues'
+import IssuesList from '../issue-components/issues-list'
+import ProjectLabelsList from '../label-components/project-labels-list'
+import ProjectStatesList from '../state-components/project-states-list'
+import ProjectStateTransitionsList from '../state-transition-components/project-state-transitions-list'
 import SubEntities from '../../utils/siren-sub-entities'
 import Rels from '../../utils/rels'
 
@@ -21,7 +24,14 @@ export default class extends React.Component {
             return <>
               <h1>{this.props.projectName}</h1>
               {this.renderProjectDetail(project)}
+              <h2>Issues:</h2>
               {this.renderProjectIssues(project)}
+              <h2>Authorized Labels for Issues:</h2>
+              {this.renderProjectLabels(project)}
+              <h2>Authorized States for Issues:</h2>
+              {this.renderProjectStates(project)}
+              <h2>Authorized State Transitions for Issues:</h2>
+              {this.renderProjectStateTransitions(project)}
             </>
           }}
         />
@@ -61,13 +71,43 @@ export default class extends React.Component {
   }
 
   renderProjectIssues (project) {
-    return <Issues
+    return <IssuesList
       username={this.props.username}
       projectName={this.props.projectName}
       host={this.props.host}
       path={SubEntities.findByName(project, Rels.project_issues).href}
       method='GET'
-      credentials={this.props.base64auth} />
+      credentials={this.props.credentials} />
+  }
+
+  renderProjectLabels (project) {
+    return <ProjectLabelsList
+      username={this.props.username}
+      projectName={this.props.projectName}
+      host={this.props.host}
+      path={SubEntities.findByName(project, Rels.project_labels).href}
+      method='GET'
+      credentials={this.props.credentials} />
+  }
+
+  renderProjectStates (project) {
+    return <ProjectStatesList
+      username={this.props.username}
+      projectName={this.props.projectName}
+      host={this.props.host}
+      path={SubEntities.findByName(project, Rels.project_states).href}
+      method='GET'
+      credentials={this.props.credentials} />
+  }
+
+  renderProjectStateTransitions (project) {
+    return <ProjectStateTransitionsList
+      username={this.props.username}
+      projectName={this.props.projectName}
+      host={this.props.host}
+      path={SubEntities.findByName(project, Rels.project_state_transitions).href}
+      method='GET'
+      credentials={this.props.credentials} />
   }
 
   Delete (project) {

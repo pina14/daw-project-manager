@@ -35,18 +35,13 @@ export default class extends React.Component {
 
   renderOptions (states) {
     const properties = EntitiesProperties.getProperties(states, Rels.project_state)
-    const selected = properties.find(s => s.stateName === this.state.stateName)
-    if (selected) {
-      const selectedName = selected.stateName
-      return <>
-        <option value={selectedName} key={selectedName}>{selectedName}</option>
-        {properties
-          .filter(s => s.stateName !== selectedName)
-          .map(s => <option value={s.stateName} key={s.stateName}>{s.stateName}</option>)}
-      </>
-    }
-
-    return properties.map(s => <option value={s.stateName} key={s.stateName}>{s.stateName}</option>)
+    const selectedName = this.state.stateName
+    return <>
+      <option value={selectedName} key={selectedName}>{selectedName}</option>
+      {properties
+        .filter(s => s.stateName !== selectedName)
+        .map(s => <option value={s.stateName} key={s.stateName}>{s.stateName}</option>)}
+    </>
   }
 
   handleChange (ev) {

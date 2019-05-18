@@ -62,6 +62,9 @@ class ProjectAvailableStateServiceImpl(private val projectRepo: ProjectRepo,
             throw NotFoundException("There isn't a project with name '$projectName'.")
         val projectDb = projectRepo.findById(projectName).get()
 
+        if(projectDb.defaultIssueStateName === stateName)
+            throw BadRequestException("It's not allowed to delete this state.")
+
         if(projectDb.username != authUsername)
             throw ForbiddenException("Authentication credentials are not valid to make changes to this resource.")
 

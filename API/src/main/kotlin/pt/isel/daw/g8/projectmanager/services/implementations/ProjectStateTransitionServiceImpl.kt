@@ -11,7 +11,6 @@ import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.Confl
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.ForbiddenException
 import pt.isel.daw.g8.projectmanager.model.errorModel.errorRepresentations.NotFoundException
 import pt.isel.daw.g8.projectmanager.model.inputModel.ProjectStateTransitionInput
-import pt.isel.daw.g8.projectmanager.model.inputModel.StateTransitionInput
 import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 import pt.isel.daw.g8.projectmanager.model.outputModel.entityRepresentations.ProjectStateTransitionCollectionOutput
@@ -43,6 +42,9 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
         if(!projectAvailableStateRepo.existsById(toAvailableStateId))
             throw BadRequestException("State '${toState.stateName}' isn't allowed for this project.")
 
+        if(projectStateTransition.fromState == projectStateTransition.toState)
+            throw BadRequestException("Transition has to be between 2 different states.")
+
         val projectStateTransitionId = ProjectStateTransitionId(projectDb, fromState, toState)
         if(projectStateTransitionRepo.existsById(projectStateTransitionId))
             throw ConflictException("This state transition already exists for this project.")
@@ -63,7 +65,7 @@ class ProjectStateTransitionServiceImpl(private val projectRepo: ProjectRepo,
     }
 
     override fun deleteProjectStateTransition(authUsername: String, projectName: String, fromState: String, toState: String): EmptyResponseEntity {
-        if(Rules.mandatoryTransitions.contains(StateTransitionInput(fromState, toState)))
+        if(Rules.isMandatoryTransition(fromState, toState))
             throw BadRequestException("It's not allowed to delete this transition.")
 
         if(!projectRepo.existsById(projectName))

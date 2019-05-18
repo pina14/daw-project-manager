@@ -14,4 +14,8 @@ object Rules {
             StateTransitionInput(OPEN, ARCHIVED),
             StateTransitionInput(CLOSED, ARCHIVED)
     )
+
+    fun isMandatoryTransition(from : String, to : String) : Boolean {
+        return mandatoryTransitions.any { it.fromState == from && it.toState == to }
+    }
 }
