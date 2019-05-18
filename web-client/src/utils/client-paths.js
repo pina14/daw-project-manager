@@ -155,6 +155,15 @@ export default class ClientPaths {
     if (!projectName) projectName = '*'
     return UriBuilder.build(ClientPaths.paths.issue_create.uri_template, { projectName: projectName })
   }
+
+  static issueUpdateTemplate () {
+    return ClientPaths.paths.issue_update.router_template
+  }
+
+  static issueUpdateTemplateFilled (issueId) {
+    if (!issueId) issueId = '*'
+    return UriBuilder.build(ClientPaths.paths.issue_update.uri_template, { issueId: issueId })
+  }
 }
 
 ClientPaths.paths = {
@@ -172,5 +181,6 @@ ClientPaths.paths = {
   project_state_create: { router_template: '/projects/:projectName/states/create', uri_template: '/projects/{projectName}/states/create' },
   project_state_transition_create: { router_template: '/projects/:projectName/state-transitions/create', uri_template: '/projects/{projectName}/state-transitions/create' },
   issue: { router_template: '/issues/:issueId', uri_template: '/issues/{issueId}' },
-  issue_create: { router_template: '/projects/:projectName/issues/create', uri_template: '/projects/{projectName}/issues/create' }
+  issue_create: { router_template: '/projects/:projectName/issues/create', uri_template: '/projects/{projectName}/issues/create' },
+  issue_update: { router_template: '/issues/:issueId/update', uri_template: '/issues/{issueId}/update' }
 }

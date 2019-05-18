@@ -18,7 +18,7 @@ export default class extends React.Component {
         method={this.props.method}
         credentials={this.props.credentials}
         onLoaded={(user) => {
-          const updateAction = Actions.findByName(user, 'update-user')
+          const updateAction = Actions.findByName(user, Actions.update_user)
           return <>
             <h1>Update User</h1>
             <form onSubmit={(ev) => this.update(ev, user)}>
@@ -60,7 +60,7 @@ export default class extends React.Component {
     if (!body.email) body.email = user.properties.email
     this.request = Actions.call(
       user,
-      'update-user',
+      Actions.update_user,
       this.props.host,
       body,
       this.props.credentials,

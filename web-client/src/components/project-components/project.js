@@ -113,7 +113,7 @@ export default class extends React.Component {
   Delete (project) {
     this.deleteRequest = Actions.call(
       project,
-      'delete-project',
+      Actions.delete_project,
       this.props.host,
       undefined,
       this.props.credentials,

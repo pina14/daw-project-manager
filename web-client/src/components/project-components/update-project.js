@@ -19,7 +19,7 @@ export default class extends React.Component {
         method={this.props.method}
         credentials={this.props.credentials}
         onLoaded={(project) => {
-          const updateAction = Actions.findByName(project, 'update-project')
+          const updateAction = Actions.findByName(project, Actions.update_project)
           return <>
             <h1>{`Update ${project.properties.name}`}</h1>
             <form onSubmit={(ev) => this.update(ev, project)}>
@@ -66,7 +66,7 @@ export default class extends React.Component {
     if (!body.defaultStateName) body.defaultStateName = project.properties.defaultStateName
     this.request = Actions.call(
       project,
-      'update-project',
+      Actions.update_project,
       this.props.host,
       body,
       this.props.credentials,
