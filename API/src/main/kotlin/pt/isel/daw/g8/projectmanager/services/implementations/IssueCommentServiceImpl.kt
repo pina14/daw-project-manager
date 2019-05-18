@@ -17,16 +17,16 @@ import pt.isel.daw.g8.projectmanager.services.interfaces.IssueCommentService
 class IssueCommentServiceImpl(private val issueRepo: IssueRepo,
                               private val commentRepo: IssueCommentRepo) : IssueCommentService {
 
-    override fun createComment(issueId : Int, comment: IssueCommentInput): EmptyResponseEntity {
-        val issueDbReq = issueRepo.findById(issueId)
+    override fun createComment(comment: IssueCommentInput): EmptyResponseEntity {
+        val issueDbReq = issueRepo.findById(comment.issueId)
         if(!issueDbReq.isPresent)
-            throw NotFoundException("There isn't a issue with id = '$issueId'.")
+            throw NotFoundException("There isn't a issue with id = '${comment.issueId}'.")
 
         val issueDb = issueDbReq.get()
         if(issueDb.stateName == Rules.ARCHIVED)
             throw BadRequestException("Can't add a comment to an archived issue.")
 
-        val commentDb = IssueComment(comment.commentCreator, issueId, comment.content)
+        val commentDb = IssueComment(comment.commentCreator, comment.issueId, comment.content)
         commentRepo.save(commentDb)
 
         return EmptyResponseEntity(HttpStatus.CREATED)

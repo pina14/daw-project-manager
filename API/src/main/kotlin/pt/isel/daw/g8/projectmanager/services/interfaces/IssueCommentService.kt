@@ -5,7 +5,7 @@ import pt.isel.daw.g8.projectmanager.model.outputModel.EmptyResponseEntity
 import pt.isel.daw.g8.projectmanager.model.outputModel.OutputModel
 
 interface IssueCommentService {
-    fun createComment(issueId : Int, comment: IssueCommentInput): EmptyResponseEntity
+    fun createComment(comment: IssueCommentInput): EmptyResponseEntity
     fun getIssueComments(issueId: Int): OutputModel
     fun getCommentById(commentId : Int): OutputModel
 }

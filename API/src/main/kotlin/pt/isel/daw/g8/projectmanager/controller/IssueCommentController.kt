@@ -15,12 +15,10 @@ class IssueCommentController(val commentService : IssueCommentService) : Project
 
     @PostMapping(consumes = ["application/json"])
     @RequiresAuthentication
-    fun createIssueComment(request: HttpServletRequest,
-                           @RequestParam(ProjectPaths.ISSUE_ID_VAR) issueId: Int,
-                           @RequestBody comment : IssueCommentInput) : OutputModel {
+    fun createIssueComment(request: HttpServletRequest, @RequestBody comment : IssueCommentInput) : OutputModel {
         val authUsername = request.getAttribute(ProjectPaths.USERNAME_VAR) as String
         checkAuthorizationToResource(authUsername, comment.commentCreator)
-        return commentService.createComment(issueId, comment)
+        return commentService.createComment(comment)
     }
 
     @GetMapping(produces = [SirenModel.mediaType])
