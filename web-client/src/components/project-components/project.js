@@ -14,6 +14,7 @@ export default class extends React.Component {
   render () {
     return (
       <>
+        <h1>{this.props.projectName}</h1>
         <HttpRequest
           host={this.props.host}
           path={this.props.path}
@@ -22,7 +23,6 @@ export default class extends React.Component {
           version={this.version}
           onLoaded={(project) => {
             return <>
-              <h1>{this.props.projectName}</h1>
               {this.renderProjectDetail(project)}
               <h2>Issues:</h2>
               {this.renderProjectIssues(project)}

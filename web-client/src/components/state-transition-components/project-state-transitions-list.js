@@ -11,13 +11,17 @@ export default class extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      version: 0
+      version: 0,
+      notAllowedToDeleteMessage: null
     }
   }
 
   render () {
     return (
       <>
+        <div style={{ color: 'red', display: this.state.notAllowedToDeleteMessage ? 'block' : 'none' }}>
+          {this.state.notAllowedToDeleteMessage}
+        </div>
         <HttpRequest
           host={this.props.host}
           path={this.props.path}
@@ -71,8 +75,13 @@ export default class extends React.Component {
       this.props.host,
       ApiPaths.projectStateTransitionsUrl(this.props.projectName, fromState, toState),
       'DELETE',
-      () => this.setState((prevState) => ({ version: prevState.version + 1 })),
-      (error) => console.log(error)
+      () => this.setState((prevState) => ({
+        version: prevState.version + 1,
+        notAllowedToDeleteMessage: null
+      })),
+      () => this.setState({
+        notAllowedToDeleteMessage: `Can't delete transition ${fromState} -> ${toState}.`
+      })
     )
 
     this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })

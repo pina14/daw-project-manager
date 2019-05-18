@@ -6,7 +6,8 @@ export default class extends React.Component {
     super(props)
     this.state = {
       projectName: this.props.projectName,
-      labelName: ''
+      labelName: '',
+      invalidLabelMessage: null
     }
 
     this.onChangeLabelNameHandler = this.onChangeLabelNameHandler.bind(this)
@@ -17,6 +18,9 @@ export default class extends React.Component {
     return (
       <>
         <h1>Create Project Label</h1>
+        <div style={{ color: 'red', display: this.state.invalidLabelMessage ? 'block' : 'none' }}>
+          {this.state.invalidLabelMessage}
+        </div>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
@@ -42,7 +46,7 @@ export default class extends React.Component {
       this.props.path,
       this.props.method,
       this.props.onSuccess,
-      (error) => console.log(error)
+      () => this.setState({ invalidLabelMessage: 'Label Name has to be unique within the project.' })
     )
 
     this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })

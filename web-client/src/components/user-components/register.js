@@ -8,7 +8,8 @@ export default class extends React.Component {
       fullName: '',
       email: '',
       username: '',
-      password: ''
+      password: '',
+      invalidUserMessage: null
     }
 
     this.onChangeFullnameHandler = this.onChangeFullnameHandler.bind(this)
@@ -22,6 +23,9 @@ export default class extends React.Component {
     return (
       <>
         <h1>Register</h1>
+        <div style={{ color: 'red', display: this.state.invalidUserMessage ? 'block' : 'none' }}>
+          {this.state.invalidUserMessage}
+        </div>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
@@ -77,7 +81,7 @@ export default class extends React.Component {
       this.props.path,
       this.props.method,
       this.props.onSuccess,
-      (error) => console.log(error)
+      () => this.setState({ invalidUserMessage: `Username '${this.state.username}' is already taken.` })
     )
 
     this.request.setBody(this.state)

@@ -8,7 +8,8 @@ export default class extends React.Component {
       name: '',
       description: '',
       username: this.props.username,
-      defaultStateName: ''
+      defaultStateName: '',
+      invalidProjectMessage: null
     }
 
     this.onChangeNameHandler = this.onChangeNameHandler.bind(this)
@@ -21,6 +22,9 @@ export default class extends React.Component {
     return (
       <>
         <h1>Create Project</h1>
+        <div style={{ color: 'red', display: this.state.invalidProjectMessage ? 'block' : 'none' }}>
+          {this.state.invalidProjectMessage}
+        </div>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <label>Name: </label>
@@ -66,7 +70,7 @@ export default class extends React.Component {
       this.props.path,
       this.props.method,
       this.props.onSuccess,
-      (error) => console.log(error)
+      () => this.setState({ invalidProjectMessage: 'Project Name has to be unique.' })
     )
 
     this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })

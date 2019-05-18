@@ -11,7 +11,7 @@ export default class extends React.Component {
       projectName: this.props.projectName,
       fromState: '',
       toState: '',
-      invalidTransition: false
+      invalidTransitionMessage: null
     }
 
     this.onChangeFromStateNameHandler = this.onChangeFromStateNameHandler.bind(this)
@@ -23,8 +23,8 @@ export default class extends React.Component {
     return (
       <>
         <h1>Create Project State Transition</h1>
-        <div style={{ color: 'red', display: this.state.invalidTransition ? 'block' : 'none' }}>
-          Invalid or Repeated Transition.
+        <div style={{ color: 'red', display: this.state.invalidTransitionMessage ? 'block' : 'none' }}>
+          {this.state.invalidTransitionMessage}
         </div>
         <HttpRequest
           host={this.props.host}
@@ -80,7 +80,7 @@ export default class extends React.Component {
       this.props.path,
       this.props.method,
       this.props.onSuccess,
-      () => this.setState({ invalidTransition: true })
+      () => this.setState({ invalidTransition: 'Invalid or Repeated Transition.' })
     )
 
     this.request.setHeaders({ 'Authorization': `Basic ${this.props.credentials}` })
