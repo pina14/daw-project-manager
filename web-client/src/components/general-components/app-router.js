@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
+import Home from './home'
 import Login from '../session-components/login'
 import Register from '../user-components/register'
 import Profile from '../user-components/profile'
@@ -19,8 +20,6 @@ import IssueComment from '../comments-components/issue-comment'
 import CreateIssueComment from '../comments-components/create-issue-comment'
 import ApiPaths from '../../utils/api-paths'
 import ClientPaths from '../../utils/client-paths'
-
-const Home = () => <h1>Home</h1>
 
 /**
  * CSS Styles
