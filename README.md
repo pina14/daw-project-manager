@@ -34,7 +34,7 @@
 * **username** - Represents the username of a authenticated _user_.
 * **projectName** - Represents the name of a _project_.
 * **issueId** - Represents the Id of a _issue_.
-* **commentId** - Represents the Id of a _issue_.
+* **commentId** - Represents the Id of a _comment_.
 * **labelName** - Represents the name of a label.
 * **stateName** - Represents the name of a state.
 * **fromState** - Represents the name of the origin state in a state transition.
